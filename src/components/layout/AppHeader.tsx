@@ -34,6 +34,28 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
               return <span className="text-neutral-900 font-semibold">Dashboard</span>;
             }
             
+            const breadcrumbMap: Record<string, string> = {
+              "baru": "Ajukan Proposal Baru",
+              "draft": "Draft Proposal",
+              "riwayat": "Riwayat Proposal Saya",
+              "template": "Template & Dokumen Pendukung",
+              "data": "Rekapitulasi Fakultas",
+              "dosen": "Data Dosen",
+              "reviewer": "Penetapan Reviewer",
+              "berkas": "Berkas Kontrak",
+              "ekspor": "Export Hub",
+              "skim": "Kelola Skim",
+              "prodi": "Kelola Prodi",
+              "users": "Kelola Pengguna",
+              "review": "Daftar Review",
+              "verifikasi": "Verifikasi Kelengkapan",
+              "monitoring": "Monitoring",
+              "pelaporan": "Pelaporan",
+              "statistik": "Statistik",
+              "audit-log": "Audit Log",
+              "panduan": "Panduan & File"
+            };
+            
             return (
               <>
                 <Link href="/dashboard" className="text-neutral-500 hover:text-primary-600 transition-colors">
@@ -44,7 +66,7 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
                   
                   const href = `/${paths.slice(0, index + 1).join('/')}`;
                   const isLast = index === paths.length - 1;
-                  const label = path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
+                  const label = breadcrumbMap[path] || path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
 
                   return (
                     <div key={path} className="flex items-center">

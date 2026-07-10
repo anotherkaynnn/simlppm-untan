@@ -5,7 +5,7 @@ export const mockLandingData: LandingPageContent = {
     badge: "Versi 2.0 (2026)",
     heading: "Sistem Informasi Manajemen LPPM",
     subheading: "Universitas Tanjungpura",
-    description: "Platform terintegrasi untuk pengelolaan proposal penelitian, pengabdian kepada masyarakat, monitoring pelaksanaan, dan pelaporan luaran dengan antarmuka yang modern, cepat, dan responsif.",
+    description: "Platform terintegrasi untuk pengelolaan proposal penelitian, pengabdian kepada masyarakat, monitoring pelaksanaan, dan pelaporan luaran.",
     ctaLabel: "Masuk via SATU UNTAN",
     ctaSubtext: "Gunakan kredensial SSO (Single Sign-On) institusional Anda untuk mengakses sistem."
   },

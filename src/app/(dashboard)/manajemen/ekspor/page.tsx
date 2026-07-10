@@ -23,7 +23,7 @@ const mockLaporanReviewer = [
 
 export default function ExportHubPage() {
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pb-20">
+    <div className="max-w-[1600px] w-full mx-auto space-y-8 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Export Hub</h1>
         <p className="text-neutral-500 mt-1">Pusat unduhan rekapitulasi data dan statistik operasional Fakultas.</p>

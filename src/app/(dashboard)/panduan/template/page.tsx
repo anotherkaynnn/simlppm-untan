@@ -11,7 +11,7 @@ export default function TemplatePanduanPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-20">
+    <div className="max-w-[1400px] w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Template & Dokumen Pendukung</h1>
         <p className="text-neutral-500">Unduh buku panduan dan format dokumen pengusulan proposal.</p>

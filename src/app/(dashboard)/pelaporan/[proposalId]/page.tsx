@@ -23,7 +23,7 @@ export default function PelaporanPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8">
+    <div className="max-w-6xl w-full mx-auto py-8">
       <div className="flex items-center space-x-4 mb-8">
         <Button variant="ghost" size="sm" onClick={() => router.back()} className="p-0 h-8 w-8">
           <ArrowLeft className="w-5 h-5 text-neutral-500" />

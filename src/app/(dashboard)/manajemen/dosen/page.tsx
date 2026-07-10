@@ -15,7 +15,7 @@ const mockDataDosen = [
 
 export default function DataDosenPage() {
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-20">
+    <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Manajemen Data Dosen</h1>
         <p className="text-neutral-500">Daftar dosen pengusul pada fakultas beserta metrik kepakaran.</p>

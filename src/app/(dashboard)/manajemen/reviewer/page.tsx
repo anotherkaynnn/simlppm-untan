@@ -32,7 +32,7 @@ export default function PenetapanReviewerPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-20">
+    <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Penetapan Reviewer</h1>
         <p className="text-neutral-500">Tugaskan reviewer ahli untuk menilai proposal usulan P2M.</p>

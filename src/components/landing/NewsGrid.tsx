@@ -13,7 +13,7 @@ export function NewsGrid({ news }: { news: NewsItem[] }) {
   }
 
   return (
-    <div className="bg-white rounded-[2rem] shadow-sm border border-neutral-100 p-6 md:p-10 max-w-5xl mx-auto">
+    <div className="bg-white rounded-[2rem] shadow-sm border border-neutral-100 p-6 md:p-10 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8 border-b border-neutral-100 pb-4">
         <div className="flex items-center gap-3">
           <div className="bg-neutral-100 p-2.5 rounded-lg border border-neutral-200">

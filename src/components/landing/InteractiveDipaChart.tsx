@@ -28,7 +28,7 @@ export function InteractiveDipaChart({ data }: InteractiveDipaChartProps) {
   };
 
   return (
-    <div className="bg-white rounded-[2rem] shadow-sm border border-neutral-100 overflow-hidden p-6 md:p-10 max-w-5xl mx-auto">
+    <div className="bg-white rounded-[2rem] shadow-sm border border-neutral-100 overflow-hidden p-6 md:p-10 max-w-7xl mx-auto">
       {/* Top Header Section */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12">
         <div className="flex items-center gap-4 shrink-0">

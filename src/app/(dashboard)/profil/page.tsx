@@ -37,7 +37,7 @@ export default function ProfilPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20">
+    <div className="max-w-6xl w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Profil Mandiri Dosen</h1>
         <p className="text-neutral-500">Perbarui data akademis Anda secara berkala. Pastikan data ini sinkron sebelum mengajukan proposal.</p>

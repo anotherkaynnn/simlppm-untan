@@ -30,7 +30,7 @@ export default function ManajemenBerkasPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-20">
+    <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Manajemen Berkas Kontrak P2M</h1>
         <p className="text-neutral-500">Khusus Admin Fakultas. Unggah file kontrak yang telah ditandatangani untuk proposal yang didanai.</p>

@@ -162,7 +162,7 @@ export default function PengaturanPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 pb-20">
+    <div className="max-w-6xl w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Pengaturan Akun & Sistem</h1>
         <p className="text-neutral-500">Sesuaikan preferensi notifikasi, keamanan, dan tampilan antarmuka.</p>

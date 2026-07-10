@@ -23,7 +23,7 @@ export default function DraftProposalPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-20">
+    <div className="max-w-[1400px] w-full mx-auto space-y-6 pb-20">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Draft Proposal</h1>
         <p className="text-neutral-500">Lanjutkan pengisian form pengajuan proposal Anda yang belum selesai.</p>

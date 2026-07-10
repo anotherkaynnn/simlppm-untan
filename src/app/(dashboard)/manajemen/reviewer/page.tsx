@@ -110,12 +110,8 @@ export default function PenetapanReviewerPage() {
                           </div>
                         </div>
                         <DialogFooter>
-                          <DialogClose asChild>
-                            <Button variant="outline">Batal</Button>
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button onClick={() => handleAssign(prop.id)}>Simpan Penugasan</Button>
-                          </DialogClose>
+                          <DialogClose render={<Button variant="outline">Batal</Button>} />
+                          <DialogClose render={<Button onClick={() => handleAssign(prop.id)}>Simpan Penugasan</Button>} />
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>

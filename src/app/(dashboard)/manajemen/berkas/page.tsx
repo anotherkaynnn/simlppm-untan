@@ -98,12 +98,8 @@ export default function ManajemenBerkasPage() {
                           </div>
                         </div>
                         <DialogFooter>
-                          <DialogClose asChild>
-                            <Button variant="outline">Batal</Button>
-                          </DialogClose>
-                          <DialogClose asChild>
-                            <Button onClick={() => handleUpload(prop.id)}>Unggah Berkas</Button>
-                          </DialogClose>
+                          <DialogClose render={<Button variant="outline">Batal</Button>} />
+                          <DialogClose render={<Button onClick={() => handleUpload(prop.id)}>Unggah Berkas</Button>} />
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>

@@ -15,7 +15,7 @@ import { useAuthStore } from "@/store/authStore";
 
 const step1Schema = z.object({
   title: z.string().min(10, "Judul proposal minimal 10 karakter"),
-  type: z.enum(["PENELITIAN", "PENGABDIAN"], { required_error: "Pilih jenis usulan" }),
+  type: z.enum(["PENELITIAN", "PENGABDIAN"], { error: "Pilih jenis usulan" }),
   fundingSource: z.string().min(1, "Pilih sumber dana"),
   schemeId: z.string().min(1, "Pilih skim usulan"),
   fieldOfStudy: z.string().min(1, "Bidang ilmu wajib diisi"),
@@ -93,7 +93,7 @@ export function Step1InfoUmum() {
             <label className="text-sm font-semibold text-neutral-900">Sumber Dana <span className="text-danger">*</span></label>
             <Select 
               value={selectedFunding} 
-              onValueChange={(val) => setValue("fundingSource", val, { shouldValidate: true })}
+              onValueChange={(val) => setValue("fundingSource", val as string, { shouldValidate: true })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Sumber Dana" />
@@ -141,7 +141,7 @@ export function Step1InfoUmum() {
             
             <Select 
               value={selectedScheme} 
-              onValueChange={(val) => setValue("schemeId", val, { shouldValidate: true })}
+              onValueChange={(val) => setValue("schemeId", val as string, { shouldValidate: true })}
               disabled={!selectedType}
             >
               <SelectTrigger>
@@ -162,7 +162,7 @@ export function Step1InfoUmum() {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Bidang Ilmu <span className="text-danger">*</span></label>
-            <Select onValueChange={(val) => setValue("fieldOfStudy", val, { shouldValidate: true })}>
+            <Select onValueChange={(val) => setValue("fieldOfStudy", val as string, { shouldValidate: true })}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Rumpun Bidang Ilmu" />
               </SelectTrigger>
@@ -178,7 +178,7 @@ export function Step1InfoUmum() {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Pengelola Dana (PNBP) <span className="text-danger">*</span></label>
-            <Select defaultValue="Fakultas Hukum" onValueChange={(val) => setValue("managementUnit", val, { shouldValidate: true })}>
+            <Select defaultValue="Fakultas Hukum" onValueChange={(val) => setValue("managementUnit", val as string, { shouldValidate: true })}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Pengelola" />
               </SelectTrigger>

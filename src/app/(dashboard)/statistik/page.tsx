@@ -173,7 +173,7 @@ export default function StatistikPage() {
                     ))}
                   </Pie>
                   <RechartsTooltip 
-                    formatter={(value: number) => formatRupiah(value)}
+                    formatter={(value: any) => formatRupiah(value as number)}
                     contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} />

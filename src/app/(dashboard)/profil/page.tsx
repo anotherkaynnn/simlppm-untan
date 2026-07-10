@@ -55,7 +55,7 @@ export default function ProfilPage() {
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-neutral-600 uppercase">Username / ID Login</label>
-                <Input defaultValue={user.username || user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
+                <Input defaultValue={user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -64,7 +64,7 @@ export default function ProfilPage() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-semibold text-neutral-600 uppercase">NIP</label>
-                  <Input defaultValue={user.nip || user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
+                  <Input defaultValue={user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">

@@ -57,13 +57,11 @@ export default function KelolaProdiPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Kelola Program Studi</h1>
           <p className="text-neutral-500">Manajemen data master program studi yang terdaftar di universitas.</p>
         </div>
+        <Button onClick={() => setIsDialogOpen(true)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Tambah Prodi
+        </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              Tambah Prodi
-            </Button>
-          </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Tambah Program Studi</DialogTitle>

@@ -54,13 +54,11 @@ export default function KelolaSkimPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Kelola Skim P2M</h1>
           <p className="text-neutral-500">Manajemen jenis dan skim usulan penelitian serta pengabdian.</p>
         </div>
+        <Button className="bg-primary-600 hover:bg-primary-700 text-white" onClick={() => setIsDialogOpen(true)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Tambah Skim
+        </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-primary-600 hover:bg-primary-700 text-white">
-              <Plus className="w-4 h-4 mr-2" />
-              Tambah Skim
-            </Button>
-          </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Tambah Skim Baru</DialogTitle>

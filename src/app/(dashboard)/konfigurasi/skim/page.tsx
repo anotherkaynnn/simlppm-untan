@@ -77,7 +77,7 @@ export default function KelolaSkimPage() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-neutral-700">Jenis Usulan</label>
-                <Select value={newJenis} onValueChange={setNewJenis}>
+                <Select value={newJenis} onValueChange={(val) => setNewJenis(val as string)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Jenis Usulan" />
                   </SelectTrigger>
@@ -89,7 +89,7 @@ export default function KelolaSkimPage() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-neutral-700">Status Awal</label>
-                <Select value={newStatus} onValueChange={setNewStatus}>
+                <Select value={newStatus} onValueChange={(val) => setNewStatus(val as string)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Status" />
                   </SelectTrigger>

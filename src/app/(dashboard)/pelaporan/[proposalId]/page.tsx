@@ -73,7 +73,7 @@ export default function PelaporanPage() {
           
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Pilih Jenis Luaran *</label>
-            <Select value={outputType} onValueChange={setOutputType}>
+            <Select value={outputType} onValueChange={(val) => setOutputType(val as string)}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Jenis Luaran Utama" />
               </SelectTrigger>

@@ -80,7 +80,7 @@ export default function KelolaProdiPage() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-neutral-700">Fakultas</label>
-                <Select value={newFakultas} onValueChange={setNewFakultas}>
+                <Select value={newFakultas} onValueChange={(val) => setNewFakultas(val as string)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih Fakultas" />
                   </SelectTrigger>
@@ -94,7 +94,7 @@ export default function KelolaProdiPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-700">Jenjang</label>
-                  <Select value={newJenjang} onValueChange={setNewJenjang}>
+                  <Select value={newJenjang} onValueChange={(val) => setNewJenjang(val as string)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Pilih Jenjang" />
                     </SelectTrigger>
@@ -107,7 +107,7 @@ export default function KelolaProdiPage() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-neutral-700">Status</label>
-                  <Select value={newStatus} onValueChange={setNewStatus}>
+                  <Select value={newStatus} onValueChange={(val) => setNewStatus(val as string)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Pilih Status" />
                     </SelectTrigger>

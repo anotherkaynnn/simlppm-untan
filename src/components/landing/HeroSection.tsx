@@ -7,14 +7,14 @@ export function HeroSection({ data }: { data: LandingPageContent['hero'] }) {
   return (
     <div className="relative overflow-hidden bg-white pt-32 pb-20 lg:pt-48 lg:pb-32">
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] max-w-7xl mx-auto overflow-hidden pointer-events-none">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] max-w-[1600px] mx-auto overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary-200/50 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
         <div className="absolute top-20 left-1/4 w-[400px] h-[400px] bg-accent-200/50 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-2000"></div>
       </div>
 
-      <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
+      <div className="max-w-6xl w-full mx-auto px-4 relative z-10 text-center">
 
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-neutral-900 tracking-tight leading-[1.1] mb-6">
+        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-extrabold text-neutral-900 tracking-tight leading-[1.1] mb-6">
           {data.heading} <br className="hidden md:block" />
           <span className="text-primary-600">{data.subheading}</span>
         </h1>

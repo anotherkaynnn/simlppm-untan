@@ -20,11 +20,11 @@ export function LandingNavbar() {
     <header
       className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "top-0 md:top-4 bg-white/90 backdrop-blur-xl shadow-lg shadow-neutral-200/50 py-3 md:rounded-full border border-neutral-100 max-w-7xl mx-auto"
-          : "top-0 md:top-6 bg-transparent py-5 max-w-7xl mx-auto"
+          ? "top-0 md:top-4 bg-white/90 backdrop-blur-xl shadow-lg shadow-neutral-200/50 py-3 md:rounded-full border border-neutral-100 max-w-[1600px] w-full mx-auto"
+          : "top-0 md:top-6 bg-transparent py-5 max-w-[1600px] w-full mx-auto"
       }`}
     >
-      <div className="container mx-auto max-w-7xl flex items-center justify-between px-4 lg:px-8">
+      <div className="w-full flex items-center justify-between px-4 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 relative flex items-center justify-center shrink-0">
             <Image src="/img/Lambang_Universitas_Tanjungpura.png" alt="Logo UNTAN" fill className="object-contain" />

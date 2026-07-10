@@ -76,7 +76,7 @@ export default function PenetapanReviewerPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Dialog>
-                      <DialogTrigger asChild>
+                      <DialogTrigger render={
                         <Button 
                           size="sm" 
                           variant={prop.reviewer ? "outline" : "default"} 
@@ -85,7 +85,7 @@ export default function PenetapanReviewerPage() {
                           <UserPlus className="w-4 h-4 mr-2" />
                           {prop.reviewer ? "Ubah Reviewer" : "Tugaskan Reviewer"}
                         </Button>
-                      </DialogTrigger>
+                      } />
                       <DialogContent className="sm:max-w-md">
                         <DialogHeader>
                           <DialogTitle>Tugaskan Reviewer</DialogTitle>

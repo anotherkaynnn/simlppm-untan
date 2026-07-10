@@ -72,12 +72,12 @@ export default function ManajemenBerkasPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <Dialog>
-                      <DialogTrigger asChild>
+                      <DialogTrigger render={
                         <Button size="sm" variant={prop.statusKontrak === "Sudah Unggah" ? "outline" : "default"} onClick={() => setSelectedFile(null)}>
                           <UploadCloud className="w-4 h-4 mr-2" /> 
                           {prop.statusKontrak === "Sudah Unggah" ? "Perbarui" : "Unggah Kontrak"}
                         </Button>
-                      </DialogTrigger>
+                      } />
                       <DialogContent className="sm:max-w-md">
                         <DialogHeader>
                           <DialogTitle>Unggah Berkas Kontrak</DialogTitle>

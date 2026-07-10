@@ -116,9 +116,9 @@ export default function LoginPage() {
                 <Button 
                   type="submit" 
                   className="w-full h-12 bg-[#000080] hover:bg-[#000066] text-white font-bold text-sm tracking-wide shadow-md"
-                  disabled={isLoading}
+                  isLoading={isLoading}
                 >
-                  {isLoading ? "MEMPROSES..." : "KIRIM INSTRUKSI"}
+                  KIRIM INSTRUKSI
                 </Button>
                 <Button 
                   type="button" 
@@ -207,9 +207,9 @@ export default function LoginPage() {
             <Button 
               type="submit" 
               className="w-full h-12 mt-2 bg-[#000080] hover:bg-[#000066] text-white font-bold text-sm tracking-wide shadow-md"
-              disabled={isLoading}
+              isLoading={isLoading}
             >
-              {isLoading ? "MEMPROSES..." : "MASUK"}
+              MASUK
             </Button>
           </form>
             </>

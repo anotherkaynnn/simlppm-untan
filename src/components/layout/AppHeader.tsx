@@ -1,7 +1,8 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { Menu, Bell, Search, User, LogOut, Settings } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, Bell, Search, User, LogOut, Settings, ChevronRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ import Link from "next/link";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const { user } = useAuthStore();
+  const pathname = usePathname();
 
   return (
     <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-4 lg:px-8 z-30 sticky top-0">
@@ -25,9 +27,41 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
           <Menu className="w-6 h-6" />
         </button>
         
-        {/* Breadcrumb bisa ditambahkan di sini nanti */}
-        <div className="hidden md:block ml-4 text-sm text-neutral-500 font-medium">
-          Sistem Informasi Manajemen LPPM
+        <div className="hidden md:flex items-center ml-4 text-sm text-neutral-500 font-medium">
+          {(() => {
+            const paths = pathname.split('/').filter(Boolean);
+            if (paths.length === 0 || (paths.length === 1 && paths[0] === 'dashboard')) {
+              return <span className="text-neutral-900 font-semibold">Dashboard</span>;
+            }
+            
+            return (
+              <>
+                <Link href="/dashboard" className="text-neutral-500 hover:text-primary-600 transition-colors">
+                  Dashboard
+                </Link>
+                {paths.map((path, index) => {
+                  if (path === 'dashboard') return null;
+                  
+                  const href = `/${paths.slice(0, index + 1).join('/')}`;
+                  const isLast = index === paths.length - 1;
+                  const label = path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' ');
+
+                  return (
+                    <div key={path} className="flex items-center">
+                      <ChevronRight className="w-4 h-4 mx-1 text-neutral-400" />
+                      {isLast ? (
+                        <span className="text-neutral-900 font-semibold">{label}</span>
+                      ) : (
+                        <Link href={href} className="text-neutral-500 hover:text-primary-600 transition-colors">
+                          {label}
+                        </Link>
+                      )}
+                    </div>
+                  );
+                })}
+              </>
+            );
+          })()}
         </div>
       </div>
 

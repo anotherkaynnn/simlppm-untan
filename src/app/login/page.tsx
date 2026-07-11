@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthStore, MOCK_USERS } from "@/store/authStore";
 import { UserRole } from "@/types";
-import { X, Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { X, Eye, EyeOff, ShieldCheck, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -23,9 +23,14 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    if (!username.trim()) {
+      setLoginError("NIP / NIDN / Username wajib diisi");
+      return;
+    }
     setIsLoading(true);
     
     setTimeout(() => {
@@ -162,11 +167,19 @@ export default function LoginPage() {
               <label className="text-xs font-bold text-neutral-700">NIP / NIDN / Username</label>
               <Input 
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  if (loginError) setLoginError("");
+                }}
                 placeholder="Masukkan NIP atau username Anda" 
-                className="h-12 bg-white border-neutral-200 focus-visible:ring-primary-500"
-                required
+                className={`h-12 bg-white focus-visible:ring-primary-500 ${loginError ? 'border-danger-500 ring-1 ring-danger-500' : 'border-neutral-200'}`}
               />
+              {loginError && (
+                <p className="text-xs text-danger-500 mt-1 flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5" />
+                  {loginError}
+                </p>
+              )}
             </div>
             
             <div className="space-y-2">

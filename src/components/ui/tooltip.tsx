@@ -1,6 +1,8 @@
 "use client"
 
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
+import { Info } from "lucide-react"
+import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -64,3 +66,29 @@ function TooltipContent({
 }
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+
+export function FieldTooltip({ text }: { text: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div 
+      className="relative inline-flex items-center"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      onFocus={() => setIsVisible(true)}
+      onBlur={() => setIsVisible(false)}
+    >
+      <Info className="w-4 h-4 text-neutral-400 hover:text-primary-500 cursor-help transition-colors ml-1.5 outline-none" tabIndex={0} />
+      
+      {isVisible && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-slate-900 text-white text-xs p-2 rounded-lg shadow-lg relative break-words text-center">
+            {text}
+            {/* Arrow using border trick */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-slate-900"></div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

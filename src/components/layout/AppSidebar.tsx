@@ -23,14 +23,14 @@ import { UserRole } from "@/types";
 import { useState } from "react";
 
 // Konfigurasi Menu per Role
-type MenuItem = {
+export type MenuItem = {
   title: string;
   href?: string;
   icon: any;
   subItems?: { title: string; href: string }[];
 };
 
-const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
+export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
   DOSEN: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { 

@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UploadCloud, FileText, X } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { FieldTooltip } from "@/components/ui/Tooltip";
 
 export function Step3Berkas() {
   const { draft, setCurrentStep, setDraft } = useProposalDraftStore();
@@ -81,7 +82,7 @@ export function Step3Berkas() {
       <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-6 md:p-8 space-y-8">
         
         <div>
-          <h3 className="font-semibold text-neutral-900 mb-4">File Dokumen Proposal</h3>
+          <h3 className="font-semibold text-neutral-900 mb-4 flex items-center">File Dokumen Proposal <FieldTooltip text="Format PDF, ukuran maks 15MB" /></h3>
           
           <div 
             className={`p-6 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${

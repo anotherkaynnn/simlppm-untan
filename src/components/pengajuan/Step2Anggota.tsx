@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Search } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { FieldTooltip } from "@/components/ui/Tooltip";
 
 export function Step2Anggota() {
   const { setCurrentStep } = useProposalDraftStore();
@@ -53,7 +54,7 @@ export function Step2Anggota() {
           {/* Anggota Dosen */}
           <div>
             <div className="mb-4">
-              <h3 className="font-semibold text-neutral-900">Anggota Tim Dosen Internal</h3>
+              <h3 className="font-semibold text-neutral-900 flex items-center">Anggota Tim Dosen Internal <FieldTooltip text="Cari berdasarkan NIDN/NIM, maks 10 anggota" /></h3>
               <p className="text-xs text-neutral-500">Maksimal 10 anggota. Ketik NIDN atau Nama untuk pencarian otomatis.</p>
             </div>
             <div className="space-y-3 mb-4">

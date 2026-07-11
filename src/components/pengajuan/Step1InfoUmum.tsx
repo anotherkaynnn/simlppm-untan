@@ -12,6 +12,7 @@ import { InlineValidation } from "@/components/shared/InlineValidation";
 import { Textarea } from "@/components/ui/textarea";
 import { HelpCircle } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { FieldTooltip } from "@/components/ui/Tooltip";
 
 const step1Schema = z.object({
   title: z.string().min(10, "Judul proposal minimal 10 karakter"),
@@ -74,7 +75,7 @@ export function Step1InfoUmum() {
       <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-6 md:p-8 space-y-6">
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-neutral-900">Judul Proposal <span className="text-danger">*</span></label>
+          <label className="text-sm font-semibold text-neutral-900 flex items-center">Judul Proposal <span className="text-danger ml-1">*</span><FieldTooltip text="Tuliskan judul lengkap, minimal 10 karakter" /></label>
           <Textarea 
             {...register("title")} 
             placeholder="Tuliskan judul proposal secara lengkap..."
@@ -90,7 +91,7 @@ export function Step1InfoUmum() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Sumber Dana <span className="text-danger">*</span></label>
+            <label className="text-sm font-semibold text-neutral-900 flex items-center">Sumber Dana <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih sumber pendanaan utama" /></label>
             <Select 
               value={selectedFunding} 
               onValueChange={(val) => setValue("fundingSource", val as string, { shouldValidate: true })}
@@ -129,14 +130,8 @@ export function Step1InfoUmum() {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-1.5">
-              <label className="text-sm font-semibold text-neutral-900">Skim Usulan <span className="text-danger">*</span></label>
-              <div className="group relative flex items-center">
-                <HelpCircle className="w-4 h-4 text-neutral-400 cursor-help hover:text-primary-600" />
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-64 p-2 bg-neutral-900 text-white text-[11px] rounded shadow-lg z-10 text-center">
-                  Skim bergantung pada jenis usulan yang dipilih (Penelitian/Pengabdian). Pastikan membaca panduan skim terbaru.
-                </div>
-              </div>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Skim Usulan <span className="text-danger ml-1">*</span><FieldTooltip text="Persyaratan tiap skim berbeda, lihat panduan" /></label>
             </div>
             
             <Select 
@@ -161,7 +156,7 @@ export function Step1InfoUmum() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Bidang Ilmu <span className="text-danger">*</span></label>
+            <label className="text-sm font-semibold text-neutral-900 flex items-center">Bidang Ilmu <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih rumpun ilmu sesuai klasifikasi Dikti" /></label>
             <Select onValueChange={(val) => setValue("fieldOfStudy", val as string, { shouldValidate: true })}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Rumpun Bidang Ilmu" />
@@ -203,7 +198,7 @@ export function Step1InfoUmum() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Total Dana Diajukan (Rp) <span className="text-danger">*</span></label>
+            <label className="text-sm font-semibold text-neutral-900 flex items-center">Total Dana Diajukan (Rp) <span className="text-danger ml-1">*</span><FieldTooltip text="Masukkan angka dalam rupiah tanpa titik" /></label>
             <Input 
               type="text" 
               value={budgetValue ? formatRupiah(budgetValue) : ""}

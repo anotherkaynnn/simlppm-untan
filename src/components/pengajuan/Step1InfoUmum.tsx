@@ -38,7 +38,9 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
       <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-6 md:p-8 space-y-6">
         
         <div className="space-y-2">
-          <label className="text-sm font-semibold text-neutral-900 flex items-center">Judul Proposal <span className="text-danger ml-1">*</span><FieldTooltip text="Tuliskan judul lengkap, minimal 10 karakter" /></label>
+          <div className="flex items-center">
+            <label className="text-sm font-semibold text-neutral-900 flex items-center">Judul Proposal <span className="text-danger ml-1">*</span><FieldTooltip text="Tuliskan judul lengkap, minimal 10 karakter" /></label>
+          </div>
           <Textarea 
             value={formData.title}
             onChange={(e) => onChange("title", e.target.value)}
@@ -50,12 +52,16 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Tahun Pelaksanaan</label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Tahun Pelaksanaan <FieldTooltip text="Tahun pelaksanaan otomatis menyesuaikan tahun berjalan" /></label>
+            </div>
             <Input type="number" value={formData.year} disabled className="bg-neutral-50 text-neutral-600 font-medium" />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900 flex items-center">Sumber Dana <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih sumber pendanaan utama" /></label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Sumber Dana <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih sumber pendanaan utama" /></label>
+            </div>
             <Select 
               value={formData.fundingSource} 
               onValueChange={(val) => onChange("fundingSource", val)}
@@ -77,7 +83,9 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Jenis Usulan <span className="text-danger">*</span></label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Jenis Usulan <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih antara penelitian atau pengabdian" /></label>
+            </div>
             <Select 
               value={formData.type} 
               onValueChange={(val) => onChange("type", val)}
@@ -120,7 +128,9 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900 flex items-center">Bidang Ilmu <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih rumpun ilmu sesuai klasifikasi Dikti" /></label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Bidang Ilmu <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih rumpun ilmu sesuai klasifikasi Dikti" /></label>
+            </div>
             <Select 
               value={formData.fieldOfStudy}
               onValueChange={(val) => onChange("fieldOfStudy", val)}
@@ -139,7 +149,9 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Pengelola Dana (PNBP) <span className="text-danger">*</span></label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Pengelola Dana (PNBP) <span className="text-danger ml-1">*</span><FieldTooltip text="Unit pengelola dana fakultas atau universitas" /></label>
+            </div>
             <Select value={formData.managementUnit} onValueChange={(val) => onChange("managementUnit", val)}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Pengelola" />
@@ -160,12 +172,16 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900">Program Studi Pengusul</label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Program Studi Pengusul <FieldTooltip text="Program studi ketua peneliti (otomatis dari SSO)" /></label>
+            </div>
             <Input value={user?.studyProgram || "Informatika (S1)"} disabled className="bg-neutral-50 text-neutral-600 font-medium" />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-neutral-900 flex items-center">Total Dana Diajukan (Rp) <span className="text-danger ml-1">*</span><FieldTooltip text="Masukkan angka dalam rupiah tanpa titik" /></label>
+            <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Total Dana Diajukan (Rp) <span className="text-danger ml-1">*</span><FieldTooltip text="Masukkan angka dalam rupiah tanpa titik" /></label>
+            </div>
             <Input 
               type="text" 
               value={formData.budget ? formatRupiah(formData.budget) : ""}

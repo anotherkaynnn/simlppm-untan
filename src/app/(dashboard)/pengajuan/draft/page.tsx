@@ -46,7 +46,7 @@ export default function DraftProposalPage() {
                 {drafts.length > 0 ? (
                   drafts.map((draft) => (
                     <TableRow key={draft.id}>
-                      <TableCell className="font-semibold text-neutral-900 max-w-[300px] truncate" title={draft.judul}>
+                      <TableCell className="font-semibold text-neutral-900 min-w-[280px] max-w-[400px] whitespace-normal line-clamp-2" title={draft.judul}>
                         {draft.judul}
                       </TableCell>
                       <TableCell className="text-neutral-600">{draft.skim}</TableCell>

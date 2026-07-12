@@ -76,7 +76,7 @@ export default function DataDosenPage() {
                 filteredDosen.map((dosen) => (
                 <TableRow key={dosen.id}>
                   <TableCell className="font-medium text-neutral-600">{dosen.nidn}</TableCell>
-                  <TableCell className="font-semibold text-neutral-900">{dosen.nama}</TableCell>
+                  <TableCell className="font-semibold text-neutral-900 min-w-[200px]">{dosen.nama}</TableCell>
                   <TableCell>{dosen.prodi}</TableCell>
                   <TableCell className="text-primary-600 font-mono text-sm">{dosen.sintaId}</TableCell>
                   <TableCell>

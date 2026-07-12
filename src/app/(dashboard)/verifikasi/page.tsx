@@ -55,7 +55,7 @@ export default function VerifikasiPage() {
       accessorKey: "title",
       header: "Judul Usulan & Pengusul",
       cell: ({ row }) => (
-        <div className="max-w-md">
+        <div className="min-w-[280px] max-w-md">
           <span className="font-semibold text-neutral-900 line-clamp-2">{row.original.title}</span>
           <span className="text-sm text-neutral-600 block mt-1">{row.original.submitter}</span>
           <span className="text-xs text-neutral-500 block">{row.original.id}</span>

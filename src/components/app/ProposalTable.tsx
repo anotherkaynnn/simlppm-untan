@@ -31,7 +31,7 @@ export function ProposalTable({
             <TableRow key={row.id}>
               <TableCell className="font-medium text-neutral-600">{row.id}</TableCell>
               <TableCell>
-                <div className="font-semibold text-neutral-900 max-w-[250px] truncate" title={row.title}>
+                <div className="font-semibold text-neutral-900 min-w-[280px] max-w-md whitespace-normal line-clamp-2" title={row.title}>
                   {row.title}
                 </div>
               </TableCell>

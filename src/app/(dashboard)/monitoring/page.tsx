@@ -23,7 +23,7 @@ export default function MonitoringPage() {
       cell: ({ row }) => {
         const title = row.getValue("title") as string;
         return (
-          <div className="max-w-md">
+          <div className="min-w-[280px] max-w-md">
             <span className="font-semibold text-neutral-900 line-clamp-2">{title}</span>
             <span className="text-xs text-neutral-500 mt-1 block">{row.original.id}</span>
           </div>

@@ -97,7 +97,7 @@ export default function PenetapanReviewerPage() {
                 filteredProposals.map((prop) => (
                 <TableRow key={prop.id}>
                   <TableCell className="font-medium text-neutral-600">{prop.id}</TableCell>
-                  <TableCell className="font-semibold text-neutral-900 max-w-xs truncate">{prop.title}</TableCell>
+                  <TableCell className="font-semibold text-neutral-900 min-w-[280px] max-w-sm whitespace-normal line-clamp-2">{prop.title}</TableCell>
                   <TableCell>{prop.dosen}</TableCell>
                   <TableCell>
                     {prop.reviewer ? (

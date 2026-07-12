@@ -106,10 +106,10 @@ export function DataTable<TData, TValue>({
   }, [rowSelection, onSelectionChange, table]);
 
   return (
-    <div>
+    <div className="rounded-xl border border-neutral-200 bg-white shadow-sm flex flex-col">
       {/* Table Toolbar */}
       {(searchKey || toolbarElements) && (
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4">
+        <div className="p-4 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {searchKey ? (
             <div className="relative w-full max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
@@ -133,11 +133,10 @@ export function DataTable<TData, TValue>({
       )}
 
       {/* Table Content */}
-      <div className="rounded-xl border border-neutral-200 bg-white overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-neutral-50 border-b border-neutral-200">
-              {table.getHeaderGroups().map((headerGroup) => (
+      <div className="overflow-x-auto w-full">
+        <Table>
+          <TableHeader className="bg-neutral-50 border-b border-neutral-200">
+            {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="hover:bg-neutral-50">
                   {headerGroup.headers.map((header) => (
                     <TableHead key={header.id} className="h-11 font-bold text-neutral-600">
@@ -176,13 +175,12 @@ export function DataTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
-        </div>
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between mt-4">
+      <div className="p-4 border-t border-neutral-200 flex items-center justify-between">
         <div className="text-sm text-neutral-500">
-          Menampilkan {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} - {Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, table.getFilteredRowModel().rows.length)} dari {table.getFilteredRowModel().rows.length} entri
+          Menampilkan {table.getFilteredRowModel().rows.length === 0 ? 0 : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} - {Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, table.getFilteredRowModel().rows.length)} dari {table.getFilteredRowModel().rows.length} entri
         </div>
         <div className="flex items-center space-x-2">
           <Button

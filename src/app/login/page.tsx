@@ -31,6 +31,12 @@ export default function LoginPage() {
       setLoginError("NIP / NIDN / Username wajib diisi");
       return;
     }
+    
+    if (!password) {
+      setLoginError("Kata sandi wajib diisi");
+      return;
+    }
+    
     setIsLoading(true);
     
     setTimeout(() => {
@@ -185,6 +191,7 @@ export default function LoginPage() {
                 }}
                 placeholder="Masukkan NIP atau username Anda" 
                 className={`h-12 bg-white focus-visible:ring-primary-500 ${loginError ? 'border-danger-500 ring-1 ring-danger-500' : 'border-neutral-200'}`}
+                required
               />
               {loginError && (
                 <p className="text-xs text-danger-500 mt-1 flex items-center gap-1">

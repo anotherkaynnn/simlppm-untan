@@ -228,21 +228,6 @@ export function AppSidebar({
           })}
         </div>
 
-        <div className="p-4 border-t border-neutral-800">
-          <button 
-            onClick={() => {
-              logout();
-              window.location.href = "/login";
-            }}
-            title={isMinimized ? "Keluar Sistem" : undefined}
-            className={`flex items-center w-full py-2.5 text-sm font-medium text-neutral-400 rounded-lg hover:bg-danger/10 hover:text-danger transition-colors
-              ${isMinimized ? 'justify-center px-0' : 'px-3'}
-            `}
-          >
-            <LogOut className={`w-5 h-5 ${isMinimized ? '' : 'mr-3'} text-neutral-500`} />
-            {!isMinimized && <span>Keluar Sistem</span>}
-          </button>
-        </div>
       </aside>
     </>
   );

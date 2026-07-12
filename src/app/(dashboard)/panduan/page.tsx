@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Download, FileText, ChevronDown, ChevronUp } from "lucide-react";
 import { PanduanGrid } from "@/components/landing/PanduanGrid";
 import { mockLandingData } from "@/mock/data/landing";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
+import { id as localeId } from "date-fns/locale";
 
 const TEMPLATES = [
-  { id: 1, name: "Template Proposal Penelitian Dosen Pemula (PDP)", format: "DOCX", size: "1.2 MB" },
-  { id: 2, name: "Format Laporan Akhir Pengabdian", format: "DOCX", size: "850 KB" },
-  { id: 3, name: "Standar Biaya Masukan (SBM) & Format Anggaran", format: "XLSX", size: "2.1 MB" },
-  { id: 4, name: "Surat Pernyataan Ketua Peneliti", format: "PDF", size: "450 KB" }
+  { id: 1, name: "Template Proposal Penelitian Dosen Pemula (PDP)", format: "DOCX", size: "1.2 MB", version: "v1.5", updatedAt: "2025-12-10T00:00:00Z" },
+  { id: 2, name: "Format Laporan Akhir Pengabdian", format: "DOCX", size: "850 KB", version: "v1.4", updatedAt: "2025-11-20T00:00:00Z" },
+  { id: 3, name: "Standar Biaya Masukan (SBM) & Format Anggaran", format: "XLSX", size: "2.1 MB", version: "v2.0", updatedAt: "2026-01-15T00:00:00Z" },
+  { id: 4, name: "Surat Pernyataan Ketua Peneliti", format: "PDF", size: "450 KB", version: "v1.1", updatedAt: "2025-10-05T00:00:00Z" }
 ];
 
 const FAQS = [
@@ -74,10 +77,13 @@ export default function PanduanPage() {
                         <h4 className="font-medium text-sm text-neutral-900 line-clamp-1" title={doc.name}>
                           {doc.name}
                         </h4>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-neutral-500">
+                        <div className="flex items-center gap-2 mt-1 text-xs text-neutral-500 flex-wrap">
                           <span className="font-semibold">{doc.format}</span>
                           <span>•</span>
                           <span>{doc.size}</span>
+                          <Badge variant="outline" className="text-[10px] px-1.5 py-0 mt-1 sm:mt-0 w-fit">
+                            {doc.version} • {format(new Date(doc.updatedAt), "dd MMM yyyy", { locale: localeId })}
+                          </Badge>
                         </div>
                       </div>
                     </div>

@@ -55,7 +55,7 @@ export function Step2Anggota() {
                 />
                 <div className="mt-2 flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
                   <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                  <p><strong>Tips Testing:</strong> Coba cari "Budi", "Wahyu", "Siti", "Hendra", "Eko", "Joko", "Susi", atau "Ryan".</p>
+                  <p><strong>Tips Testing:</strong> Coba cari &quot;Budi&quot;, &quot;Wahyu&quot;, &quot;Siti&quot;, &quot;Hendra&quot;, &quot;Eko&quot;, &quot;Joko&quot;, &quot;Susi&quot;, atau &quot;Ryan&quot;.</p>
                 </div>
               </div>
             )}
@@ -94,7 +94,7 @@ export function Step2Anggota() {
               />
               <div className="mt-2 flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
                 <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                <p><strong>Tips Testing:</strong> Coba cari "Ahmad", "Putri", "Kevin", "Rizky", "Anton", atau "Sarah".</p>
+                <p><strong>Tips Testing:</strong> Coba cari &quot;Ahmad&quot;, &quot;Putri&quot;, &quot;Kevin&quot;, &quot;Rizky&quot;, &quot;Anton&quot;, atau &quot;Sarah&quot;.</p>
               </div>
             </div>
 

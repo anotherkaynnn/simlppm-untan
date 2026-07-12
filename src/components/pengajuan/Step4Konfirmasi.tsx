@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 interface Step4KonfirmasiProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formData: any;
   selectedFile: File | null;
 }
@@ -63,7 +64,7 @@ export function Step4Konfirmasi({ formData, selectedFile }: Step4KonfirmasiProps
 
         <div className="bg-warning/10 p-4 rounded-lg border border-warning/20">
           <p className="text-xs font-medium text-warning-800 text-center">
-            Dengan menekan tombol "Ajukan Proposal" di bawah, Anda menyatakan bahwa seluruh data yang diisikan adalah benar dan dapat dipertanggungjawabkan.
+            Dengan menekan tombol &quot;Ajukan Proposal&quot; di bawah, Anda menyatakan bahwa seluruh data yang diisikan adalah benar dan dapat dipertanggungjawabkan.
           </p>
         </div>
 

@@ -8,7 +8,7 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { Breadcrumb } from "@/components/app/Breadcrumb";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, _hasHydrated } = useAuthStore();
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarMinimized, setIsSidebarMinimized] = useState(false);
@@ -16,12 +16,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     setIsMounted(true);
-    if (!isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isAuthenticated, router]);
+  }, []);
 
-  if (!isMounted) return null; // Mencegah hydration mismatch
+  useEffect(() => {
+    if (isMounted && _hasHydrated && !isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isMounted, _hasHydrated, isAuthenticated, router]);
+
+  if (!isMounted || !_hasHydrated) return null; // Wait for hydration to complete
   if (!isAuthenticated) return null;
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useProposalDraftStore } from "@/store/proposalDraftStore";
 import { Step1InfoUmum } from "@/components/pengajuan/Step1InfoUmum";
 import { Step2Anggota } from "@/components/pengajuan/Step2Anggota";
@@ -17,6 +18,7 @@ const STEPS = [
 ];
 
 export default function PengajuanBaruPage() {
+  const router = useRouter();
   const { currentStep, setCurrentStep } = useProposalDraftStore();
 
   const [formData, setFormData] = useState({
@@ -149,7 +151,7 @@ export default function PengajuanBaruPage() {
     
     toast.success("Proposal berhasil diajukan!");
     setCurrentStep(1);
-    window.location.href = "/dashboard";
+    router.push("/dashboard");
   };
 
   return (

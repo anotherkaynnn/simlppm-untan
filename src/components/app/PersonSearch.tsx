@@ -10,12 +10,12 @@ interface PersonSearchProps {
   onSelect: (person: PersonRecord) => void;
   excludeIds?: string[];
   placeholder?: string;
+  type?: 'DOSEN' | 'MAHASISWA' | 'TENDIK';
 }
 
-export function PersonSearch({ onSelect, excludeIds = [], placeholder = "Cari NIDN / NIM / Nama..." }: PersonSearchProps) {
+export function PersonSearch({ onSelect, excludeIds = [], placeholder = "Cari NIDN / NIM / Nama...", type }: PersonSearchProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const debouncedQuery = useDebounce(query, 300);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,11 +28,12 @@ export function PersonSearch({ onSelect, excludeIds = [], placeholder = "Cari NI
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const results = debouncedQuery.length >= 2
+  const results = query.length >= 2
     ? personDatabase.filter(p => 
         !excludeIds.includes(p.id) &&
-        (p.name.toLowerCase().includes(debouncedQuery.toLowerCase()) || 
-         p.nidn_nim.toLowerCase().includes(debouncedQuery.toLowerCase()))
+        (!type || p.type === type) &&
+        (p.name.toLowerCase().includes(query.toLowerCase()) || 
+         p.nidn_nim.toLowerCase().includes(query.toLowerCase()))
       )
     : [];
 
@@ -52,8 +53,8 @@ export function PersonSearch({ onSelect, excludeIds = [], placeholder = "Cari NI
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
       </div>
 
-      {isOpen && debouncedQuery.length >= 2 && (
-        <ul className="absolute z-20 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg max-h-48 overflow-y-auto overflow-x-hidden">
+      {isOpen && query.length >= 2 && (
+        <ul className="absolute z-50 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg max-h-48 overflow-y-auto overflow-x-hidden">
           {results.length > 0 ? (
             results.map((person) => (
               <li 

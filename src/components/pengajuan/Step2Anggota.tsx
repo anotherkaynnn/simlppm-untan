@@ -49,6 +49,7 @@ export function Step2Anggota({ onNext }: { onNext: () => void }) {
             {dosenList.length < 10 && (
               <div className="mb-4">
                 <PersonSearch 
+                  type="DOSEN"
                   placeholder="Cari Dosen (NIDN / Nama)..."
                   excludeIds={dosenList.map(d => d.id_person)}
                   onSelect={(p) => setDosenList([...dosenList, { id: Date.now(), id_person: p.id, nidn: p.nidn_nim, nama: p.name, tugas: "" }])}
@@ -88,6 +89,7 @@ export function Step2Anggota({ onNext }: { onNext: () => void }) {
 
             <div className="mb-4">
               <PersonSearch 
+                type="MAHASISWA"
                 placeholder="Cari Mahasiswa (NIM / Nama)..."
                 excludeIds={mahasiswaList.map(m => m.id_person)}
                 onSelect={(p) => setMahasiswaList([...mahasiswaList, { id: Date.now(), id_person: p.id, nim: p.nidn_nim, nama: p.name, tugas: "" }])}

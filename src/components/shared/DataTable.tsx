@@ -33,6 +33,7 @@ interface DataTableProps<TData, TValue> {
   searchPlaceholder?: string;
   selectable?: boolean;
   onSelectionChange?: (selectedRows: TData[]) => void;
+  toolbarElements?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -42,6 +43,7 @@ export function DataTable<TData, TValue>({
   searchPlaceholder = "Cari...",
   selectable,
   onSelectionChange,
+  toolbarElements,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -106,19 +108,27 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       {/* Table Toolbar */}
-      {searchKey && (
-        <div className="flex items-center mb-4">
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-            <Input
-              placeholder={searchPlaceholder}
-              value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-              onChange={(event) =>
-                table.getColumn(searchKey)?.setFilterValue(event.target.value)
-              }
-              className="pl-9 h-10 border-neutral-200 bg-white shadow-sm focus-visible:ring-primary-500"
-            />
-          </div>
+      {(searchKey || toolbarElements) && (
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-4">
+          {searchKey ? (
+            <div className="relative w-full max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+              <Input
+                placeholder={searchPlaceholder}
+                value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
+                onChange={(event) =>
+                  table.getColumn(searchKey)?.setFilterValue(event.target.value)
+                }
+                className="pl-9 h-10 border-neutral-200 bg-white shadow-sm focus-visible:ring-primary-500"
+              />
+            </div>
+          ) : <div />}
+          
+          {toolbarElements && (
+            <div className="flex flex-wrap items-center gap-3">
+              {toolbarElements}
+            </div>
+          )}
         </div>
       )}
 

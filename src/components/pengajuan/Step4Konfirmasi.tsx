@@ -10,17 +10,12 @@ interface Step4KonfirmasiProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formData: any;
   selectedFile: File | null;
+  onSubmit: () => void;
 }
 
-export function Step4Konfirmasi({ formData, selectedFile }: Step4KonfirmasiProps) {
+export function Step4Konfirmasi({ formData, selectedFile, onSubmit }: Step4KonfirmasiProps) {
   const { setCurrentStep } = useProposalDraftStore();
   const router = useRouter();
-
-  const handleSubmit = () => {
-    toast.success("Proposal berhasil diajukan!");
-    setCurrentStep(1); // Reset wizard
-    router.push("/dashboard");
-  };
 
   return (
     <div className="space-y-6">
@@ -72,7 +67,7 @@ export function Step4Konfirmasi({ formData, selectedFile }: Step4KonfirmasiProps
 
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => setCurrentStep(3)}>Kembali</Button>
-        <Button type="button" onClick={handleSubmit} className="bg-success hover:bg-success-600 text-white">
+        <Button type="button" onClick={onSubmit} className="bg-success hover:bg-success-600 text-white">
           <CheckCircle2 className="w-4 h-4 mr-2" />
           Ajukan Proposal
         </Button>

@@ -9,7 +9,7 @@ import { useAuthStore } from "@/store/authStore";
 import { FieldTooltip } from "@/components/ui/tooltip";
 import { PersonSearch } from "@/components/app/PersonSearch";
 
-export function Step2Anggota() {
+export function Step2Anggota({ onNext }: { onNext: () => void }) {
   const { setCurrentStep } = useProposalDraftStore();
   const { user } = useAuthStore();
   
@@ -154,7 +154,7 @@ export function Step2Anggota() {
 
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Kembali</Button>
-        <Button type="button" onClick={() => setCurrentStep(3)} className="bg-primary-600 hover:bg-primary-700 text-white">Lanjut ke Berkas Administrasi</Button>
+        <Button type="button" onClick={onNext} className="bg-primary-600 hover:bg-primary-700 text-white">Lanjut ke Berkas Administrasi</Button>
       </div>
     </div>
   );

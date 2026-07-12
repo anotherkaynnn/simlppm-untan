@@ -99,6 +99,10 @@ export default function PengajuanBaruPage() {
         newErrors.title = "Judul proposal minimal 10 karakter";
         isValid = false;
       }
+      if (!formData.type) {
+        newErrors.type = "Pilih jenis usulan";
+        isValid = false;
+      }
       if (!formData.fundingSource) {
         newErrors.fundingSource = "Pilih sumber dana";
         isValid = false;
@@ -130,6 +134,21 @@ export default function PengajuanBaruPage() {
     if (validateStep(displayStep)) {
       setCurrentStep(displayStep + 1);
     }
+  };
+
+  const handleSubmit = () => {
+    if (!formData.title || formData.title.length < 10) {
+      toast.error("Informasi umum belum lengkap!");
+      return;
+    }
+    if (!selectedFile) {
+      toast.error("File proposal wajib diunggah!");
+      return;
+    }
+    
+    toast.success("Proposal berhasil diajukan!");
+    setCurrentStep(1);
+    window.location.href = "/dashboard";
   };
 
   return (
@@ -203,7 +222,7 @@ export default function PengajuanBaruPage() {
               onNext={handleNext} 
             />
           )}
-          {displayStep === 2 && <Step2Anggota />}
+          {displayStep === 2 && <Step2Anggota onNext={handleNext} />}
           {displayStep === 3 && (
             <Step3Berkas 
               selectedFile={selectedFile}
@@ -221,7 +240,7 @@ export default function PengajuanBaruPage() {
               onNext={handleNext}
             />
           )}
-          {displayStep === 4 && <Step4Konfirmasi formData={formData} selectedFile={selectedFile} />}
+          {displayStep === 4 && <Step4Konfirmasi formData={formData} selectedFile={selectedFile} onSubmit={handleSubmit} />}
         </div>
       </div>
     </div>

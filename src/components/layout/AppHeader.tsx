@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, ChevronRight, Menu, Settings, User, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -16,8 +16,9 @@ import Link from "next/link";
 import { mockNotifications } from "@/mock/data/notifications";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const pathname = usePathname();
+  const router = useRouter();
 
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState(mockNotifications);
@@ -207,8 +208,8 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
             </Link>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer text-danger focus:text-danger focus:bg-danger/10" onClick={() => {
-              // Note: Normally we'd use logout() from useAuthStore, but AppHeader doesn't have it extracted
-              window.location.href = "/login";
+              logout();
+              router.push("/login");
             }}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Keluar</span>

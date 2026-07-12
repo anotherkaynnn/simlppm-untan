@@ -12,7 +12,7 @@ const IconMap = {
 
 export function PanduanGrid({ cards }: { cards: PanduanCard[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card, idx) => {
         const Icon = IconMap[card.icon as keyof typeof IconMap] || GraduationCap;
         

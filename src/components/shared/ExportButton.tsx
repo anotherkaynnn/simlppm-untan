@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import * as XLSX from "xlsx";
 import { toast } from "sonner";
 import { downloadCsv } from "@/utils/export-csv";
 
@@ -26,7 +25,7 @@ export function ExportButton({
   format = "excel"
 }: ExportButtonProps) {
   
-  const handleExport = () => {
+  const handleExport = async () => {
     try {
       if (!data || data.length === 0) {
         toast.warning("Tidak ada data untuk diekspor");
@@ -34,7 +33,6 @@ export function ExportButton({
       }
 
       if (format === "csv") {
-        // Extract headers from keys of the first object, handle mapping if needed
         const headers = Object.keys(data[0] || {});
         const rows = data.map(item => Object.values(item));
         downloadCsv(`${filename}.csv`, headers, rows);
@@ -42,20 +40,17 @@ export function ExportButton({
         return;
       }
 
-      // Convert data to a worksheet for Excel
-      const worksheet = XLSX.utils.json_to_sheet(data);
+      // Dynamically import xlsx to prevent Next.js client-side hydration crashes
+      const XLSX = await import("xlsx");
       
-      // Auto-adjust column widths
+      const worksheet = XLSX.utils.json_to_sheet(data);
       const colWidths = Object.keys(data[0] || {}).map(key => ({ wch: Math.max(key.length, 15) }));
       worksheet['!cols'] = colWidths;
 
-      // Create a workbook and append the worksheet
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
       
-      // Trigger download
       XLSX.writeFile(workbook, `${filename}.xlsx`);
-      
       toast.success("Berhasil mengekspor data ke Excel");
     } catch (error) {
       console.error("Export error:", error);

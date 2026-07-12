@@ -7,24 +7,26 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { TimelineStatus } from "@/components/shared/TimelineStatus";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProposalStatus } from "@/types";
+import { mockProposals } from "@/mock/data/proposals";
+import { useAuthStore } from "@/store/authStore";
+import { RubrikReview } from "@/components/app/RubrikReview";
 
 export default function ProposalDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
+  const { user } = useAuthStore();
 
-  // Mock data untuk proposal spesifik
-  const proposal = {
-    id: id,
-    title: "Pengembangan Model Machine Learning untuk Deteksi Dini Kebakaran Hutan di Lahan Gambut Kalimantan Barat",
-    schemeName: "Penelitian Terapan (PT)",
-    status: "DIREVIEW" as ProposalStatus,
-    submittedAt: "15 Juni 2026",
-    facultyName: "Fakultas Teknik",
-    fieldOfStudy: "Teknik Informatika",
-    duration: 12,
-    budget: 150000000,
-  };
+  const proposal = mockProposals.find(p => p.id === id);
+
+  if (!proposal) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <h1 className="text-2xl font-bold text-neutral-900 mb-2">Proposal Tidak Ditemukan</h1>
+        <Button onClick={() => router.back()} variant="outline">Kembali</Button>
+      </div>
+    );
+  }
 
   const timelineSteps = [
     { label: "Diajukan", status: "completed" as const, date: "15 Jun 2026", actor: "Dr. Ahmad Yani" },
@@ -60,6 +62,7 @@ export default function ProposalDetailPage() {
           <TabsList className="w-full md:w-auto flex overflow-x-auto justify-start border-b border-neutral-200 rounded-none bg-transparent h-auto p-0 mb-6">
             <TabsTrigger value="info" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary-500 data-[state=active]:shadow-none px-6 py-3">Informasi Umum</TabsTrigger>
             <TabsTrigger value="anggota" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary-500 data-[state=active]:shadow-none px-6 py-3">Anggota Tim</TabsTrigger>
+            <TabsTrigger value="penilaian" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary-500 data-[state=active]:shadow-none px-6 py-3">Penilaian</TabsTrigger>
             <TabsTrigger value="berkas" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary-500 data-[state=active]:shadow-none px-6 py-3">Berkas Terlampir</TabsTrigger>
             <TabsTrigger value="log" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary-500 data-[state=active]:shadow-none px-6 py-3">Log Aktivitas</TabsTrigger>
           </TabsList>
@@ -86,9 +89,38 @@ export default function ProposalDetailPage() {
           </TabsContent>
 
           <TabsContent value="anggota">
-            <div className="p-4 bg-neutral-50 rounded border border-neutral-200">
-              <p className="text-sm text-neutral-600">Daftar anggota tim akan ditampilkan di sini.</p>
+            <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs text-neutral-500 uppercase bg-neutral-50 border-b border-neutral-200">
+                  <tr>
+                    <th className="px-6 py-3 font-medium">Nama</th>
+                    <th className="px-6 py-3 font-medium">NIDN / NIM</th>
+                    <th className="px-6 py-3 font-medium">Peran</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {proposal.members && proposal.members.length > 0 ? (
+                    proposal.members.map((member) => (
+                      <tr key={member.id} className="bg-white border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50">
+                        <td className="px-6 py-4 font-medium text-neutral-900">{member.name}</td>
+                        <td className="px-6 py-4 text-neutral-600">{member.nidn || "-"}</td>
+                        <td className="px-6 py-4 text-neutral-600">{member.role.replace("_", " ")}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={3} className="px-6 py-8 text-center text-neutral-500">
+                        Tidak ada data anggota tim
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
+          </TabsContent>
+
+          <TabsContent value="penilaian">
+            <RubrikReview proposalId={id} readOnly={user?.role !== 'REVIEWER'} />
           </TabsContent>
 
           <TabsContent value="berkas" className="space-y-3">

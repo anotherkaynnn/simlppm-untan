@@ -10,15 +10,33 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+import { useDebounce } from "@/hooks/useDebounce";
+
 const initialMockProposals = [
-  { id: "PRP-2026-009", title: "Pengembangan Sistem Cerdas Berbasis IoT", dosen: "Dr. Budi Santoso", skim: "Penelitian Terapan", reviewer: null },
-  { id: "PRP-2026-010", title: "Pemberdayaan UMKM Kopi Lokal", dosen: "Siti Aminah, M.M.", skim: "Program Kemitraan Masyarakat", reviewer: "Prof. Dr. Anton" },
-  { id: "PRP-2026-012", title: "Analisis Dampak Perubahan Iklim", dosen: "Dr. Lina Mardiana", skim: "Penelitian Dasar", reviewer: null },
+  { id: "PRP-2026-009", title: "Pengembangan Sistem Cerdas Berbasis IoT", dosen: "Dr. Budi Santoso", skim: "Penelitian Terapan", reviewer: null, bidangIlmu: "Saintek" },
+  { id: "PRP-2026-010", title: "Pemberdayaan UMKM Kopi Lokal", dosen: "Siti Aminah, M.M.", skim: "Program Kemitraan Masyarakat", reviewer: "Prof. Dr. Anton", bidangIlmu: "Soshum" },
+  { id: "PRP-2026-012", title: "Analisis Dampak Perubahan Iklim", dosen: "Dr. Lina Mardiana", skim: "Penelitian Dasar", reviewer: null, bidangIlmu: "Saintek" },
+];
+
+const REVIEWERS = [
+  { id: "REV-1", name: "Prof. Dr. Anton", bidangIlmu: "Soshum" },
+  { id: "REV-2", name: "Dr. Rina Puspita", bidangIlmu: "Saintek" },
+  { id: "REV-3", name: "Dr. Hasanudin", bidangIlmu: "Kesehatan" },
+  { id: "REV-4", name: "Prof. Maria", bidangIlmu: "Bahasa" },
 ];
 
 export default function PenetapanReviewerPage() {
   const [proposals, setProposals] = useState(initialMockProposals);
   const [selectedReviewer, setSelectedReviewer] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterBidang, setFilterBidang] = useState("Semua");
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+  const filteredProposals = proposals.filter((p) => {
+    const matchesSearch = p.title.toLowerCase().includes(debouncedSearch.toLowerCase()) || p.dosen.toLowerCase().includes(debouncedSearch.toLowerCase());
+    const matchesBidang = filterBidang === "Semua" || p.bidangIlmu === filterBidang;
+    return matchesSearch && matchesBidang;
+  });
 
   const handleAssign = (propId: string) => {
     if (!selectedReviewer) {
@@ -42,8 +60,25 @@ export default function PenetapanReviewerPage() {
         <div className="p-6 border-b border-neutral-200 bg-neutral-50 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-            <Input placeholder="Cari judul proposal atau nama dosen..." className="pl-9 bg-white" />
+            <Input 
+              placeholder="Cari judul proposal atau nama dosen..." 
+              className="pl-9 bg-white" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <Select value={filterBidang} onValueChange={setFilterBidang}>
+            <SelectTrigger className="w-full md:w-[200px] bg-white">
+              <SelectValue placeholder="Bidang Ilmu" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Semua">Semua Bidang</SelectItem>
+              <SelectItem value="Saintek">Saintek</SelectItem>
+              <SelectItem value="Soshum">Soshum</SelectItem>
+              <SelectItem value="Kesehatan">Kesehatan</SelectItem>
+              <SelectItem value="Bahasa">Bahasa</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="overflow-x-auto">
@@ -58,7 +93,8 @@ export default function PenetapanReviewerPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {proposals.map((prop) => (
+              {filteredProposals.length > 0 ? (
+                filteredProposals.map((prop) => (
                 <TableRow key={prop.id}>
                   <TableCell className="font-medium text-neutral-600">{prop.id}</TableCell>
                   <TableCell className="font-semibold text-neutral-900 max-w-xs truncate">{prop.title}</TableCell>
@@ -101,10 +137,16 @@ export default function PenetapanReviewerPage() {
                                 <SelectValue placeholder="-- Pilih Reviewer --" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="Prof. Dr. Anton">Prof. Dr. Anton</SelectItem>
-                                <SelectItem value="Dr. Budi Santoso">Dr. Budi Santoso</SelectItem>
-                                <SelectItem value="Siti Aminah, M.M.">Siti Aminah, M.M.</SelectItem>
-                                <SelectItem value="Dr. Lina Mardiana">Dr. Lina Mardiana</SelectItem>
+                                {REVIEWERS.map((rev) => (
+                                  <SelectItem key={rev.id} value={rev.name}>
+                                    <div className="flex items-center justify-between w-full pr-4 gap-4">
+                                      <span>{rev.name}</span>
+                                      {rev.bidangIlmu === prop.bidangIlmu && (
+                                        <Badge variant="success" className="text-[10px] py-0">Sesuai Bidang</Badge>
+                                      )}
+                                    </div>
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </div>
@@ -117,7 +159,14 @@ export default function PenetapanReviewerPage() {
                     </Dialog>
                   </TableCell>
                 </TableRow>
-              ))}
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8 text-neutral-500">
+                    Tidak ada proposal yang ditemukan.
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

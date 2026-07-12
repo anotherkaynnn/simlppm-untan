@@ -6,6 +6,9 @@ import { Search, Eye, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const mockDataDosen = [
   { id: 1, nidn: "0011223344", nama: "Dr. Budi Santoso, S.T., M.T.", prodi: "Teknik Informatika", sintaId: "SINTA-88221", status: "Aktif" },
@@ -14,6 +17,17 @@ const mockDataDosen = [
 ];
 
 export default function DataDosenPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterProdi, setFilterProdi] = useState("Semua");
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+  const filteredDosen = mockDataDosen.filter((dosen) => {
+    const searchLower = debouncedSearch.toLowerCase();
+    const matchesSearch = dosen.nama.toLowerCase().includes(searchLower) || dosen.nidn.includes(searchLower);
+    const matchesProdi = filterProdi === "Semua" || dosen.prodi === filterProdi;
+    return matchesSearch && matchesProdi;
+  });
+
   return (
     <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-20">
       <div>
@@ -25,12 +39,24 @@ export default function DataDosenPage() {
         <div className="p-6 border-b border-neutral-200 bg-neutral-50 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-            <Input placeholder="Cari nama atau NIDN dosen..." className="pl-9 bg-white" />
+            <Input 
+              placeholder="Cari nama atau NIDN dosen..." 
+              className="pl-9 bg-white" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <Button variant="outline" className="w-full md:w-auto">
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
-          </Button>
+          <Select value={filterProdi} onValueChange={setFilterProdi}>
+            <SelectTrigger className="w-full md:w-[200px] bg-white">
+              <SelectValue placeholder="Program Studi" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Semua">Semua Program Studi</SelectItem>
+              <SelectItem value="Teknik Informatika">Teknik Informatika</SelectItem>
+              <SelectItem value="Manajemen">Manajemen</SelectItem>
+              <SelectItem value="Ilmu Hukum">Ilmu Hukum</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="overflow-x-auto">
@@ -46,7 +72,8 @@ export default function DataDosenPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockDataDosen.map((dosen) => (
+              {filteredDosen.length > 0 ? (
+                filteredDosen.map((dosen) => (
                 <TableRow key={dosen.id}>
                   <TableCell className="font-medium text-neutral-600">{dosen.nidn}</TableCell>
                   <TableCell className="font-semibold text-neutral-900">{dosen.nama}</TableCell>
@@ -110,7 +137,14 @@ export default function DataDosenPage() {
                     </Dialog>
                   </TableCell>
                 </TableRow>
-              ))}
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-8 text-neutral-500">
+                    Tidak ada data dosen yang ditemukan.
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

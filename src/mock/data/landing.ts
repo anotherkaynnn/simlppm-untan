@@ -7,7 +7,7 @@ export const mockLandingData: LandingPageContent = {
     subheading: "Universitas Tanjungpura",
     description: "Platform terintegrasi untuk pengelolaan proposal penelitian, pengabdian kepada masyarakat, monitoring pelaksanaan, dan pelaporan luaran.",
     ctaLabel: "Masuk via SATU UNTAN",
-    ctaSubtext: "Gunakan kredensial SSO (Single Sign-On) institusional Anda untuk mengakses sistem."
+    ctaSubtext: "Gunakan sistem autentikasi tunggal untuk mengakses SIMLPPM Universitas Tanjungpura dengan satu Akun."
   },
   modulCards: [
     {

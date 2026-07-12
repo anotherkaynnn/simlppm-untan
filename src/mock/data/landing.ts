@@ -77,15 +77,6 @@ export const mockLandingData: LandingPageContent = {
       uploadDate: "05 Agustus 2026"
     },
     {
-      label: "Panduan Administrator",
-      icon: "Shield",
-      description: "Panduan manajemen konfigurasi sistem dan kelola user untuk admin LPPM",
-      linkUrl: "#",
-      linkLabel: "Download PDF",
-      version: "1.2.0",
-      uploadDate: "01 Agustus 2026"
-    },
-    {
       label: "Panduan Admin Fakultas",
       icon: "UserCog",
       description: "Panduan pengelolaan data reviewer dan monitoring proposal tingkat fakultas",

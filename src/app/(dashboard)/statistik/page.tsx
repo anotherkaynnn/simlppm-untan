@@ -160,16 +160,27 @@ export default function StatistikPage() {
                     outerRadius={120}
                     paddingAngle={2}
                     dataKey="value"
+                    nameKey="name"
+                    animationBegin={0}
+                    animationDuration={800}
+                    className="cursor-pointer outline-none focus:outline-none"
+                    onClick={(data, index) => {
+                      toast.info(`Anda memilih: ${data.name} (${formatRupiah(data.value)})`);
+                    }}
                   >
                     {SERAPAN_ANGGARAN.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={COLORS[index % COLORS.length]} 
+                        className="hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+                      />
                     ))}
                   </Pie>
                   <RechartsTooltip 
                     formatter={(value: any) => formatRupiah(value as number)}
-                    contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                    contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
-                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} />
+                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} className="cursor-pointer" />
                 </PieChart>
               </ResponsiveContainer>
             </div>

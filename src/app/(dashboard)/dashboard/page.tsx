@@ -336,12 +336,27 @@ function KetuaLppmDashboard() {
               <div className="h-[250px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={serapanData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value">
+                    <Pie 
+                      data={serapanData} 
+                      cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
+                      nameKey="name"
+                      className="cursor-pointer outline-none"
+                      onClick={(data) => {
+                        toast.info(`Anggaran ${data.name}: Rp ${data.value} Miliar`);
+                      }}
+                    >
                       {serapanData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={entry.color} 
+                          className="hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+                        />
                       ))}
                     </Pie>
-                    <RechartsTooltip formatter={(value) => [`Rp ${value} Miliar`, 'Serapan']} />
+                    <RechartsTooltip 
+                      formatter={(value) => [`Rp ${value} Miliar`, 'Serapan']} 
+                      contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>

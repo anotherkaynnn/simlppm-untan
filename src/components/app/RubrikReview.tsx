@@ -141,7 +141,7 @@ export function RubrikReview({ proposalId, readOnly = false }: RubrikReviewProps
               </Badge>
             </div>
           ) : (
-            <Select value={rekomendasi} onValueChange={setRekomendasi} disabled={readOnly}>
+            <Select value={rekomendasi} onValueChange={(val) => setRekomendasi(val as string)} disabled={readOnly}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih rekomendasi..." />
               </SelectTrigger>

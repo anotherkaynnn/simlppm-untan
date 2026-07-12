@@ -67,7 +67,7 @@ export default function PenetapanReviewerPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Select value={filterBidang} onValueChange={setFilterBidang}>
+          <Select value={filterBidang} onValueChange={(val) => setFilterBidang(val as string)}>
             <SelectTrigger className="w-full md:w-[200px] bg-white">
               <SelectValue placeholder="Bidang Ilmu" />
             </SelectTrigger>

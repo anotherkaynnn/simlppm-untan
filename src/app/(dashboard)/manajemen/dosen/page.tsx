@@ -46,7 +46,7 @@ export default function DataDosenPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Select value={filterProdi} onValueChange={setFilterProdi}>
+          <Select value={filterProdi} onValueChange={(val) => setFilterProdi(val as string)}>
             <SelectTrigger className="w-full md:w-[200px] bg-white">
               <SelectValue placeholder="Program Studi" />
             </SelectTrigger>

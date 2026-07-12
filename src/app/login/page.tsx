@@ -233,7 +233,7 @@ export default function LoginPage() {
 
             {/* Hint for development */}
             <div className="text-[10px] text-neutral-400 italic">
-              *Dev note: Ketik "adminfk", "admin", "operator", "ketua", atau "reviewer" pada username untuk simulasi role login yang berbeda.
+              *Dev note: Ketik &quot;adminfk&quot;, &quot;admin&quot;, &quot;operator&quot;, &quot;ketua&quot;, atau &quot;reviewer&quot; pada username untuk simulasi role login yang berbeda.
             </div>
 
             <Button 

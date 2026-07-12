@@ -53,7 +53,7 @@ export function LandingFooter() {
               </li>
               <li>
                 <a href="https://satu.untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-accent-400 transition-colors">
-                  SSO SATU UNTAN
+                  SATU UNTAN
                 </a>
               </li>
             </ul>

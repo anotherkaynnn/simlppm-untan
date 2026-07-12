@@ -28,8 +28,16 @@ export default function ProfilPage() {
 
   if (!user) return null;
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Fallback: check validity of the form manually
+    if (!e.currentTarget.checkValidity()) {
+      e.currentTarget.reportValidity();
+      toast.error("Mohon periksa kembali isian formulir Anda.");
+      return;
+    }
+
     toast.success("Profil berhasil diperbarui!");
     router.push("/dashboard");
   };

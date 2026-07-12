@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { mockProposals } from "@/mock/data/proposals";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { format, addDays } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { format, addDays, differenceInDays } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 
 const STAGES = [
@@ -78,6 +79,7 @@ export default function MonitoringAktifPage() {
                 {activeProposals.length > 0 ? (
                   activeProposals.map((proposal) => {
                     const mockDeadline = addDays(new Date(proposal.submittedAt), 14);
+                    const sisa = differenceInDays(mockDeadline, new Date());
                     
                     return (
                       <TableRow key={proposal.id}>
@@ -97,7 +99,18 @@ export default function MonitoringAktifPage() {
                           {proposal.status === "DIREVIEW" ? "Dr. Reviewer Mock" : "-"}
                         </TableCell>
                         <TableCell className="text-sm text-neutral-600">
-                          {proposal.status === "DIREVIEW" ? format(mockDeadline, "dd MMM yyyy", { locale: localeId }) : "-"}
+                          {proposal.status === "DIREVIEW" ? (
+                            <div className="flex items-center gap-2">
+                              <span>{format(mockDeadline, "dd MMM yyyy", { locale: localeId })}</span>
+                              {sisa < 0 ? (
+                                <Badge variant="destructive">Terlambat</Badge>
+                              ) : sisa <= 1 ? (
+                                <Badge variant="destructive">H-{sisa}</Badge>
+                              ) : sisa <= 7 ? (
+                                <Badge variant="warning">H-{sisa}</Badge>
+                              ) : null}
+                            </div>
+                          ) : "-"}
                         </TableCell>
                         <TableCell>
                           <ProgressIndicator currentStatus={proposal.status} />

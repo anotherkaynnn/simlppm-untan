@@ -12,6 +12,7 @@ import {
   Cell
 } from "recharts";
 import { Building2, FileText, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 import { FacultyBarChart } from "@/components/app/FacultyBarChart";
 
 // Mock Data untuk Grafik

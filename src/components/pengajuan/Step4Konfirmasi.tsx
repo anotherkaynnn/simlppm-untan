@@ -6,7 +6,12 @@ import { CheckCircle2, FileText, Users, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export function Step4Konfirmasi() {
+interface Step4KonfirmasiProps {
+  formData: any;
+  selectedFile: File | null;
+}
+
+export function Step4Konfirmasi({ formData, selectedFile }: Step4KonfirmasiProps) {
   const { setCurrentStep } = useProposalDraftStore();
   const router = useRouter();
 
@@ -35,7 +40,7 @@ export function Step4Konfirmasi() {
             <FileText className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
             <div>
               <p className="font-semibold text-neutral-900 text-sm mb-1">Informasi Umum</p>
-              <p className="text-xs text-neutral-500">Judul usulan, skema, luaran, dan substansi telah dilengkapi.</p>
+              <p className="text-xs text-neutral-500">Judul usulan: {formData.title || '-'}</p>
             </div>
           </div>
           
@@ -51,7 +56,7 @@ export function Step4Konfirmasi() {
             <UploadCloud className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
             <div>
               <p className="font-semibold text-neutral-900 text-sm mb-1">Berkas Administrasi</p>
-              <p className="text-xs text-neutral-500">Proposal lengkap dan hak akses file telah ditentukan.</p>
+              <p className="text-xs text-neutral-500">Proposal: {selectedFile ? selectedFile.name : '-'}</p>
             </div>
           </div>
         </div>

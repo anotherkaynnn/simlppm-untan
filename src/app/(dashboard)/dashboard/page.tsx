@@ -38,7 +38,13 @@ export default function DashboardPage() {
 // Sub-components untuk masing-masing Role (bisa dipisah filenya nanti)
 // ----------------------------------------------------------------------
 
+import { mockProposals } from "@/mock/data/proposals";
+import { ProposalTable } from "@/components/app/ProposalTable";
+
 function DosenDashboard() {
+  const { user } = useAuthStore();
+  const myProposals = mockProposals.filter(p => p.submitter.id === user?.id);
+
   return (
     <>
       <div className="bg-warning-50 border border-warning-200 rounded-lg p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 shadow-sm">
@@ -71,8 +77,8 @@ function DosenDashboard() {
           <CardHeader>
             <CardTitle className="text-lg">Usulan Aktif</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-sm text-neutral-500 italic">Belum ada usulan aktif tahun ini.</div>
+          <CardContent className="p-0 sm:p-6 sm:pt-0">
+            <ProposalTable proposals={myProposals} />
           </CardContent>
         </Card>
         <Card className="border-info-200 shadow-sm">

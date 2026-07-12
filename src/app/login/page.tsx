@@ -52,6 +52,18 @@ export default function LoginPage() {
     }, 1000);
   };
 
+  const handleSSOLogin = () => {
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      const user = MOCK_USERS["DOSEN"];
+      login(user);
+      
+      toast.success(`Berhasil masuk via Satu Untan sebagai ${user.name}`);
+      router.push("/dashboard");
+    }, 1000);
+  };
+
   const handleForgotPassword = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -142,7 +154,7 @@ export default function LoginPage() {
                 type="button" 
                 variant="outline" 
                 className="w-full h-12 text-sm font-semibold border-neutral-200 hover:bg-neutral-50 mb-6 flex items-center justify-center gap-3"
-                onClick={handleLogin}
+                onClick={handleSSOLogin}
               >
             {/* Ikon G sederhana sebagai pengganti Google Logo murni untuk saat ini */}
             <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">

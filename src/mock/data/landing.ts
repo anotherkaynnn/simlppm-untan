@@ -63,28 +63,45 @@ export const mockLandingData: LandingPageContent = {
       icon: "GraduationCap",
       description: "Panduan pengajuan proposal, monitoring, dan pelaporan untuk dosen pengusul",
       linkUrl: "#",
-      linkLabel: "Download PDF"
+      linkLabel: "Download PDF",
+      version: "2.1.0",
+      uploadDate: "10 Agustus 2026"
     },
     {
       label: "Panduan Operator Fakultas",
       icon: "ClipboardCheck",
       description: "Panduan verifikasi kelengkapan administrasi dan rekap data fakultas",
       linkUrl: "#",
-      linkLabel: "Download PDF"
+      linkLabel: "Download PDF",
+      version: "1.0.5",
+      uploadDate: "05 Agustus 2026"
     },
     {
       label: "Panduan Administrator",
       icon: "Shield",
       description: "Panduan manajemen konfigurasi sistem dan kelola user untuk admin LPPM",
       linkUrl: "#",
-      linkLabel: "Download PDF"
+      linkLabel: "Download PDF",
+      version: "1.2.0",
+      uploadDate: "01 Agustus 2026"
+    },
+    {
+      label: "Panduan Admin Fakultas",
+      icon: "UserCog",
+      description: "Panduan pengelolaan data reviewer dan monitoring proposal tingkat fakultas",
+      linkUrl: "#",
+      linkLabel: "Download PDF",
+      version: "1.1.0",
+      uploadDate: "12 Agustus 2026"
     },
     {
       label: "Data Akun SIMLPPM",
       icon: "UserCheck",
       description: "Informasi akun dan hak akses pengguna di SIMLPPM",
       linkUrl: "#",
-      linkLabel: "Lihat Data"
+      linkLabel: "Lihat Data",
+      version: "2.0.0",
+      uploadDate: "15 Juli 2026"
     }
   ],
   news: [

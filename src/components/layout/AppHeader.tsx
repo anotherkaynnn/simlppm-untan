@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { usePathname } from "next/navigation";
 import { Menu, Bell, Search, User, LogOut, Settings, ChevronRight } from "lucide-react";
@@ -12,10 +13,31 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { mockNotifications } from "@/mock/data/notifications";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const { user } = useAuthStore();
   const pathname = usePathname();
+
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifications, setNotifications] = useState(mockNotifications);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setNotifOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  const markAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+  };
 
   return (
     <header className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-4 lg:px-8 z-30 sticky top-0">
@@ -88,34 +110,63 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Notification Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="relative p-2 text-neutral-500 hover:bg-neutral-100 rounded-full transition-colors focus:outline-none">
+        {/* Custom Notification Dropdown */}
+        <div className="relative" ref={notifRef}>
+          <button 
+            onClick={() => setNotifOpen(!notifOpen)}
+            className="relative p-2 text-neutral-500 hover:bg-neutral-100 rounded-full transition-colors focus:outline-none"
+          >
             <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger rounded-full ring-2 ring-white"></span>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <div className="px-3 py-2 text-sm font-semibold text-neutral-900">Notifikasi Terbaru</div>
-            <DropdownMenuSeparator />
-            <div className="max-h-80 overflow-y-auto">
-              <DropdownMenuItem className="flex flex-col items-start p-3 cursor-pointer">
-                <span className="font-semibold text-sm">Status Usulan Diperbarui</span>
-                <span className="text-xs text-neutral-500 mt-1">Usulan Anda "Pengembangan Model..." telah direview.</span>
-                <span className="text-[10px] text-neutral-400 mt-2">10 menit yang lalu</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex flex-col items-start p-3 cursor-pointer">
-                <span className="font-semibold text-sm">Pengumuman LPPM</span>
-                <span className="text-xs text-neutral-500 mt-1">Batas akhir unggah laporan kemajuan diperpanjang.</span>
-                <span className="text-[10px] text-neutral-400 mt-2">2 hari yang lalu</span>
-              </DropdownMenuItem>
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 min-w-3 h-3 px-[2px] bg-danger text-[7px] font-bold text-white rounded-full flex items-center justify-center ring-1 ring-white leading-none">
+                {unreadCount}
+              </span>
+            )}
+          </button>
+          
+          {notifOpen && (
+            <div className="absolute right-0 mt-2 w-80 rounded-xl border border-neutral-200 bg-white shadow-xl z-50 overflow-hidden">
+              <div className="px-4 py-3 border-b border-neutral-100 flex items-center justify-between">
+                <span className="font-semibold text-neutral-900">Notifikasi</span>
+                {unreadCount > 0 && (
+                  <button 
+                    onClick={markAllAsRead}
+                    className="text-xs text-primary-600 hover:text-primary-700 font-medium"
+                  >
+                    Tandai semua dibaca
+                  </button>
+                )}
+              </div>
+              <ul className="max-h-80 overflow-y-auto">
+                {notifications.length > 0 ? (
+                  notifications.map((notif) => (
+                    <li 
+                      key={notif.id}
+                      className={`p-4 border-b border-neutral-50 last:border-0 hover:bg-neutral-50 transition-colors cursor-pointer ${notif.isRead ? 'bg-white' : 'bg-untan-50/50'}`}
+                      onClick={() => {
+                        setNotifications(notifications.map(n => n.id === notif.id ? { ...n, isRead: true } : n));
+                      }}
+                    >
+                      <h4 className={`text-sm ${notif.isRead ? 'font-medium text-neutral-700' : 'font-semibold text-neutral-900'}`}>
+                        {notif.title}
+                      </h4>
+                      <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
+                        {notif.body}
+                      </p>
+                      <span className="text-[10px] text-neutral-400 mt-2 block">
+                        {notif.createdAt}
+                      </span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="p-4 text-center text-sm text-neutral-500">
+                    Tidak ada notifikasi.
+                  </li>
+                )}
+              </ul>
             </div>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-center justify-center text-primary-600 font-medium cursor-pointer">
-              Lihat Semua Notifikasi
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          )}
+        </div>
 
         {/* User Profile Dropdown */}
         <DropdownMenu>

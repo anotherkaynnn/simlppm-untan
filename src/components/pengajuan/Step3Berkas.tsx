@@ -1,27 +1,25 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useProposalDraftStore } from "@/store/proposalDraftStore";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { UploadCloud, FileText, X } from "lucide-react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { FieldTooltip } from "@/components/ui/Tooltip";
+import { FieldTooltip } from "@/components/ui/tooltip";
 
-export function Step3Berkas() {
-  const { draft, setCurrentStep, setDraft } = useProposalDraftStore();
-  const router = useRouter();
+interface Step3BerkasProps {
+  selectedFile: File | null;
+  onFileSelect: (file: File | null) => void;
+  errors: Record<string, string>;
+  onNext: () => void;
+}
 
+export function Step3Berkas({ selectedFile, onFileSelect, errors, onNext }: Step3BerkasProps) {
+  const { setCurrentStep } = useProposalDraftStore();
+  
   const [isDragging, setIsDragging] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const proposalFile = draft.files?.find(f => f.category === 'proposal');
-
-  const handleNext = () => {
-    setCurrentStep(4);
-  };
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -61,17 +59,13 @@ export function Step3Berkas() {
       return;
     }
 
-    setSelectedFile(file);
-    setDraft({ 
-      files: [{ id: Math.random().toString(36).substring(7), category: 'proposal', fileName: file.name }] 
-    });
-    toast.success(`File ${file.name} berhasil diunggah.`);
+    onFileSelect(file);
+    toast.success(`File ${file.name} berhasil dipilih.`);
   };
 
   const removeFile = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedFile(null);
-    setDraft({ files: draft.files.filter(f => f.category !== 'proposal') });
+    onFileSelect(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -86,6 +80,7 @@ export function Step3Berkas() {
           
           <div 
             className={`p-6 border-2 border-dashed rounded-xl flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${
+              errors.file ? 'border-danger-500 bg-danger-50' : 
               isDragging 
                 ? "border-primary-500 bg-primary-50" 
                 : "border-neutral-300 bg-neutral-50 hover:bg-neutral-100"
@@ -103,7 +98,7 @@ export function Step3Berkas() {
               accept=".pdf,application/pdf"
             />
             
-            {(selectedFile || proposalFile) ? (
+            {selectedFile ? (
               <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full max-w-md p-3 bg-white border border-neutral-200 rounded-lg shadow-sm">
                   <div className="flex items-center space-x-3 overflow-hidden">
@@ -111,11 +106,11 @@ export function Step3Berkas() {
                       <FileText className="w-6 h-6" />
                     </div>
                     <div className="text-left overflow-hidden">
-                      <p className="text-sm font-semibold text-neutral-900 truncate" title={selectedFile?.name || proposalFile?.fileName}>
-                        {selectedFile?.name || proposalFile?.fileName}
+                      <p className="text-sm font-semibold text-neutral-900 truncate" title={selectedFile.name}>
+                        {selectedFile.name}
                       </p>
                       <p className="text-xs text-neutral-500">
-                        {selectedFile ? `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB` : 'Sudah diunggah'}
+                        {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                       </p>
                     </div>
                   </div>
@@ -131,12 +126,13 @@ export function Step3Berkas() {
               </div>
             ) : (
               <>
-                <UploadCloud className={`w-10 h-10 mb-3 ${isDragging ? "text-primary-500" : "text-neutral-400"}`} />
-                <p className="text-sm font-semibold text-neutral-700">Klik atau seret file PDF ke sini</p>
-                <p className="text-xs text-neutral-500 mt-1">Maksimal ukuran file: 15MB</p>
+                <UploadCloud className={`w-10 h-10 mb-3 ${errors.file ? 'text-danger-500' : isDragging ? "text-primary-500" : "text-neutral-400"}`} />
+                <p className={`text-sm font-semibold ${errors.file ? 'text-danger-700' : 'text-neutral-700'}`}>Klik atau seret file PDF ke sini</p>
+                <p className={`text-xs mt-1 ${errors.file ? 'text-danger-500' : 'text-neutral-500'}`}>Maksimal ukuran file: 15MB</p>
               </>
             )}
           </div>
+          {errors.file && <p className="mt-2 text-xs text-danger-600">{errors.file}</p>}
         </div>
 
         <div>
@@ -171,7 +167,7 @@ export function Step3Berkas() {
 
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => setCurrentStep(2)}>Kembali</Button>
-        <Button type="button" onClick={handleNext} className="bg-primary-600 hover:bg-primary-700 text-white">
+        <Button type="button" onClick={onNext} className="bg-primary-600 hover:bg-primary-700 text-white">
           Selanjutnya
         </Button>
       </div>

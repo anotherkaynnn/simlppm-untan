@@ -1,11 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useProposalDraftStore } from "@/store/proposalDraftStore";
 import { Step1InfoUmum } from "@/components/pengajuan/Step1InfoUmum";
 import { Step2Anggota } from "@/components/pengajuan/Step2Anggota";
 import { Step3Berkas } from "@/components/pengajuan/Step3Berkas";
 import { Step4Konfirmasi } from "@/components/pengajuan/Step4Konfirmasi";
-import { Check } from "lucide-react";
+import { Check, CheckCircle2 } from "lucide-react";
 
 const STEPS = [
   "Informasi Umum",
@@ -15,16 +16,135 @@ const STEPS = [
 ];
 
 export default function PengajuanBaruPage() {
-  const { currentStep } = useProposalDraftStore();
+  const { currentStep, setCurrentStep } = useProposalDraftStore();
+
+  const [formData, setFormData] = useState({
+    title: "",
+    type: "",
+    fundingSource: "",
+    schemeId: "",
+    fieldOfStudy: "",
+    managementUnit: "Fakultas Hukum",
+    year: new Date().getFullYear(),
+    budget: 0,
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
+
+  // Load draft or clone data on mount
+  useEffect(() => {
+    const cloneDataStr = localStorage.getItem("simlppm-clone");
+    if (cloneDataStr) {
+      try {
+        const proposal = JSON.parse(cloneDataStr);
+        setFormData(prev => ({
+          ...prev,
+          title: proposal.title || prev.title,
+          type: proposal.type || prev.type,
+          schemeId: proposal.schemeId || prev.schemeId,
+          fieldOfStudy: proposal.fieldOfStudy || prev.fieldOfStudy,
+          budget: proposal.budget || prev.budget,
+        }));
+      } catch (e) {
+        console.error("Failed to parse cloned proposal data");
+      }
+      localStorage.removeItem("simlppm-clone");
+    } else {
+      // Load draft only if not cloning
+      const draftDataStr = localStorage.getItem("simlppm-draft");
+      if (draftDataStr) {
+        try {
+          const draft = JSON.parse(draftDataStr);
+          setFormData(draft);
+        } catch (e) {
+          console.error("Failed to parse draft data");
+        }
+      }
+    }
+  }, []);
+
+  // Debounced Auto-save effect
+  useEffect(() => {
+    setIsDraftSaved(false);
+    const timeoutId = setTimeout(() => {
+      localStorage.setItem("simlppm-draft", JSON.stringify(formData));
+      setIsDraftSaved(true);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData]);
 
   // Constrain visual step to max 4 just in case store has higher step from old version
   const displayStep = currentStep > 4 ? 4 : currentStep;
 
+  const handleChange = (field: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateStep = (step: number) => {
+    const newErrors: Record<string, string> = {};
+    let isValid = true;
+
+    if (step === 1) {
+      if (!formData.title || formData.title.length < 10) {
+        newErrors.title = "Judul proposal minimal 10 karakter";
+        isValid = false;
+      }
+      if (!formData.fundingSource) {
+        newErrors.fundingSource = "Pilih sumber dana";
+        isValid = false;
+      }
+      if (!formData.schemeId) {
+        newErrors.schemeId = "Pilih skim usulan";
+        isValid = false;
+      }
+      if (!formData.budget || formData.budget <= 0) {
+        newErrors.budget = "Total dana harus lebih dari 0";
+        isValid = false;
+      }
+      if (!formData.fieldOfStudy) {
+        newErrors.fieldOfStudy = "Bidang ilmu wajib diisi";
+        isValid = false;
+      }
+    } else if (step === 3) {
+      if (!selectedFile) {
+        newErrors.file = "File proposal wajib diunggah";
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleNext = () => {
+    if (validateStep(displayStep)) {
+      setCurrentStep(displayStep + 1);
+    }
+  };
+
   return (
     <div className="space-y-6 pb-12">
-      <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Ajukan Proposal Baru</h1>
-        <p className="text-neutral-500 mt-1">Lengkapi form berikut untuk mengajukan usulan penelitian atau pengabdian.</p>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-900">Ajukan Proposal Baru</h1>
+          <p className="text-neutral-500 mt-1">Lengkapi form berikut untuk mengajukan usulan penelitian atau pengabdian.</p>
+        </div>
+        {isDraftSaved && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-success-50 text-success-700 rounded-full text-xs font-medium border border-success-200 mt-1 sm:mt-0">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            Draf tersimpan
+          </div>
+        )}
       </div>
 
       {/* Progress Stepper (Inside Box) */}
@@ -75,10 +195,33 @@ export default function PengajuanBaruPage() {
         </div>
         
         <div className="min-h-[400px]">
-          {displayStep === 1 && <Step1InfoUmum />}
+          {displayStep === 1 && (
+            <Step1InfoUmum 
+              formData={formData} 
+              errors={errors} 
+              onChange={handleChange} 
+              onNext={handleNext} 
+            />
+          )}
           {displayStep === 2 && <Step2Anggota />}
-          {displayStep === 3 && <Step3Berkas />}
-          {displayStep === 4 && <Step4Konfirmasi />}
+          {displayStep === 3 && (
+            <Step3Berkas 
+              selectedFile={selectedFile}
+              onFileSelect={(file: File | null) => {
+                setSelectedFile(file);
+                if (file && errors.file) {
+                  setErrors((prev) => {
+                    const newErrors = { ...prev };
+                    delete newErrors.file;
+                    return newErrors;
+                  });
+                }
+              }}
+              errors={errors}
+              onNext={handleNext}
+            />
+          )}
+          {displayStep === 4 && <Step4Konfirmasi formData={formData} selectedFile={selectedFile} />}
         </div>
       </div>
     </div>

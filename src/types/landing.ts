@@ -25,6 +25,8 @@ export interface PanduanCard {
   description: string;
   linkUrl: string;
   linkLabel: string;
+  version?: string;
+  uploadDate?: string;
 }
 
 export interface NewsItem {

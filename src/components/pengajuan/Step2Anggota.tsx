@@ -4,36 +4,24 @@ import { useState } from "react";
 import { useProposalDraftStore } from "@/store/proposalDraftStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { X, Search } from "lucide-react";
+import { X, Info } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
-import { FieldTooltip } from "@/components/ui/Tooltip";
+import { FieldTooltip } from "@/components/ui/tooltip";
+import { PersonSearch } from "@/components/app/PersonSearch";
 
 export function Step2Anggota() {
   const { setCurrentStep } = useProposalDraftStore();
   const { user } = useAuthStore();
   
-  const [dosenList, setDosenList] = useState<{ id: number; nidn: string; nama: string; tugas: string }[]>([]);
-  const [mahasiswaList, setMahasiswaList] = useState<{ id: number; nim: string; nama: string; tugas: string }[]>([]);
+  const [dosenList, setDosenList] = useState<{ id: number; id_person: string; nidn: string; nama: string; tugas: string }[]>([]);
+  const [mahasiswaList, setMahasiswaList] = useState<{ id: number; id_person: string; nim: string; nama: string; tugas: string }[]>([]);
   const [tendikList, setTendikList] = useState<{ id: number; nama: string; tugas: string }[]>([]);
 
-  const addDosen = () => setDosenList([...dosenList, { id: Date.now(), nidn: "", nama: "", tugas: "" }]);
-  const addMahasiswa = () => setMahasiswaList([...mahasiswaList, { id: Date.now(), nim: "", nama: "", tugas: "" }]);
   const addTendik = () => setTendikList([...tendikList, { id: Date.now(), nama: "", tugas: "" }]);
 
   const removeDosen = (id: number) => setDosenList(dosenList.filter(d => d.id !== id));
   const removeMahasiswa = (id: number) => setMahasiswaList(mahasiswaList.filter(m => m.id !== id));
   const removeTendik = (id: number) => setTendikList(tendikList.filter(t => t.id !== id));
-
-  // Simulates a smart search behavior
-  const handleSmartSearch = (id: number, value: string) => {
-    // In a real app, this would trigger a debounced API call
-    setDosenList(dosenList.map(d => {
-      if (d.id === id) {
-        return { ...d, nidn: value, nama: value.length > 5 ? "Dr. Budi Santoso (Simulated)" : "" };
-      }
-      return d;
-    }));
-  };
 
   return (
     <div className="space-y-6">
@@ -55,55 +43,78 @@ export function Step2Anggota() {
           <div>
             <div className="mb-4">
               <h3 className="font-semibold text-neutral-900 flex items-center">Anggota Tim Dosen Internal <FieldTooltip text="Cari berdasarkan NIDN/NIM, maks 10 anggota" /></h3>
-              <p className="text-xs text-neutral-500">Maksimal 10 anggota. Ketik NIDN atau Nama untuk pencarian otomatis.</p>
+              <p className="text-xs text-neutral-500">Maksimal 10 anggota. Cari NIDN atau Nama untuk menambahkan.</p>
             </div>
+            
+            {dosenList.length < 10 && (
+              <div className="mb-4">
+                <PersonSearch 
+                  placeholder="Cari Dosen (NIDN / Nama)..."
+                  excludeIds={dosenList.map(d => d.id_person)}
+                  onSelect={(p) => setDosenList([...dosenList, { id: Date.now(), id_person: p.id, nidn: p.nidn_nim, nama: p.name, tugas: "" }])}
+                />
+                <div className="mt-2 flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
+                  <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                  <p><strong>Tips Testing:</strong> Coba cari "Budi", "Wahyu", "Siti", "Hendra", "Eko", "Joko", "Susi", atau "Ryan".</p>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-3 mb-4">
               {dosenList.map((dosen) => (
                 <div key={dosen.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-neutral-50 p-3 rounded-lg border border-neutral-200">
-                  <div className="relative sm:w-1/3 w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                    <Input 
-                      placeholder="Cari NIDN / Nama..." 
-                      className="pl-9 bg-white" 
-                      onChange={(e) => handleSmartSearch(dosen.id, e.target.value)}
-                    />
-                  </div>
-                  <Input placeholder="Nama Dosen (Otomatis)" className="sm:w-1/3 bg-neutral-100" readOnly value={dosen.nama} />
-                  <Input placeholder="Tugas / Peran" className="sm:w-1/3 bg-white" defaultValue={dosen.tugas} />
+                  <Input value={dosen.nidn} readOnly className="sm:w-1/4 bg-neutral-100" />
+                  <Input value={dosen.nama} readOnly className="sm:w-1/3 bg-neutral-100" />
+                  <Input 
+                    placeholder="Tugas / Peran" 
+                    className="sm:w-1/3 bg-white" 
+                    value={dosen.tugas}
+                    onChange={(e) => setDosenList(dosenList.map(d => d.id === dosen.id ? { ...d, tugas: e.target.value } : d))}
+                  />
                   <Button variant="ghost" size="icon" className="text-danger shrink-0 hover:bg-danger-50 hover:text-danger-700" onClick={() => removeDosen(dosen.id)}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
             </div>
-            {dosenList.length < 10 && (
-              <Button variant="outline" type="button" className="w-full border-dashed text-primary-600 hover:text-primary-700 hover:bg-primary-50 border-primary-200" onClick={addDosen}>
-                + Tambah Anggota Dosen
-              </Button>
-            )}
           </div>
 
           {/* Anggota Mahasiswa */}
           <div>
             <div className="mb-4">
               <h3 className="font-semibold text-neutral-900">Anggota Mahasiswa</h3>
-              <p className="text-xs text-neutral-500">Wajib melibatkan mahasiswa sesuai pedoman universitas.</p>
+              <p className="text-xs text-neutral-500">Wajib melibatkan mahasiswa sesuai pedoman universitas. Cari berdasarkan NIM atau Nama.</p>
             </div>
+
+            <div className="mb-4">
+              <PersonSearch 
+                placeholder="Cari Mahasiswa (NIM / Nama)..."
+                excludeIds={mahasiswaList.map(m => m.id_person)}
+                onSelect={(p) => setMahasiswaList([...mahasiswaList, { id: Date.now(), id_person: p.id, nim: p.nidn_nim, nama: p.name, tugas: "" }])}
+              />
+              <div className="mt-2 flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
+                <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                <p><strong>Tips Testing:</strong> Coba cari "Ahmad", "Putri", "Kevin", "Rizky", "Anton", atau "Sarah".</p>
+              </div>
+            </div>
+
             <div className="space-y-3 mb-4">
               {mahasiswaList.map((mhs) => (
                 <div key={mhs.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-white p-3 rounded-lg border border-neutral-200">
-                  <Input placeholder="NIM" className="sm:w-1/4 w-full" defaultValue={mhs.nim} />
-                  <Input placeholder="Nama Mahasiswa" className="sm:w-2/4 w-full" defaultValue={mhs.nama} />
-                  <Input placeholder="Tugas Khusus" className="sm:w-1/4 w-full" defaultValue={mhs.tugas} />
+                  <Input value={mhs.nim} readOnly className="sm:w-1/4 w-full bg-neutral-100" />
+                  <Input value={mhs.nama} readOnly className="sm:w-1/3 w-full bg-neutral-100" />
+                  <Input 
+                    placeholder="Tugas Khusus" 
+                    className="sm:w-1/3 w-full bg-white" 
+                    value={mhs.tugas}
+                    onChange={(e) => setMahasiswaList(mahasiswaList.map(m => m.id === mhs.id ? { ...m, tugas: e.target.value } : m))}
+                  />
                   <Button variant="ghost" size="icon" className="text-danger shrink-0 hover:bg-danger-50 hover:text-danger-700" onClick={() => removeMahasiswa(mhs.id)}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
             </div>
-            <Button variant="outline" type="button" className="w-full border-dashed" onClick={addMahasiswa}>
-              + Tambah Mahasiswa
-            </Button>
           </div>
 
           {/* Anggota Tendik */}
@@ -115,16 +126,26 @@ export function Step2Anggota() {
             <div className="space-y-3 mb-4">
               {tendikList.map((tendik) => (
                 <div key={tendik.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-white p-3 rounded-lg border border-neutral-200">
-                  <Input placeholder="Nama Tendik/Laboran" className="sm:w-2/3 w-full" defaultValue={tendik.nama} />
-                  <Input placeholder="Tugas Khusus" className="sm:w-1/3 w-full" defaultValue={tendik.tugas} />
+                  <Input 
+                    placeholder="Nama Tendik/Laboran" 
+                    className="sm:w-2/3 w-full" 
+                    value={tendik.nama} 
+                    onChange={(e) => setTendikList(tendikList.map(t => t.id === tendik.id ? { ...t, nama: e.target.value } : t))}
+                  />
+                  <Input 
+                    placeholder="Tugas Khusus" 
+                    className="sm:w-1/3 w-full" 
+                    value={tendik.tugas} 
+                    onChange={(e) => setTendikList(tendikList.map(t => t.id === tendik.id ? { ...t, tugas: e.target.value } : t))}
+                  />
                   <Button variant="ghost" size="icon" className="text-danger shrink-0 hover:bg-danger-50 hover:text-danger-700" onClick={() => removeTendik(tendik.id)}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
             </div>
-            <Button variant="outline" type="button" className="w-full border-dashed" onClick={addTendik}>
-              + Tambah Tendik / Laboran
+            <Button variant="outline" type="button" className="w-full border-dashed text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 border-neutral-300" onClick={addTendik}>
+              + Tambah Tendik / Laboran Manual
             </Button>
           </div>
 
@@ -133,7 +154,7 @@ export function Step2Anggota() {
 
       <div className="flex justify-between pt-4">
         <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>Kembali</Button>
-        <Button type="button" onClick={() => setCurrentStep(3)} className="bg-primary-600 hover:bg-primary-700">Lanjut ke Berkas Administrasi</Button>
+        <Button type="button" onClick={() => setCurrentStep(3)} className="bg-primary-600 hover:bg-primary-700 text-white">Lanjut ke Berkas Administrasi</Button>
       </div>
     </div>
   );

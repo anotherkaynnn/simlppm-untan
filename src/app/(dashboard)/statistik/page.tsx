@@ -4,11 +4,6 @@ import { useAuthStore } from "@/store/authStore";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExportButton } from "@/components/shared/ExportButton";
 import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
   Tooltip as RechartsTooltip, 
   Legend, 
   ResponsiveContainer,
@@ -17,6 +12,7 @@ import {
   Cell
 } from "recharts";
 import { Building2, FileText, CheckCircle2 } from "lucide-react";
+import { FacultyBarChart } from "@/components/app/FacultyBarChart";
 
 // Mock Data untuk Grafik
 const PARTISIPASI_FAKULTAS = [
@@ -47,6 +43,7 @@ const SERAPAN_ANGGARAN = [
 
 const COLORS = ['#2563eb', '#16a34a', '#eab308', '#dc2626', '#8b5cf6'];
 
+
 export default function StatistikPage() {
   const { user } = useAuthStore();
 
@@ -64,6 +61,13 @@ export default function StatistikPage() {
 
   const isAdminFk = user.role === 'ADMIN_FK';
 
+  const dipaStats = isAdminFk ? PARTISIPASI_JURUSAN : PARTISIPASI_FAKULTAS;
+  const exportData = dipaStats.map(item => ({
+    "Nama": item.name,
+    "Proposal Masuk": item.proposals,
+    "Didanai": item.accepted
+  }));
+
   return (
     <div className="space-y-6 pb-20">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -79,9 +83,10 @@ export default function StatistikPage() {
         </div>
         
         <ExportButton 
-          data={isAdminFk ? PARTISIPASI_JURUSAN : PARTISIPASI_FAKULTAS} 
-          filename={isAdminFk ? "Rekap_Fakultas_2026" : "Rekap_Partisipasi_Fakultas_2026"} 
-          label="Unduh Rekap Excel"
+          data={exportData} 
+          filename={isAdminFk ? "rekap-jurusan" : "rekap-fakultas"} 
+          label="Unduh Rekap CSV"
+          format="csv"
         />
       </div>
 
@@ -131,23 +136,11 @@ export default function StatistikPage() {
             <CardDescription>Perbandingan jumlah proposal masuk dan didanai per {isAdminFk ? "jurusan" : "fakultas"} (2026).</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[350px] w-full mt-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={isAdminFk ? PARTISIPASI_JURUSAN : PARTISIPASI_FAKULTAS} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} stroke="#94a3b8" />
-                  <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" />
-                  <RechartsTooltip 
-                    contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} />
-                  <Bar dataKey="proposals" name="Proposal Masuk" fill="var(--primary-300)" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="accepted" name="Didanai" fill="var(--primary-600)" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="h-[350px] w-full mt-4 flex">
+                <FacultyBarChart data={isAdminFk ? PARTISIPASI_JURUSAN : PARTISIPASI_FAKULTAS} />
+              </div>
+            </CardContent>
+          </Card>
 
         {/* Donut Chart */}
         <Card className="col-span-1 md:col-span-2 lg:col-span-1">

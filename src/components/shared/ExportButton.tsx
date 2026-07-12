@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import * as XLSX from "xlsx";
 import { toast } from "sonner";
+import { downloadCsv } from "@/utils/export-csv";
 
 interface ExportButtonProps {
   data: any[];
@@ -12,15 +13,17 @@ interface ExportButtonProps {
   label?: string;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   className?: string;
+  format?: "excel" | "csv";
 }
 
 export function ExportButton({ 
   data, 
   filename, 
   sheetName = "Sheet1",
-  label = "Ekspor Excel",
+  label = "Ekspor",
   variant = "outline",
-  className
+  className,
+  format = "excel"
 }: ExportButtonProps) {
   
   const handleExport = () => {
@@ -30,7 +33,16 @@ export function ExportButton({
         return;
       }
 
-      // Convert data to a worksheet
+      if (format === "csv") {
+        // Extract headers from keys of the first object, handle mapping if needed
+        const headers = Object.keys(data[0] || {});
+        const rows = data.map(item => Object.values(item));
+        downloadCsv(`${filename}.csv`, headers, rows);
+        toast.success("Berhasil mengekspor data ke CSV");
+        return;
+      }
+
+      // Convert data to a worksheet for Excel
       const worksheet = XLSX.utils.json_to_sheet(data);
       
       // Auto-adjust column widths
@@ -47,7 +59,7 @@ export function ExportButton({
       toast.success("Berhasil mengekspor data ke Excel");
     } catch (error) {
       console.error("Export error:", error);
-      toast.error("Gagal mengekspor data");
+      toast.error(`Gagal mengekspor data ke ${format.toUpperCase()}`);
     }
   };
 

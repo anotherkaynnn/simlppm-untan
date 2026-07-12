@@ -8,8 +8,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UploadCloud } from "lucide-react";
+import { UploadCloud, ShieldCheck } from "lucide-react";
+
+const roleLabel: Record<string, string> = {
+  DOSEN: "Dosen Pengusul",
+  REVIEWER: "Reviewer",
+  OPERATOR_FK: "Operator Fakultas",
+  ADMIN_FK: "Admin Fakultas",
+  KETUA_LPPM: "Ketua LPPM",
+  ADMIN_SISTEM: "Administrator Sistem"
+};
 
 export default function ProfilPage() {
   const { user } = useAuthStore();
@@ -93,7 +103,13 @@ export default function ProfilPage() {
                   </AvatarFallback>
                 )}
               </Avatar>
-              <div className="w-full relative">
+              
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-untan-100 px-3 py-1 text-xs font-semibold text-untan-700">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                {roleLabel[user.role] || user.role}
+              </span>
+
+              <div className="w-full relative mt-2">
                 <Input type="file" accept=".jpg,.jpeg,.png" onChange={handleAvatarChange} className="hidden" id="avatar-upload" />
                 <label 
                   htmlFor="avatar-upload" 
@@ -194,6 +210,44 @@ export default function ProfilPage() {
                 </RadioGroup>
               </div>
 
+            </div>
+          </div>
+
+          {/* PREFERENSI NOTIFIKASI */}
+          <div className="p-6 md:p-8 bg-white">
+            <h3 className="text-sm font-bold text-neutral-900 uppercase tracking-wider mb-6">Preferensi Notifikasi</h3>
+            <div className="space-y-6 max-w-2xl">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-neutral-900">Pengingat Deadline</h4>
+                  <p className="text-xs text-neutral-500 mt-1">Terima email peringatan H-7 dan H-1 sebelum penutupan proposal/laporan.</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-neutral-900">Perubahan Status Proposal</h4>
+                  <p className="text-xs text-neutral-500 mt-1">Terima email saat proposal Anda diverifikasi, direview, atau disetujui.</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-neutral-900">Penugasan Review (Khusus Reviewer)</h4>
+                  <p className="text-xs text-neutral-500 mt-1">Terima email pemberitahuan saat Anda ditugaskan untuk mereview proposal.</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="text-sm font-medium text-neutral-900">Pengumuman Sistem</h4>
+                  <p className="text-xs text-neutral-500 mt-1">Terima email pembaruan sistem, jadwal pembukaan skema baru, dan info LPPM.</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="pt-4 border-t border-neutral-100">
+                <p className="text-[11px] text-neutral-500 italic">Pengaturan ini hanya berlaku untuk notifikasi email. Notifikasi in-app selalu aktif.</p>
+              </div>
             </div>
           </div>
 

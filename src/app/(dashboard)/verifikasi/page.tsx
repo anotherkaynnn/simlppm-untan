@@ -46,6 +46,10 @@ export default function VerifikasiPage() {
   const [rejectNote, setRejectNote] = useState("");
   const [reviewProposal, setReviewProposal] = useState<typeof MOCK_VERIFIKASI[0] | null>(null);
 
+  // Filter states
+  const [filterField, setFilterField] = useState<string>("semua");
+  const [filterStatus, setFilterStatus] = useState<string>("semua");
+
   const columns: ColumnDef<typeof MOCK_VERIFIKASI[0]>[] = [
     {
       accessorKey: "title",
@@ -111,16 +115,65 @@ export default function VerifikasiPage() {
     setSelectedProposals([]);
   };
 
+  const handleResetFilter = () => {
+    setFilterField("semua");
+    setFilterStatus("semua");
+  };
+
+  // Mock implementation for field filtering (assuming we have a field property or just mocking it)
+  // Since MOCK_VERIFIKASI doesn't have field, we'll just mock the behavior for the sake of UI
+  const filteredProposals = MOCK_VERIFIKASI.filter((p) => {
+    const matchStatus = filterStatus === "semua" || p.status === filterStatus;
+    // In a real app, matchField would check p.field === filterField. We'll always return true here since mock data lacks field.
+    const matchField = filterField === "semua" || true;
+    return matchStatus && matchField;
+  });
+
   return (
     <div className="space-y-6 relative pb-24">
-      <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Verifikasi Proposal</h1>
-        <p className="text-neutral-500">Periksa dan verifikasi kelengkapan administrasi proposal masuk.</p>
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-900">Verifikasi Proposal</h1>
+          <p className="text-neutral-500">Periksa dan verifikasi kelengkapan administrasi proposal masuk.</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Bidang Ilmu</label>
+            <select 
+              value={filterField} 
+              onChange={(e) => setFilterField(e.target.value)}
+              className="px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="semua">Semua Bidang</option>
+              <option value="Saintek">Saintek</option>
+              <option value="Soshum">Soshum</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Status</label>
+            <select 
+              value={filterStatus} 
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="semua">Semua Status</option>
+              <option value="DIAJUKAN">DIAJUKAN</option>
+              <option value="VERIFIKASI">VERIFIKASI</option>
+              <option value="DIKEMBALIKAN">DIKEMBALIKAN</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-transparent select-none hidden sm:block">Reset</label>
+            <Button variant="outline" onClick={handleResetFilter} className="text-neutral-600">
+              Reset
+            </Button>
+          </div>
+        </div>
       </div>
 
       <DataTable 
         columns={columns} 
-        data={MOCK_VERIFIKASI} 
+        data={filteredProposals} 
         searchKey="title"
         searchPlaceholder="Cari judul proposal..."
         selectable={true}

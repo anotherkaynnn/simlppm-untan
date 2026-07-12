@@ -1,55 +1,23 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useProposalDraftStore } from "@/store/proposalDraftStore";
-import { ProposalType } from "@/types";
-import { InlineValidation } from "@/components/shared/InlineValidation";
 import { Textarea } from "@/components/ui/textarea";
 import { HelpCircle } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
-import { FieldTooltip } from "@/components/ui/Tooltip";
+import { FieldTooltip } from "@/components/ui/tooltip";
 
-const step1Schema = z.object({
-  title: z.string().min(10, "Judul proposal minimal 10 karakter"),
-  type: z.enum(["PENELITIAN", "PENGABDIAN"], { error: "Pilih jenis usulan" }),
-  fundingSource: z.string().min(1, "Pilih sumber dana"),
-  schemeId: z.string().min(1, "Pilih skim usulan"),
-  fieldOfStudy: z.string().min(1, "Bidang ilmu wajib diisi"),
-  managementUnit: z.string().min(1, "Pengelola dana wajib diisi"),
-  year: z.number().min(new Date().getFullYear(), "Tahun minimal tahun ini"),
-  budget: z.number().min(1000000, "Total dana minimal 1 Juta"),
-});
+interface Step1InfoUmumProps {
+  formData: any;
+  errors: Record<string, string>;
+  onChange: (field: string, value: any) => void;
+  onNext: () => void;
+}
 
-type Step1Values = z.infer<typeof step1Schema>;
-
-export function Step1InfoUmum() {
-  const { draft, setDraft, setCurrentStep } = useProposalDraftStore();
+export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoUmumProps) {
   const { user } = useAuthStore();
   
-  const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<Step1Values>({
-    resolver: zodResolver(step1Schema),
-    defaultValues: {
-      title: draft.title || "",
-      type: (draft.type as ProposalType) || undefined,
-      fundingSource: "",
-      schemeId: draft.schemeId || "",
-      fieldOfStudy: draft.fieldOfStudy || "",
-      managementUnit: "Fakultas Hukum",
-      year: 2026,
-      budget: 0,
-    },
-  });
-
-  const selectedType = watch("type");
-  const selectedScheme = watch("schemeId");
-  const selectedFunding = watch("fundingSource");
-  const budgetValue = watch("budget");
-
   const formatRupiah = (value: number | string | undefined) => {
     if (value === undefined || value === null || value === 0) return "";
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -59,44 +27,40 @@ export function Step1InfoUmum() {
     const rawValue = e.target.value.replace(/\./g, ""); // remove dots
     const numericValue = parseInt(rawValue, 10);
     if (!isNaN(numericValue)) {
-      setValue("budget", numericValue, { shouldValidate: true, shouldDirty: true });
+      onChange("budget", numericValue);
     } else {
-      setValue("budget", 0, { shouldValidate: true, shouldDirty: true });
+      onChange("budget", 0);
     }
   };
 
-  const onSubmit = (data: Step1Values) => {
-    setDraft({ ...draft, ...data });
-    setCurrentStep(2);
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-6 md:p-8 space-y-6">
         
         <div className="space-y-2">
           <label className="text-sm font-semibold text-neutral-900 flex items-center">Judul Proposal <span className="text-danger ml-1">*</span><FieldTooltip text="Tuliskan judul lengkap, minimal 10 karakter" /></label>
           <Textarea 
-            {...register("title")} 
+            value={formData.title}
+            onChange={(e) => onChange("title", e.target.value)}
             placeholder="Tuliskan judul proposal secara lengkap..."
-            className="min-h-[100px] border-neutral-300 focus:border-primary-500"
+            className={`min-h-[100px] border-neutral-300 focus:border-primary-500 ${errors.title ? 'border-danger-500 ring-1 ring-danger-500' : ''}`}
           />
-          <InlineValidation error={errors.title?.message} />
+          {errors.title && <p className="mt-1 text-xs text-danger-600">{errors.title}</p>}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Tahun Pelaksanaan</label>
-            <Input type="number" {...register("year", { valueAsNumber: true })} disabled className="bg-neutral-50 text-neutral-600 font-medium" />
+            <Input type="number" value={formData.year} disabled className="bg-neutral-50 text-neutral-600 font-medium" />
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900 flex items-center">Sumber Dana <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih sumber pendanaan utama" /></label>
             <Select 
-              value={selectedFunding} 
-              onValueChange={(val) => setValue("fundingSource", val as string, { shouldValidate: true })}
+              value={formData.fundingSource} 
+              onValueChange={(val) => onChange("fundingSource", val)}
             >
-              <SelectTrigger>
+              <SelectTrigger className={errors.fundingSource ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Sumber Dana" />
               </SelectTrigger>
               <SelectContent>
@@ -109,16 +73,16 @@ export function Step1InfoUmum() {
                 <SelectItem value="LAIN_LAIN">LAIN-LAIN</SelectItem>
               </SelectContent>
             </Select>
-            <InlineValidation error={errors.fundingSource?.message} />
+            {errors.fundingSource && <p className="mt-1 text-xs text-danger-600">{errors.fundingSource}</p>}
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Jenis Usulan <span className="text-danger">*</span></label>
             <Select 
-              value={selectedType} 
-              onValueChange={(val: any) => setValue("type", val, { shouldValidate: true })}
+              value={formData.type} 
+              onValueChange={(val) => onChange("type", val)}
             >
-              <SelectTrigger>
+              <SelectTrigger className={errors.type ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Jenis" />
               </SelectTrigger>
               <SelectContent>
@@ -126,7 +90,7 @@ export function Step1InfoUmum() {
                 <SelectItem value="PENGABDIAN">Pengabdian kepada Masyarakat</SelectItem>
               </SelectContent>
             </Select>
-            <InlineValidation error={errors.type?.message} />
+            {errors.type && <p className="mt-1 text-xs text-danger-600">{errors.type}</p>}
           </div>
 
           <div className="space-y-2">
@@ -135,11 +99,11 @@ export function Step1InfoUmum() {
             </div>
             
             <Select 
-              value={selectedScheme} 
-              onValueChange={(val) => setValue("schemeId", val as string, { shouldValidate: true })}
-              disabled={!selectedType}
+              value={formData.schemeId} 
+              onValueChange={(val) => onChange("schemeId", val)}
+              disabled={!formData.type}
             >
-              <SelectTrigger>
+              <SelectTrigger className={errors.schemeId ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Skim" />
               </SelectTrigger>
               <SelectContent>
@@ -152,13 +116,16 @@ export function Step1InfoUmum() {
                 <SelectItem value="PKM">Program Kemitraan Masyarakat (PKM)</SelectItem>
               </SelectContent>
             </Select>
-            <InlineValidation error={errors.schemeId?.message} />
+            {errors.schemeId && <p className="mt-1 text-xs text-danger-600">{errors.schemeId}</p>}
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900 flex items-center">Bidang Ilmu <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih rumpun ilmu sesuai klasifikasi Dikti" /></label>
-            <Select onValueChange={(val) => setValue("fieldOfStudy", val as string, { shouldValidate: true })}>
-              <SelectTrigger>
+            <Select 
+              value={formData.fieldOfStudy}
+              onValueChange={(val) => onChange("fieldOfStudy", val)}
+            >
+              <SelectTrigger className={errors.fieldOfStudy ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Rumpun Bidang Ilmu" />
               </SelectTrigger>
               <SelectContent>
@@ -168,12 +135,12 @@ export function Step1InfoUmum() {
                 <SelectItem value="Bahasa">Bahasa & Sastra</SelectItem>
               </SelectContent>
             </Select>
-            <InlineValidation error={errors.fieldOfStudy?.message} />
+            {errors.fieldOfStudy && <p className="mt-1 text-xs text-danger-600">{errors.fieldOfStudy}</p>}
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-neutral-900">Pengelola Dana (PNBP) <span className="text-danger">*</span></label>
-            <Select defaultValue="Fakultas Hukum" onValueChange={(val) => setValue("managementUnit", val as string, { shouldValidate: true })}>
+            <Select value={formData.managementUnit} onValueChange={(val) => onChange("managementUnit", val)}>
               <SelectTrigger>
                 <SelectValue placeholder="Pilih Pengelola" />
               </SelectTrigger>
@@ -201,18 +168,19 @@ export function Step1InfoUmum() {
             <label className="text-sm font-semibold text-neutral-900 flex items-center">Total Dana Diajukan (Rp) <span className="text-danger ml-1">*</span><FieldTooltip text="Masukkan angka dalam rupiah tanpa titik" /></label>
             <Input 
               type="text" 
-              value={budgetValue ? formatRupiah(budgetValue) : ""}
+              value={formData.budget ? formatRupiah(formData.budget) : ""}
               onChange={handleBudgetChange}
               placeholder="15.000.000" 
+              className={errors.budget ? 'border-danger-500 ring-1 ring-danger-500' : ''}
             />
-            <InlineValidation error={errors.budget?.message} />
+            {errors.budget && <p className="mt-1 text-xs text-danger-600">{errors.budget}</p>}
           </div>
         </div>
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button type="submit" className="bg-primary-600 hover:bg-primary-700 px-8">Lanjut ke Tim Pelaksana</Button>
+        <Button type="button" onClick={onNext} className="bg-primary-600 hover:bg-primary-700 px-8">Lanjut ke Tim Pelaksana</Button>
       </div>
-    </form>
+    </div>
   );
 }

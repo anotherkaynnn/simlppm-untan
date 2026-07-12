@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { usePathname } from "next/navigation";
-import { Bell, ChevronRight, Menu, Settings, User } from "lucide-react";
+import { Bell, ChevronRight, Menu, Settings, User, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

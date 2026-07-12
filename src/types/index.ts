@@ -34,6 +34,7 @@ export interface Proposal {
   status: ProposalStatus;
   submittedAt: string;
   updatedAt: string;
+  bidangIlmu?: 'Saintek' | 'Soshum' | 'Kesehatan' | 'Bahasa';
   submitter: Pick<User, 'id' | 'nidn' | 'name' | 'facultyName'>;
   members: TeamMember[];
   budgetDetails: BudgetItem[];

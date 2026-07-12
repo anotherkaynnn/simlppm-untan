@@ -10,36 +10,13 @@ import { FileText, Eye } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-
-// Mock Data untuk tabel monitoring
-const MOCK_PROPOSALS = [
-  {
-    id: "PROP-2026-001",
-    title: "Pengembangan Model Machine Learning untuk Deteksi Dini Kebakaran Hutan di Lahan Gambut Kalimantan Barat",
-    schemeName: "Penelitian Terapan (PT)",
-    submittedAt: "2026-06-15T08:30:00Z",
-    status: "DIREVIEW" as ProposalStatus,
-  },
-  {
-    id: "PROP-2026-002",
-    title: "Sistem Informasi Geografis Pemetaan Potensi Wisata Alam Berbasis Partisipasi Masyarakat",
-    schemeName: "Penelitian Dasar (PD)",
-    submittedAt: "2026-05-20T14:15:00Z",
-    status: "DITERIMA" as ProposalStatus,
-  },
-  {
-    id: "PROP-2025-104",
-    title: "Pemberdayaan Kelompok Tani Wanita Melalui Diversifikasi Produk Olahan Lidah Buaya",
-    schemeName: "Program Kemitraan Masyarakat (PKM)",
-    submittedAt: "2025-11-10T09:00:00Z",
-    status: "SELESAI" as ProposalStatus,
-  }
-];
+import { mockProposals } from "@/mock/data/proposals";
+import { Proposal } from "@/types";
 
 export default function MonitoringPage() {
   const { user } = useAuthStore();
 
-  const columns: ColumnDef<typeof MOCK_PROPOSALS[0]>[] = [
+  const columns: ColumnDef<Proposal>[] = [
     {
       accessorKey: "title",
       header: "Judul Usulan",
@@ -109,12 +86,14 @@ export default function MonitoringPage() {
         )}
       </div>
 
-      <DataTable 
-        columns={columns} 
-        data={MOCK_PROPOSALS} 
-        searchKey="title"
-        searchPlaceholder="Cari judul proposal..."
-      />
+      <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+        <DataTable 
+          columns={columns} 
+          data={mockProposals} 
+          searchKey="title"
+          searchPlaceholder="Cari berdasarkan judul usulan..."
+        />
+      </div>
     </div>
   );
 }

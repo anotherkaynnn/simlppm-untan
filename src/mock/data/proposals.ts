@@ -11,9 +11,10 @@ export const mockProposals: Proposal[] = [
     year: 2026,
     duration: 12,
     budget: 45000000,
-    status: "DIAJUKAN",
+    status: "DIREVIEW",
     submittedAt: "2026-05-10T08:30:00Z",
     updatedAt: "2026-05-10T08:30:00Z",
+    bidangIlmu: "Saintek",
     facultyId: "FT",
     facultyName: "Fakultas Teknik",
     submitter: {
@@ -22,7 +23,11 @@ export const mockProposals: Proposal[] = [
       name: "Dr. Budi Santoso, S.T., M.T.",
       facultyName: "Fakultas Teknik"
     },
-    members: [],
+    members: [
+      { id: "M1", nidn: "0011223344", name: "Dr. Budi Santoso, S.T., M.T.", role: "KETUA", faculty: "Fakultas Teknik", studyProgram: "Teknik Informatika" },
+      { id: "M2", nidn: "0099887766", name: "Andi Saputra, S.Kom., M.Kom.", role: "ANGGOTA_DOSEN", faculty: "Fakultas Teknik", studyProgram: "Teknik Sistem Komputer" },
+      { id: "M3", name: "Siti Nurhaliza", role: "ANGGOTA_MAHASISWA", faculty: "Fakultas Teknik", studyProgram: "Teknik Informatika" }
+    ],
     budgetDetails: [],
     files: [],
     outputs: [],
@@ -41,6 +46,7 @@ export const mockProposals: Proposal[] = [
     status: "DRAFT",
     submittedAt: "2026-05-12T10:00:00Z",
     updatedAt: "2026-05-12T10:00:00Z",
+    bidangIlmu: "Soshum",
     facultyId: "FT",
     facultyName: "Fakultas Teknik",
     submitter: {
@@ -49,7 +55,10 @@ export const mockProposals: Proposal[] = [
       name: "Dr. Budi Santoso, S.T., M.T.",
       facultyName: "Fakultas Teknik"
     },
-    members: [],
+    members: [
+      { id: "M1", nidn: "0011223344", name: "Dr. Budi Santoso, S.T., M.T.", role: "KETUA", faculty: "Fakultas Teknik", studyProgram: "Manajemen" },
+      { id: "M4", name: "Joko Supriyanto", role: "ANGGOTA_MAHASISWA", faculty: "Fakultas Ekonomi", studyProgram: "Akuntansi" }
+    ],
     budgetDetails: [],
     files: [],
     outputs: [],
@@ -68,6 +77,7 @@ export const mockProposals: Proposal[] = [
     status: "SELESAI",
     submittedAt: "2025-02-15T09:00:00Z",
     updatedAt: "2025-12-20T14:00:00Z",
+    bidangIlmu: "Saintek",
     facultyId: "FT",
     facultyName: "Fakultas Teknik",
     submitter: {
@@ -76,7 +86,9 @@ export const mockProposals: Proposal[] = [
       name: "Dr. Budi Santoso, S.T., M.T.",
       facultyName: "Fakultas Teknik"
     },
-    members: [],
+    members: [
+      { id: "M1", nidn: "0011223344", name: "Dr. Budi Santoso, S.T., M.T.", role: "KETUA", faculty: "Fakultas Teknik", studyProgram: "Teknik Informatika" }
+    ],
     budgetDetails: [],
     files: [],
     outputs: [],
@@ -92,9 +104,10 @@ export const mockProposals: Proposal[] = [
     year: 2026,
     duration: 12,
     budget: 50000000,
-    status: "DIAJUKAN",
+    status: "DIREVIEW",
     submittedAt: "2026-05-15T11:20:00Z",
     updatedAt: "2026-05-15T11:20:00Z",
+    bidangIlmu: "Saintek",
     facultyId: "FMIPA",
     facultyName: "Fakultas MIPA",
     submitter: {
@@ -103,7 +116,10 @@ export const mockProposals: Proposal[] = [
       name: "Prof. Dr. Andi Wijaya",
       facultyName: "Fakultas MIPA"
     },
-    members: [],
+    members: [
+      { id: "M5", nidn: "0022334455", name: "Prof. Dr. Andi Wijaya", role: "KETUA", faculty: "Fakultas MIPA", studyProgram: "Kimia" },
+      { id: "M6", name: "Desy Natalia", role: "ANGGOTA_MAHASISWA", faculty: "Fakultas MIPA", studyProgram: "Kimia" }
+    ],
     budgetDetails: [],
     files: [],
     outputs: [],

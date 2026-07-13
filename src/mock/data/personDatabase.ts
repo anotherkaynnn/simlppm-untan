@@ -5,6 +5,8 @@ export interface PersonRecord {
   faculty?: string;
   studyProgram?: string;
   type?: 'DOSEN' | 'MAHASISWA' | 'TENDIK';
+  isActive?: boolean;
+  activeProposalsCount?: number;
 }
 
 export const personDatabase: PersonRecord[] = [
@@ -29,14 +31,14 @@ export const personDatabase: PersonRecord[] = [
   { id: "p16", name: "dr. Ryan Setiawan, Sp.PD.", nidn_nim: "198109092009121001", faculty: "Fakultas Kedokteran", studyProgram: "Pendidikan Dokter", type: 'DOSEN' },
 
   // Mahasiswa Teknik
-  { id: "p3", name: "Ahmad Dahlan", nidn_nim: "D1041181001", faculty: "Fakultas Teknik", studyProgram: "Informatika", type: 'MAHASISWA' },
-  { id: "p17", name: "Kevin Sanjaya", nidn_nim: "D1011191054", faculty: "Fakultas Teknik", studyProgram: "Sipil", type: 'MAHASISWA' },
-  { id: "p18", name: "Maria Ulfa", nidn_nim: "D1021201021", faculty: "Fakultas Teknik", studyProgram: "Elektro", type: 'MAHASISWA' },
+  { id: "p3", name: "Ahmad Dahlan", nidn_nim: "D1041181001", faculty: "Fakultas Teknik", studyProgram: "Informatika", type: 'MAHASISWA', isActive: true, activeProposalsCount: 0 },
+  { id: "p17", name: "Kevin Sanjaya", nidn_nim: "D1011191054", faculty: "Fakultas Teknik", studyProgram: "Sipil", type: 'MAHASISWA', isActive: false, activeProposalsCount: 0 }, // Tidak aktif / Cuti
+  { id: "p18", name: "Maria Ulfa", nidn_nim: "D1021201021", faculty: "Fakultas Teknik", studyProgram: "Elektro", type: 'MAHASISWA', isActive: true, activeProposalsCount: 2 }, // Kuota penuh
 
   // Mahasiswa Fakultas Lain
-  { id: "p4", name: "Putri Rahmawati", nidn_nim: "E1031191022", faculty: "Fakultas Ekonomi dan Bisnis", studyProgram: "Manajemen", type: 'MAHASISWA' },
-  { id: "p8", name: "Rizky Ramadhan", nidn_nim: "F1051201045", faculty: "Fakultas Keguruan dan Ilmu Pendidikan", studyProgram: "Pendidikan Fisika", type: 'MAHASISWA' },
-  { id: "p9", name: "Anton Syahputra", nidn_nim: "H1051181021", faculty: "Fakultas Kehutanan", studyProgram: "Kehutanan", type: 'MAHASISWA' },
-  { id: "p19", name: "Sarah Wijayanto", nidn_nim: "G1011211012", faculty: "Fakultas Pertanian", studyProgram: "Agribisnis", type: 'MAHASISWA' },
-  { id: "p20", name: "Nanda Pratama", nidn_nim: "B1011201088", faculty: "Fakultas Hukum", studyProgram: "Ilmu Hukum", type: 'MAHASISWA' }
+  { id: "p4", name: "Putri Rahmawati", nidn_nim: "E1031191022", faculty: "Fakultas Ekonomi dan Bisnis", studyProgram: "Manajemen", type: 'MAHASISWA', isActive: true, activeProposalsCount: 1 },
+  { id: "p8", name: "Rizky Ramadhan", nidn_nim: "F1051201045", faculty: "Fakultas Keguruan dan Ilmu Pendidikan", studyProgram: "Pendidikan Fisika", type: 'MAHASISWA', isActive: true, activeProposalsCount: 0 },
+  { id: "p9", name: "Anton Syahputra", nidn_nim: "H1051181021", faculty: "Fakultas Kehutanan", studyProgram: "Kehutanan", type: 'MAHASISWA', isActive: false, activeProposalsCount: 0 }, // Lulus
+  { id: "p19", name: "Sarah Wijayanto", nidn_nim: "G1011211012", faculty: "Fakultas Pertanian", studyProgram: "Agribisnis", type: 'MAHASISWA', isActive: true, activeProposalsCount: 2 }, // Kuota penuh
+  { id: "p20", name: "Nanda Pratama", nidn_nim: "B1011201088", faculty: "Fakultas Hukum", studyProgram: "Ilmu Hukum", type: 'MAHASISWA', isActive: true, activeProposalsCount: 0 }
 ];

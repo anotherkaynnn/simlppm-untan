@@ -67,9 +67,20 @@ export function PersonSearch({ onSelect, excludeIds = [], placeholder = "Cari NI
                 className="px-4 py-3 hover:bg-neutral-50 cursor-pointer border-b border-neutral-100 last:border-0 transition-colors"
               >
                 <p className="font-semibold text-sm text-neutral-900 truncate">{person.name}</p>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-2 mt-1 flex-wrap">
                   <span className="text-xs font-medium text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">{person.nidn_nim}</span>
                   {person.faculty && <span className="text-[11px] text-neutral-400 truncate">{person.faculty}</span>}
+                  
+                  {person.isActive === false && (
+                    <span className="text-[10px] font-bold text-danger-600 bg-danger-50 border border-danger-200 px-1.5 py-0.5 rounded ml-auto">
+                      TIDAK AKTIF
+                    </span>
+                  )}
+                  {person.activeProposalsCount !== undefined && person.activeProposalsCount >= 2 && (
+                    <span className="text-[10px] font-bold text-warning-700 bg-warning-50 border border-warning-200 px-1.5 py-0.5 rounded ml-auto">
+                      KUOTA PENUH
+                    </span>
+                  )}
                 </div>
               </li>
             ))

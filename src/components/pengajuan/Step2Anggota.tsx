@@ -8,6 +8,8 @@ import { X, Info } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { FieldTooltip } from "@/components/ui/tooltip";
 import { PersonSearch } from "@/components/app/PersonSearch";
+import { toast } from "sonner";
+import { PersonRecord } from "@/mock/data/personDatabase";
 
 export function Step2Anggota({ onNext }: { onNext: () => void }) {
   const { setCurrentStep } = useProposalDraftStore();
@@ -22,6 +24,23 @@ export function Step2Anggota({ onNext }: { onNext: () => void }) {
   const removeDosen = (id: number) => setDosenList(dosenList.filter(d => d.id !== id));
   const removeMahasiswa = (id: number) => setMahasiswaList(mahasiswaList.filter(m => m.id !== id));
   const removeTendik = (id: number) => setTendikList(tendikList.filter(t => t.id !== id));
+
+  const handleStudentSelect = (p: PersonRecord) => {
+    if (p.isActive === false) {
+      toast.error("Validasi Gagal", {
+        description: `Mahasiswa ${p.name} berstatus tidak aktif/lulus. Tidak dapat dilibatkan.`,
+      });
+      return;
+    }
+    if (p.activeProposalsCount !== undefined && p.activeProposalsCount >= 2) {
+      toast.error("Kuota Penuh", {
+        description: `Mahasiswa ${p.name} telah mencapai batas keterlibatan maksimal (2 judul).`,
+      });
+      return;
+    }
+    
+    setMahasiswaList([...mahasiswaList, { id: Date.now(), id_person: p.id, nim: p.nidn_nim, nama: p.name, tugas: "" }]);
+  };
 
   return (
     <div className="space-y-6">
@@ -92,7 +111,7 @@ export function Step2Anggota({ onNext }: { onNext: () => void }) {
                 type="MAHASISWA"
                 placeholder="Cari Mahasiswa (NIM / Nama)..."
                 excludeIds={mahasiswaList.map(m => m.id_person)}
-                onSelect={(p) => setMahasiswaList([...mahasiswaList, { id: Date.now(), id_person: p.id, nim: p.nidn_nim, nama: p.name, tugas: "" }])}
+                onSelect={handleStudentSelect}
               />
               <div className="mt-2 flex items-start gap-2 p-3 bg-blue-50 border border-blue-100 rounded-lg text-xs text-blue-700">
                 <Info className="w-4 h-4 shrink-0 mt-0.5" />

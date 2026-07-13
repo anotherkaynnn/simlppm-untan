@@ -117,6 +117,20 @@ export default function ProfilPage() {
                 <ShieldCheck className="w-3.5 h-3.5" />
                 {roleLabel[user.role] || user.role}
               </span>
+              
+              {user.role === 'DOSEN' && (
+                <div className="w-full bg-neutral-50 rounded-md border border-neutral-200 p-2 text-center mt-1">
+                  <p className="text-[10px] text-neutral-500 font-semibold uppercase tracking-wider mb-1.5">Peran Tambahan</p>
+                  <div className="flex flex-col gap-1.5">
+                    <span className="inline-flex items-center justify-center gap-1 rounded bg-white border border-neutral-200 px-2 py-0.5 text-[11px] font-medium text-neutral-600 shadow-sm">
+                      Reviewer Internal
+                    </span>
+                    <span className="inline-flex items-center justify-center gap-1 rounded bg-white border border-neutral-200 px-2 py-0.5 text-[11px] font-medium text-neutral-600 shadow-sm">
+                      Ketua Grup Riset
+                    </span>
+                  </div>
+                </div>
+              )}
 
               <div className="w-full relative mt-2">
                 <Input type="file" accept=".jpg,.jpeg,.png" onChange={handleAvatarChange} className="hidden" id="avatar-upload" />

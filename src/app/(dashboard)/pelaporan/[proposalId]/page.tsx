@@ -142,6 +142,63 @@ export default function PelaporanPage() {
               </div>
             </div>
           )}
+          
+          {/* Conditional Form Produk */}
+          {outputType === "PRODUK" && (
+            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg space-y-4 animate-in slide-in-from-top-2">
+              <h3 className="font-semibold text-neutral-900">Form Produk / Purwarupa</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-sm font-medium text-neutral-700">Nama Produk / Purwarupa *</label>
+                  <Input placeholder="Tuliskan nama produk inovasi..." required />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-700">Tingkat Kesiapterapan Teknologi (TKT) *</label>
+                  <Select>
+                    <SelectTrigger><SelectValue placeholder="Pilih TKT" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="TKT1">TKT 1-3 (Riset Dasar)</SelectItem>
+                      <SelectItem value="TKT4">TKT 4-6 (Riset Terapan)</SelectItem>
+                      <SelectItem value="TKT7">TKT 7-9 (Pengembangan)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-700">Tautan Dokumentasi / Video</label>
+                  <Input placeholder="https://youtube.com/..." />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Conditional Form Lainnya */}
+          {outputType === "LAINNYA" && (
+            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg space-y-4 animate-in slide-in-from-top-2">
+              <h3 className="font-semibold text-neutral-900">Form Luaran Lainnya</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-700">Kategori Luaran *</label>
+                  <Select>
+                    <SelectTrigger><SelectValue placeholder="Pilih Kategori" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="BUKU">Buku / Modul Ajar</SelectItem>
+                      <SelectItem value="PEMBICARA">Pembicara / Keynote Speaker</SelectItem>
+                      <SelectItem value="MEDIA">Media Massa</SelectItem>
+                      <SelectItem value="OTHER">Lainnya...</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-neutral-700">Tautan Akses Luaran</label>
+                  <Input placeholder="https://..." />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="text-sm font-medium text-neutral-700">Judul / Deskripsi Singkat Luaran *</label>
+                  <Input placeholder="Tuliskan deskripsi luaran..." required />
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         <div className="pt-6 border-t border-neutral-200 flex justify-end space-x-4">

@@ -10,6 +10,7 @@ import { Step3Berkas } from "@/components/pengajuan/Step3Berkas";
 import { Step4Konfirmasi } from "@/components/pengajuan/Step4Konfirmasi";
 import { Check, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { useNotificationStore } from "@/store/notificationStore";
 
 const STEPS = [
   "Informasi Umum",
@@ -21,6 +22,7 @@ const STEPS = [
 export default function PengajuanBaruPage() {
   const router = useRouter();
   const { draft, setDraft, currentStep, setCurrentStep, resetDraft } = useProposalDraftStore();
+  const { addNotification } = useNotificationStore();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -106,6 +108,20 @@ export default function PengajuanBaruPage() {
     }
     
     toast.success("Proposal berhasil diajukan!");
+    
+    // Trigger real-time notifications
+    addNotification({
+      title: "Proposal Berhasil Diajukan",
+      body: `Proposal berjudul '${draft.title}' telah berhasil dikirim ke sistem dan sedang menunggu verifikasi.`,
+      roleTarget: "DOSEN"
+    });
+    
+    addNotification({
+      title: "Pengajuan Proposal Baru",
+      body: `Terdapat pengajuan proposal baru dengan judul '${draft.title}' yang memerlukan verifikasi administrasi.`,
+      roleTarget: "LPPM"
+    });
+
     setCurrentStep(1);
     router.push("/dashboard");
   };

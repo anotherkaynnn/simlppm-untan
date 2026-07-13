@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { mockNotifications } from "@/mock/data/notifications";
+import { useNotificationStore } from "@/store/notificationStore";
 import { toast } from "sonner";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
@@ -23,9 +23,8 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
 
   const [notifOpen, setNotifOpen] = useState(false);
   
-  const [notifications, setNotifications] = useState(() => {
-    return mockNotifications.filter(n => !n.roleTarget || n.roleTarget === user?.role);
-  });
+  const { notifications: allNotifications, markAsRead, markAllAsRead } = useNotificationStore();
+  const notifications = allNotifications.filter(n => !n.roleTarget || n.roleTarget === user?.role);
   
   const notifRef = useRef<HTMLDivElement>(null);
 
@@ -62,8 +61,8 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+  const handleMarkAllAsRead = () => {
+    markAllAsRead(user?.role);
   };
 
   return (
@@ -157,7 +156,7 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
                 <span className="font-semibold text-neutral-900">Notifikasi</span>
                 {unreadCount > 0 && (
                   <button 
-                    onClick={markAllAsRead}
+                    onClick={handleMarkAllAsRead}
                     className="text-xs text-primary-600 hover:text-primary-700 font-medium"
                   >
                     Tandai semua dibaca
@@ -170,9 +169,7 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
                     <li 
                       key={notif.id}
                       className={`p-4 border-b border-neutral-50 last:border-0 hover:bg-neutral-50 transition-colors cursor-pointer ${notif.isRead ? 'bg-white' : 'bg-untan-50/50'}`}
-                      onClick={() => {
-                        setNotifications(notifications.map(n => n.id === notif.id ? { ...n, isRead: true } : n));
-                      }}
+                      onClick={() => markAsRead(notif.id)}
                     >
                       <h4 className={`text-sm ${notif.isRead ? 'font-medium text-neutral-700' : 'font-semibold text-neutral-900'}`}>
                         {notif.title}

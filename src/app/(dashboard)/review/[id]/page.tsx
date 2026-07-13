@@ -8,11 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Download, FileText, CheckCircle2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { useNotificationStore } from "@/store/notificationStore";
 
 export default function ReviewDetailPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
+  const { addNotification } = useNotificationStore();
 
   const isReadOnly = id === "PROP-2026-068";
 
@@ -57,6 +59,14 @@ export default function ReviewDetailPage() {
     // Simulasi API call
     setTimeout(() => {
       toast.success("Penilaian berhasil disimpan!");
+      
+      // Trigger real-time notifications
+      addNotification({
+        title: "Penilaian Selesai",
+        body: `Proposal dengan ID ${id} telah dinilai oleh Reviewer dengan total skor ${totalScore.toFixed(1)}.`,
+        roleTarget: "DOSEN"
+      });
+
       setIsSubmitting(false);
       router.push("/review");
     }, 1000);

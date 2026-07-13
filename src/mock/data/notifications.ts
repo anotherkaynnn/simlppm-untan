@@ -4,6 +4,7 @@ export interface Notification {
   body: string;
   createdAt: string;
   isRead: boolean;
+  roleTarget?: string;
 }
 
 export const mockNotifications: Notification[] = [
@@ -34,5 +35,13 @@ export const mockNotifications: Notification[] = [
     body: "Dokumen kontrak untuk usulan Anda sudah dapat diunduh di sistem.",
     createdAt: "1 minggu yang lalu",
     isRead: true,
+  },
+  {
+    id: "n5",
+    title: "Penugasan Review Baru",
+    body: "Anda telah ditugaskan untuk mengevaluasi proposal 'Sintesis Material Maju...'. Harap selesaikan sebelum tenggat waktu.",
+    createdAt: "Baru saja",
+    isRead: false,
+    roleTarget: "REVIEWER"
   }
 ];

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { mockNotifications } from "@/mock/data/notifications";
+import { toast } from "sonner";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const { user, logout } = useAuthStore();
@@ -21,8 +22,27 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const router = useRouter();
 
   const [notifOpen, setNotifOpen] = useState(false);
-  const [notifications, setNotifications] = useState(mockNotifications);
+  
+  const [notifications, setNotifications] = useState(() => {
+    return mockNotifications.filter(n => !n.roleTarget || n.roleTarget === user?.role);
+  });
+  
   const notifRef = useRef<HTMLDivElement>(null);
+
+  // Trigger toast for new review assignments on mount
+  useEffect(() => {
+    const hasNewReviewAssignment = notifications.some(n => n.roleTarget === "REVIEWER" && !n.isRead);
+    if (user?.role === "REVIEWER" && hasNewReviewAssignment) {
+      // Small delay to ensure it shows up after the login toast
+      const timer = setTimeout(() => {
+        toast.info("Pemberitahuan Sistem", {
+          description: "Anda mendapat penugasan review proposal baru.",
+          duration: 6000,
+        });
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [user?.role, notifications]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

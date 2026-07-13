@@ -11,7 +11,8 @@ const mockAuditLogs = [
   { id: "LOG-1029", waktu: "2026-07-10 03:50:12", user: "Admin LPPM", aksi: "Membuat Skim Baru (SKM-005)", ip: "192.168.1.12" },
   { id: "LOG-1028", waktu: "2026-07-10 02:15:00", user: "Operator Hukum", aksi: "Verifikasi Proposal (PRP-001)", ip: "10.0.0.45" },
   { id: "LOG-1027", waktu: "2026-07-09 20:30:15", user: "Dr. Budi Santoso", aksi: "Login SSO", ip: "114.120.45.1" },
-  { id: "LOG-1026", waktu: "2026-07-09 19:45:00", user: "System", aksi: "Sinkronisasi Data Dosen", ip: "localhost" },
+  { id: "LOG-1026", waktu: "2026-07-09 19:45:00", user: "System (Cron)", aksi: "Mengirimkan 50 email pengingat H-7 penutupan proposal otomatis", ip: "localhost" },
+  { id: "LOG-1025", waktu: "2026-07-09 19:45:00", user: "System", aksi: "Sinkronisasi Data Dosen", ip: "localhost" },
 ];
 
 export default function AuditLogPage() {

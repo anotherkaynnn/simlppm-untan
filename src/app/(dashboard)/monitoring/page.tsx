@@ -6,12 +6,13 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ProposalStatus } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { FileText, Eye } from "lucide-react";
+import { FileText, Eye, Mail } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { mockProposals } from "@/mock/data/proposals";
 import { Proposal } from "@/types";
+import { toast } from "sonner";
 
 export default function MonitoringPage() {
   const { user } = useAuthStore();
@@ -83,6 +84,20 @@ export default function MonitoringPage() {
               Ajukan Proposal Baru
             </Button>
           </Link>
+        )}
+        {(user.role === 'KETUA_LPPM' || user.role === 'ADMIN_FK' || user.role === 'OPERATOR_FK') && (
+          <Button 
+            className="font-semibold bg-warning-600 hover:bg-warning-700 text-white"
+            onClick={() => {
+              toast.info("Memproses pengiriman email...");
+              setTimeout(() => {
+                toast.success("Berhasil! Email pengingat otomatis telah dikirim ke 12 Peneliti yang terlambat.");
+              }, 1500);
+            }}
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            Kirim Pengingat Keterlambatan (Email)
+          </Button>
         )}
       </div>
 

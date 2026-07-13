@@ -68,7 +68,7 @@ function DosenDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Total Usulan" value={myProposals.length.toString()} icon={<FileText className="w-5 h-5 text-primary-600" />} />
         <StatCard title="Sedang Direview" value={myProposals.filter(p => p.status === 'DIREVIEW' || p.status === 'DIAJUKAN').length.toString()} icon={<Clock className="w-5 h-5 text-warning" />} />
-        <StatCard title="Didanai/Selesai" value={myProposals.filter(p => p.status === 'DISETUJUI' || p.status === 'SELESAI').length.toString()} icon={<CheckCircle className="w-5 h-5 text-success" />} />
+        <StatCard title="Didanai/Selesai" value={myProposals.filter(p => p.status === 'DITERIMA' || p.status === 'SELESAI').length.toString()} icon={<CheckCircle className="w-5 h-5 text-success" />} />
         <StatCard title="Total Dana (Rp)" value="45 Jt" icon={<BarChart3 className="w-5 h-5 text-info" />} />
       </div>
 
@@ -86,7 +86,7 @@ function DosenDashboard() {
                     { name: "Diajukan", Total: myProposals.filter(p => p.status === 'DIAJUKAN').length },
                     { name: "Direview", Total: myProposals.filter(p => p.status === 'DIREVIEW').length },
                     { name: "Revisi", Total: myProposals.filter(p => p.status === 'REVISI').length },
-                    { name: "Didanai", Total: myProposals.filter(p => p.status === 'DISETUJUI').length },
+                    { name: "Didanai", Total: myProposals.filter(p => p.status === 'DITERIMA').length },
                     { name: "Selesai", Total: myProposals.filter(p => p.status === 'SELESAI').length }
                   ]}
                 >

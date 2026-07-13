@@ -1,16 +1,14 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Search, UserPlus } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { UserPlus, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-import { useDebounce } from "@/hooks/useDebounce";
+import { DataTable } from "@/components/shared/DataTable";
+import { ColumnDef } from "@tanstack/react-table";
 
 const initialMockProposals = [
   { id: "PRP-2026-009", title: "Pengembangan Sistem Cerdas Berbasis IoT", dosen: "Dr. Budi Santoso", skim: "Penelitian Terapan", reviewer: null, bidangIlmu: "Saintek" },
@@ -27,48 +25,121 @@ const REVIEWERS = [
 
 export default function PenetapanReviewerPage() {
   const [proposals, setProposals] = useState(initialMockProposals);
+  const [selectedProposals, setSelectedProposals] = useState<typeof initialMockProposals>([]);
+  
   const [selectedReviewer, setSelectedReviewer] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [activeProposalId, setActiveProposalId] = useState<string | null>(null);
+
   const [filterBidang, setFilterBidang] = useState("Semua");
-  const debouncedSearch = useDebounce(searchQuery, 300);
 
   const filteredProposals = proposals.filter((p) => {
-    const matchesSearch = p.title.toLowerCase().includes(debouncedSearch.toLowerCase()) || p.dosen.toLowerCase().includes(debouncedSearch.toLowerCase());
-    const matchesBidang = filterBidang === "Semua" || p.bidangIlmu === filterBidang;
-    return matchesSearch && matchesBidang;
+    return filterBidang === "Semua" || p.bidangIlmu === filterBidang;
   });
 
-  const handleAssign = (propId: string) => {
+  const handleAssignSingle = (propId: string) => {
+    setActiveProposalId(propId);
+    const prop = proposals.find(p => p.id === propId);
+    setSelectedReviewer(prop?.reviewer || "");
+    setIsAssignModalOpen(true);
+  };
+
+  const handleAssignBatch = () => {
+    setActiveProposalId(null);
+    setSelectedReviewer("");
+    setIsAssignModalOpen(true);
+  };
+
+  const submitAssignment = () => {
     if (!selectedReviewer) {
       toast.error("Pilih reviewer terlebih dahulu!");
       return;
     }
     
-    setProposals(prev => prev.map(p => p.id === propId ? { ...p, reviewer: selectedReviewer } : p));
-    toast.success(`Reviewer berhasil ditugaskan untuk ${propId}`);
-    setSelectedReviewer("");
+    if (activeProposalId) {
+      // Single assignment
+      setProposals(prev => prev.map(p => p.id === activeProposalId ? { ...p, reviewer: selectedReviewer } : p));
+      toast.success(`Reviewer berhasil ditugaskan untuk ${activeProposalId}`);
+    } else {
+      // Batch assignment
+      const selectedIds = selectedProposals.map(p => p.id);
+      setProposals(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, reviewer: selectedReviewer } : p));
+      toast.success(`${selectedIds.length} proposal berhasil ditugaskan ke ${selectedReviewer}`);
+      setSelectedProposals([]);
+    }
+    
+    setIsAssignModalOpen(false);
   };
 
+  const columns: ColumnDef<typeof initialMockProposals[0]>[] = [
+    {
+      accessorKey: "id",
+      header: "ID Usulan",
+      cell: ({ row }) => <span className="font-medium text-neutral-600">{row.original.id}</span>
+    },
+    {
+      accessorKey: "title",
+      header: "Judul Proposal",
+      cell: ({ row }) => (
+        <div className="font-semibold text-neutral-900 min-w-[280px] max-w-sm whitespace-normal line-clamp-2">
+          {row.original.title}
+        </div>
+      )
+    },
+    {
+      accessorKey: "dosen",
+      header: "Ketua Pengusul"
+    },
+    {
+      accessorKey: "reviewer",
+      header: "Reviewer",
+      cell: ({ row }) => (
+        row.original.reviewer ? (
+          <Badge variant="outline" className="text-primary-700 bg-primary-50 border-primary-200">
+            {row.original.reviewer} (Assigned)
+          </Badge>
+        ) : (
+          <Badge variant="outline" className="text-warning-700 bg-warning-50 border-warning-200">
+            Belum Ditugaskan
+          </Badge>
+        )
+      )
+    },
+    {
+      id: "actions",
+      header: () => <div className="text-right">Aksi</div>,
+      cell: ({ row }) => (
+        <div className="text-right">
+          <Button 
+            size="sm" 
+            variant={row.original.reviewer ? "outline" : "default"} 
+            onClick={() => handleAssignSingle(row.original.id)}
+          >
+            <UserPlus className="w-4 h-4 mr-2" />
+            {row.original.reviewer ? "Ubah Reviewer" : "Tugaskan Reviewer"}
+          </Button>
+        </div>
+      )
+    }
+  ];
+
   return (
-    <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-20">
+    <div className="max-w-[1600px] w-full mx-auto space-y-6 pb-24 relative">
       <div>
         <h1 className="text-2xl font-bold text-neutral-900">Penetapan Reviewer</h1>
         <p className="text-neutral-500">Tugaskan reviewer ahli untuk menilai proposal usulan P2M.</p>
       </div>
 
-      <div className="bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-neutral-200 bg-neutral-50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-            <Input 
-              placeholder="Cari judul proposal atau nama dosen..." 
-              className="pl-9 bg-white" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+      <DataTable 
+        columns={columns} 
+        data={filteredProposals} 
+        searchKey="title"
+        searchPlaceholder="Cari judul proposal..."
+        selectable={true}
+        onSelectionChange={setSelectedProposals}
+        toolbarElements={
           <Select value={filterBidang} onValueChange={(val) => setFilterBidang(val as string)}>
-            <SelectTrigger className="w-full md:w-[200px] bg-white">
+            <SelectTrigger className="w-[200px] bg-white h-10">
               <SelectValue placeholder="Bidang Ilmu" />
             </SelectTrigger>
             <SelectContent>
@@ -79,98 +150,71 @@ export default function PenetapanReviewerPage() {
               <SelectItem value="Bahasa">Bahasa</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+        }
+      />
 
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-neutral-50">
-              <TableRow>
-                <TableHead>ID Usulan</TableHead>
-                <TableHead>Judul Proposal</TableHead>
-                <TableHead>Ketua Pengusul</TableHead>
-                <TableHead>Reviewer</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredProposals.length > 0 ? (
-                filteredProposals.map((prop) => (
-                <TableRow key={prop.id}>
-                  <TableCell className="font-medium text-neutral-600">{prop.id}</TableCell>
-                  <TableCell className="font-semibold text-neutral-900 min-w-[280px] max-w-sm whitespace-normal line-clamp-2">{prop.title}</TableCell>
-                  <TableCell>{prop.dosen}</TableCell>
-                  <TableCell>
-                    {prop.reviewer ? (
-                      <Badge variant="outline" className="text-primary-700 bg-primary-50 border-primary-200">
-                        {prop.reviewer} (Assigned)
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-warning-700 bg-warning-50 border-warning-200">
-                        Belum Ditugaskan
-                      </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Dialog>
-                      <DialogTrigger render={
-                        <Button 
-                          size="sm" 
-                          variant={prop.reviewer ? "outline" : "default"} 
-                          onClick={() => setSelectedReviewer(prop.reviewer || "")}
-                        >
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          {prop.reviewer ? "Ubah Reviewer" : "Tugaskan Reviewer"}
-                        </Button>
-                      } />
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>Tugaskan Reviewer</DialogTitle>
-                          <DialogDescription>
-                            Pilih reviewer internal yang akan menilai proposal <b>{prop.id}</b>.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="py-4 space-y-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-neutral-700">Reviewer Internal</label>
-                            <Select value={selectedReviewer} onValueChange={(val) => setSelectedReviewer(val as string)}>
-                              <SelectTrigger>
-                                <SelectValue placeholder="-- Pilih Reviewer --" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {REVIEWERS.map((rev) => (
-                                  <SelectItem key={rev.id} value={rev.name}>
-                                    <div className="flex items-center justify-between w-full pr-4 gap-4">
-                                      <span>{rev.name}</span>
-                                      {rev.bidangIlmu === prop.bidangIlmu && (
-                                        <Badge variant="success" className="text-[10px] py-0">Sesuai Bidang</Badge>
-                                      )}
-                                    </div>
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                        <DialogFooter>
-                          <DialogClose render={<Button variant="outline">Batal</Button>} />
-                          <DialogClose render={<Button onClick={() => handleAssign(prop.id)}>Simpan Penugasan</Button>} />
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
-                </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-neutral-500">
-                    Tidak ada proposal yang ditemukan.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+      {/* Floating Action Bar (Batch Actions) */}
+      {selectedProposals.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-neutral-200 px-6 py-4 flex items-center space-x-6 z-50 animate-in slide-in-from-bottom-5">
+          <div className="flex items-center space-x-2 border-r border-neutral-200 pr-6">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-100 text-primary-700 text-xs font-bold">
+              {selectedProposals.length}
+            </span>
+            <span className="text-sm font-medium text-neutral-600">terpilih</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Button className="bg-primary-600 hover:bg-primary-700 text-white" onClick={handleAssignBatch}>
+              <UserPlus className="w-4 h-4 mr-2" />
+              Tugaskan Massal
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Assignment Modal (Single & Batch) */}
+      <Dialog open={isAssignModalOpen} onOpenChange={setIsAssignModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{activeProposalId ? "Tugaskan Reviewer" : "Penugasan Massal"}</DialogTitle>
+            <DialogDescription>
+              {activeProposalId 
+                ? `Pilih reviewer internal yang akan menilai proposal ${activeProposalId}.`
+                : `Pilih reviewer internal yang akan menilai ${selectedProposals.length} proposal sekaligus.`
+              }
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-neutral-700">Reviewer Internal</label>
+              <Select value={selectedReviewer} onValueChange={(val) => setSelectedReviewer(val as string)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="-- Pilih Reviewer --" />
+                </SelectTrigger>
+                <SelectContent>
+                  {REVIEWERS.map((rev) => (
+                    <SelectItem key={rev.id} value={rev.name}>
+                      <div className="flex items-center justify-between w-full pr-4 gap-4">
+                        <span>{rev.name}</span>
+                        {/* We only show "Sesuai Bidang" if it's single assignment since batch might have mixed bidang */}
+                        {activeProposalId && proposals.find(p => p.id === activeProposalId)?.bidangIlmu === rev.bidangIlmu && (
+                          <Badge variant="success" className="text-[10px] py-0">Sesuai Bidang</Badge>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAssignModalOpen(false)}>Batal</Button>
+            <Button onClick={submitAssignment}>
+              <CheckCircle2 className="w-4 h-4 mr-2" />
+              Simpan Penugasan
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

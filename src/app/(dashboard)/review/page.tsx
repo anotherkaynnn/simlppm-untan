@@ -130,7 +130,7 @@ export default function DaftarReviewPage() {
           </div>
           
           <div className="flex flex-col sm:flex-row w-full xl:w-auto gap-4">
-            <Select value={filterBidang} onValueChange={setFilterBidang}>
+            <Select value={filterBidang} onValueChange={(val) => setFilterBidang(val || "Semua")}>
               <SelectTrigger className="w-full sm:w-[220px] bg-white">
                 <SelectValue placeholder="Semua Bidang Ilmu" />
               </SelectTrigger>
@@ -146,7 +146,7 @@ export default function DaftarReviewPage() {
               </SelectContent>
             </Select>
 
-            <Select value={filterSkim} onValueChange={setFilterSkim}>
+            <Select value={filterSkim} onValueChange={(val) => setFilterSkim(val || "Semua")}>
               <SelectTrigger className="w-full sm:w-[220px] bg-white">
                 <SelectValue placeholder="Semua Kompetensi/Skim" />
               </SelectTrigger>

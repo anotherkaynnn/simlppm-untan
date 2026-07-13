@@ -44,7 +44,14 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
       ]
     },
     { title: "Monitoring", href: "/monitoring", icon: CheckCircle },
-    { title: "Pelaporan", href: "/pelaporan", icon: FileSpreadsheet },
+    { 
+      title: "Pelaporan", 
+      icon: FileSpreadsheet,
+      subItems: [
+        { title: "Laporan Kemajuan & Akhir", href: "/pelaporan" },
+        { title: "Luaran HKI Terdaftar", href: "/pelaporan/hki" }
+      ]
+    },
     { 
       title: "Panduan & File", 
       icon: FileText, 

@@ -71,6 +71,11 @@ export default function PelaporanIndexPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Pelaporan Akhir</h1>
           <p className="text-neutral-500">Unggah laporan akhir dan luaran untuk proposal yang didanai.</p>
         </div>
+        <Link href="/pelaporan/hki">
+          <Button variant="outline" className="bg-white">
+            Kelola Luaran HKI
+          </Button>
+        </Link>
       </div>
 
       <DataTable 

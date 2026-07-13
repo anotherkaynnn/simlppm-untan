@@ -57,11 +57,9 @@ function DosenDashboard() {
             <p className="text-sm text-warning-700">Penerimaan usulan proposal pendanaan tahun 2026 akan ditutup dalam <span className="font-bold">14 Hari</span>.</p>
           </div>
         </div>
-        <Link href="/pengajuan/baru" className="w-full md:w-auto shrink-0">
-          <Button className="w-full bg-warning-600 hover:bg-warning-700 text-white shadow-sm">
-            <Plus className="w-4 h-4 mr-2" />
-            Ajukan Proposal Baru
-          </Button>
+        <Link href="/pengajuan/baru" className="inline-flex items-center justify-center h-8 gap-1.5 px-2.5 rounded-lg text-sm font-medium transition-all active:scale-[0.98] w-full md:w-auto shrink-0 bg-warning-600 hover:bg-warning-700 text-white shadow-sm">
+          <Plus className="w-4 h-4 mr-2 shrink-0" />
+          Ajukan Proposal Baru
         </Link>
       </div>
 

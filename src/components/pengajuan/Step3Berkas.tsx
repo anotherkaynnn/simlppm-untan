@@ -16,7 +16,7 @@ interface Step3BerkasProps {
 }
 
 export function Step3Berkas({ selectedFile, onFileSelect, errors, onNext }: Step3BerkasProps) {
-  const { setCurrentStep } = useProposalDraftStore();
+  const { setCurrentStep, draft, setDraft } = useProposalDraftStore();
   
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -66,6 +66,7 @@ export function Step3Berkas({ selectedFile, onFileSelect, errors, onNext }: Step
   const removeFile = (e: React.MouseEvent) => {
     e.stopPropagation();
     onFileSelect(null);
+    setDraft({ fileName: '' });
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -98,7 +99,7 @@ export function Step3Berkas({ selectedFile, onFileSelect, errors, onNext }: Step
               accept=".pdf,application/pdf"
             />
             
-            {selectedFile ? (
+            {selectedFile || draft.fileName ? (
               <div className="flex flex-col items-center w-full">
                 <div className="flex items-center justify-between w-full max-w-md p-3 bg-white border border-neutral-200 rounded-lg shadow-sm">
                   <div className="flex items-center space-x-3 overflow-hidden">
@@ -106,11 +107,11 @@ export function Step3Berkas({ selectedFile, onFileSelect, errors, onNext }: Step
                       <FileText className="w-6 h-6" />
                     </div>
                     <div className="text-left overflow-hidden">
-                      <p className="text-sm font-semibold text-neutral-900 truncate" title={selectedFile.name}>
-                        {selectedFile.name}
+                      <p className="text-sm font-semibold text-neutral-900 truncate" title={selectedFile ? selectedFile.name : draft.fileName}>
+                        {selectedFile ? selectedFile.name : draft.fileName}
                       </p>
                       <p className="text-xs text-neutral-500">
-                        {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+                        {selectedFile ? `${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB` : "1.20 MB (Draf)"}
                       </p>
                     </div>
                   </div>

@@ -12,12 +12,14 @@ import { toast } from "sonner";
 import { PersonRecord } from "@/mock/data/personDatabase";
 
 export function Step2Anggota({ onNext }: { onNext: () => void }) {
-  const { setCurrentStep } = useProposalDraftStore();
+  const { draft, setDraft, setCurrentStep } = useProposalDraftStore();
   const { user } = useAuthStore();
   
-  const [dosenList, setDosenList] = useState<{ id: number; id_person: string; nidn: string; nama: string; tugas: string }[]>([]);
-  const [mahasiswaList, setMahasiswaList] = useState<{ id: number; id_person: string; nim: string; nama: string; tugas: string }[]>([]);
-  const [tendikList, setTendikList] = useState<{ id: number; nama: string; tugas: string }[]>([]);
+  const { dosenList, mahasiswaList, tendikList } = draft;
+
+  const setDosenList = (list: typeof dosenList) => setDraft({ dosenList: list });
+  const setMahasiswaList = (list: typeof mahasiswaList) => setDraft({ mahasiswaList: list });
+  const setTendikList = (list: typeof tendikList) => setDraft({ tendikList: list });
 
   const addTendik = () => setTendikList([...tendikList, { id: Date.now(), nama: "", tugas: "" }]);
 

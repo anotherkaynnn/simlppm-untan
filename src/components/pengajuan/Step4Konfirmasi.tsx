@@ -52,7 +52,7 @@ export function Step4Konfirmasi({ formData, selectedFile, onSubmit }: Step4Konfi
             <UploadCloud className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
             <div>
               <p className="font-semibold text-neutral-900 text-sm mb-1">Berkas Administrasi</p>
-              <p className="text-xs text-neutral-500">Proposal: {selectedFile ? selectedFile.name : '-'}</p>
+              <p className="text-xs text-neutral-500">Proposal: {selectedFile ? selectedFile.name : formData.fileName || '-'}</p>
             </div>
           </div>
         </div>

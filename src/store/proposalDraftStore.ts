@@ -6,49 +6,36 @@ import { ProposalType } from '@/types';
 export interface ProposalDraft {
   // Step 1: Info Umum
   title: string;
-  type: ProposalType | null;
+  type: string;
   schemeId: string;
   fieldOfStudy: string;
+  managementUnit: string;
   year: number;
-  duration: number; // bulan
+  budget: number;
+  fundingSource: string;
 
   // Step 2: Anggota Tim
-  members: Array<{
-    nidn: string;
-    name: string;
-    role: 'KETUA' | 'ANGGOTA_DOSEN' | 'ANGGOTA_MAHASISWA' | 'ANGGOTA_LAIN';
-    faculty?: string;
-  }>;
+  dosenList: Array<{ id: number; id_person: string; nidn: string; nama: string; tugas: string }>;
+  mahasiswaList: Array<{ id: number; id_person: string; nim: string; nama: string; tugas: string }>;
+  tendikList: Array<{ id: number; nama: string; tugas: string }>;
 
-  // Step 3: Rencana Anggaran
-  budgetDetails: Array<{
-    id: string;
-    description: string;
-    amount: number;
-  }>;
-
-  // Step 4: Berkas
-  files: Array<{
-    id: string;
-    category: string;
-    fileName: string;
-  }>;
-
-  // Step 5: Luaran
-  expectedOutputs: Array<string>;
+  // Step 3: Berkas
+  fileName: string;
 }
 
 const initialDraftState: ProposalDraft = {
   title: '',
-  type: null,
+  type: '',
   schemeId: '',
   fieldOfStudy: '',
+  managementUnit: 'Fakultas Hukum',
   year: new Date().getFullYear(),
-  duration: 6,
-  members: [],
-  budgetDetails: [],
-  files: [],
-  expectedOutputs: [],
+  budget: 0,
+  fundingSource: '',
+  dosenList: [],
+  mahasiswaList: [],
+  tendikList: [],
+  fileName: '',
 };
 
 interface ProposalDraftStore {

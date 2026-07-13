@@ -20,71 +20,26 @@ const STEPS = [
 
 export default function PengajuanBaruPage() {
   const router = useRouter();
-  const { currentStep, setCurrentStep } = useProposalDraftStore();
-
-  const [formData, setFormData] = useState({
-    title: "",
-    type: "",
-    fundingSource: "",
-    schemeId: "",
-    fieldOfStudy: "",
-    managementUnit: "Fakultas Hukum",
-    year: new Date().getFullYear(),
-    budget: 0,
-  });
+  const { draft, setDraft, currentStep, setCurrentStep, resetDraft } = useProposalDraftStore();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDraftSaved, setIsDraftSaved] = useState(false);
 
-  // Load draft or clone data on mount
+  // We show "Draf tersimpan" briefly after a change to draft
   useEffect(() => {
-    const cloneDataStr = localStorage.getItem("simlppm-clone");
-    if (cloneDataStr) {
-      try {
-        const proposal = JSON.parse(cloneDataStr);
-        setFormData(prev => ({
-          ...prev,
-          title: proposal.title || prev.title,
-          type: proposal.type || prev.type,
-          schemeId: proposal.schemeId || prev.schemeId,
-          fieldOfStudy: proposal.fieldOfStudy || prev.fieldOfStudy,
-          budget: proposal.budget || prev.budget,
-        }));
-      } catch (e) {
-        console.error("Failed to parse cloned proposal data");
-      }
-      localStorage.removeItem("simlppm-clone");
-    } else {
-      // Load draft only if not cloning
-      const draftDataStr = localStorage.getItem("simlppm-draft");
-      if (draftDataStr) {
-        try {
-          const draft = JSON.parse(draftDataStr);
-          setFormData(draft);
-        } catch (e) {
-          console.error("Failed to parse draft data");
-        }
-      }
-    }
-  }, []);
-
-  // Debounced Auto-save effect
-  useEffect(() => {
-    setIsDraftSaved(false);
+    setIsDraftSaved(true);
     const timeoutId = setTimeout(() => {
-      localStorage.setItem("simlppm-draft", JSON.stringify(formData));
-      setIsDraftSaved(true);
-    }, 2000);
-
+      setIsDraftSaved(false);
+    }, 3000);
     return () => clearTimeout(timeoutId);
-  }, [formData]);
+  }, [draft]);
 
   // Constrain visual step to max 4 just in case store has higher step from old version
   const displayStep = currentStep > 4 ? 4 : currentStep;
 
   const handleChange = (field: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setDraft({ [field]: value });
     if (errors[field]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -99,32 +54,32 @@ export default function PengajuanBaruPage() {
     let isValid = true;
 
     if (step === 1) {
-      if (!formData.title || formData.title.length < 10) {
+      if (!draft.title || draft.title.length < 10) {
         newErrors.title = "Judul proposal minimal 10 karakter";
         isValid = false;
       }
-      if (!formData.type) {
+      if (!draft.type) {
         newErrors.type = "Pilih jenis usulan";
         isValid = false;
       }
-      if (!formData.fundingSource) {
+      if (!draft.fundingSource) {
         newErrors.fundingSource = "Pilih sumber dana";
         isValid = false;
       }
-      if (!formData.schemeId) {
+      if (!draft.schemeId) {
         newErrors.schemeId = "Pilih skim usulan";
         isValid = false;
       }
-      if (!formData.budget || formData.budget <= 0) {
+      if (!draft.budget || draft.budget <= 0) {
         newErrors.budget = "Total dana harus lebih dari 0";
         isValid = false;
       }
-      if (!formData.fieldOfStudy) {
+      if (!draft.fieldOfStudy) {
         newErrors.fieldOfStudy = "Bidang ilmu wajib diisi";
         isValid = false;
       }
     } else if (step === 3) {
-      if (!selectedFile) {
+      if (!selectedFile && !draft.fileName) {
         newErrors.file = "File proposal wajib diunggah";
         isValid = false;
       }
@@ -141,11 +96,11 @@ export default function PengajuanBaruPage() {
   };
 
   const handleSubmit = () => {
-    if (!formData.title || formData.title.length < 10) {
+    if (!draft.title || draft.title.length < 10) {
       toast.error("Informasi umum belum lengkap!");
       return;
     }
-    if (!selectedFile) {
+    if (!selectedFile && !draft.fileName) {
       toast.error("File proposal wajib diunggah!");
       return;
     }
@@ -220,7 +175,7 @@ export default function PengajuanBaruPage() {
         <div className="min-h-[400px]">
           {displayStep === 1 && (
             <Step1InfoUmum 
-              formData={formData} 
+              formData={draft} 
               errors={errors} 
               onChange={handleChange} 
               onNext={handleNext} 
@@ -232,6 +187,9 @@ export default function PengajuanBaruPage() {
               selectedFile={selectedFile}
               onFileSelect={(file: File | null) => {
                 setSelectedFile(file);
+                if (file) {
+                  setDraft({ fileName: file.name });
+                }
                 if (file && errors.file) {
                   setErrors((prev) => {
                     const newErrors = { ...prev };
@@ -244,7 +202,7 @@ export default function PengajuanBaruPage() {
               onNext={handleNext}
             />
           )}
-          {displayStep === 4 && <Step4Konfirmasi formData={formData} selectedFile={selectedFile} onSubmit={handleSubmit} />}
+          {displayStep === 4 && <Step4Konfirmasi formData={draft} selectedFile={selectedFile} onSubmit={handleSubmit} />}
         </div>
       </div>
     </div>

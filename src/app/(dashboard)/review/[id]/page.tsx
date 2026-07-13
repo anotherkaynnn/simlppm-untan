@@ -16,14 +16,35 @@ export default function ReviewDetailPage() {
 
   const isReadOnly = id === "PROP-2026-068";
 
-  const [score, setScore] = useState<number | "">(isReadOnly ? 85 : "");
+  const [scores, setScores] = useState<Record<string, number | "">>({
+    pendahuluan: isReadOnly ? 85 : "",
+    tinjauan: isReadOnly ? 80 : "",
+    metodologi: isReadOnly ? 90 : "",
+    rab: isReadOnly ? 85 : "",
+    luaran: isReadOnly ? 80 : ""
+  });
+  
   const [comment, setComment] = useState(isReadOnly ? "Proposal ini disusun dengan sangat baik. Metodologi yang diajukan jelas, relevan dengan permasalahan, dan sangat aplikatif. Anggaran juga sudah sangat rasional dan wajar. Sangat direkomendasikan untuk didanai tanpa revisi mayor." : "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const calculateTotalScore = () => {
+    const p = Number(scores.pendahuluan) || 0;
+    const t = Number(scores.tinjauan) || 0;
+    const m = Number(scores.metodologi) || 0;
+    const r = Number(scores.rab) || 0;
+    const l = Number(scores.luaran) || 0;
+    
+    return (p * 0.20) + (t * 0.15) + (m * 0.35) + (r * 0.10) + (l * 0.20);
+  };
+
+  const totalScore = calculateTotalScore();
+
+  const isAnyScoreInvalid = Object.values(scores).some(val => val === "" || Number(val) < 0 || Number(val) > 100);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!score || score < 0 || score > 100) {
-      toast.error("Nilai harus berada di antara 0 hingga 100.");
+    if (isAnyScoreInvalid) {
+      toast.error("Semua kriteria nilai harus diisi di antara 0 hingga 100.");
       return;
     }
     if (comment.length < 20) {
@@ -122,28 +143,38 @@ export default function ReviewDetailPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-neutral-900 flex items-center justify-between">
-                Skor Akhir (0-100) <span className="text-danger">*</span>
-              </label>
-              <div className="relative">
-                <Input 
-                  type="number" 
-                  min="0" 
-                  max="100" 
-                  placeholder="Contoh: 85" 
-                  value={score}
-                  onChange={(e) => setScore(e.target.value === "" ? "" : Number(e.target.value))}
-                  className="pl-4 text-lg font-semibold h-12"
-                  required
-                  disabled={isReadOnly}
-                />
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-neutral-900 border-b pb-2">Rubrik Penilaian Terstruktur</h3>
+              
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-neutral-700">Pendahuluan & Perumusan Masalah <span className="text-primary-600">(20%)</span></label>
+                  <Input type="number" min="0" max="100" placeholder="0-100" className="w-full sm:w-24 h-9 text-sm" value={scores.pendahuluan} onChange={(e) => setScores({...scores, pendahuluan: e.target.value === "" ? "" : Number(e.target.value)})} required disabled={isReadOnly} />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-neutral-700">Tinjauan Pustaka <span className="text-primary-600">(15%)</span></label>
+                  <Input type="number" min="0" max="100" placeholder="0-100" className="w-full sm:w-24 h-9 text-sm" value={scores.tinjauan} onChange={(e) => setScores({...scores, tinjauan: e.target.value === "" ? "" : Number(e.target.value)})} required disabled={isReadOnly} />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-neutral-700">Metodologi Penelitian <span className="text-primary-600">(35%)</span></label>
+                  <Input type="number" min="0" max="100" placeholder="0-100" className="w-full sm:w-24 h-9 text-sm" value={scores.metodologi} onChange={(e) => setScores({...scores, metodologi: e.target.value === "" ? "" : Number(e.target.value)})} required disabled={isReadOnly} />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-neutral-700">Kewajaran RAB <span className="text-primary-600">(10%)</span></label>
+                  <Input type="number" min="0" max="100" placeholder="0-100" className="w-full sm:w-24 h-9 text-sm" value={scores.rab} onChange={(e) => setScores({...scores, rab: e.target.value === "" ? "" : Number(e.target.value)})} required disabled={isReadOnly} />
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-semibold text-neutral-700">Target Luaran <span className="text-primary-600">(20%)</span></label>
+                  <Input type="number" min="0" max="100" placeholder="0-100" className="w-full sm:w-24 h-9 text-sm" value={scores.luaran} onChange={(e) => setScores({...scores, luaran: e.target.value === "" ? "" : Number(e.target.value)})} required disabled={isReadOnly} />
+                </div>
               </div>
-              {score !== "" && (score < 0 || score > 100) && (
-                <p className="text-xs text-danger flex items-center mt-1">
-                  <AlertCircle className="w-3 h-3 mr-1" /> Nilai tidak valid.
-                </p>
-              )}
+
+              <div className="mt-4 p-4 bg-neutral-100 rounded-lg flex items-center justify-between border border-neutral-200">
+                <span className="font-bold text-neutral-900">Total Skor Akhir</span>
+                <span className={`text-2xl font-black ${totalScore >= 70 ? 'text-success-600' : 'text-danger-600'}`}>
+                  {totalScore.toFixed(1)}
+                </span>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -176,7 +207,7 @@ export default function ReviewDetailPage() {
                 <Button 
                   type="submit" 
                   className="w-full bg-primary-600 hover:bg-primary-700 h-12 text-base shadow-sm"
-                  disabled={isSubmitting || (score !== "" && (score < 0 || score > 100))}
+                  disabled={isSubmitting || isAnyScoreInvalid}
                 >
                   {isSubmitting ? "Menyimpan..." : (
                     <>

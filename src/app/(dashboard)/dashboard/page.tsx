@@ -66,10 +66,40 @@ function DosenDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Usulan" value="5" icon={<FileText className="w-5 h-5 text-primary-600" />} />
-        <StatCard title="Sedang Direview" value="1" icon={<Clock className="w-5 h-5 text-warning" />} />
-        <StatCard title="Didanai" value="3" icon={<CheckCircle className="w-5 h-5 text-success" />} />
+        <StatCard title="Total Usulan" value={myProposals.length.toString()} icon={<FileText className="w-5 h-5 text-primary-600" />} />
+        <StatCard title="Sedang Direview" value={myProposals.filter(p => p.status === 'DIREVIEW' || p.status === 'DIAJUKAN').length.toString()} icon={<Clock className="w-5 h-5 text-warning" />} />
+        <StatCard title="Didanai/Selesai" value={myProposals.filter(p => p.status === 'DISETUJUI' || p.status === 'SELESAI').length.toString()} icon={<CheckCircle className="w-5 h-5 text-success" />} />
         <StatCard title="Total Dana (Rp)" value="45 Jt" icon={<BarChart3 className="w-5 h-5 text-info" />} />
+      </div>
+
+      <div className="mt-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Ringkasan Status Seluruh Proposal</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64 w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart 
+                  data={[
+                    { name: "Draft", Total: myProposals.filter(p => p.status === 'DRAFT').length },
+                    { name: "Diajukan", Total: myProposals.filter(p => p.status === 'DIAJUKAN').length },
+                    { name: "Direview", Total: myProposals.filter(p => p.status === 'DIREVIEW').length },
+                    { name: "Revisi", Total: myProposals.filter(p => p.status === 'REVISI').length },
+                    { name: "Didanai", Total: myProposals.filter(p => p.status === 'DISETUJUI').length },
+                    { name: "Selesai", Total: myProposals.filter(p => p.status === 'SELESAI').length }
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748b' }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 12, fill: '#64748b' }} axisLine={false} tickLine={false} allowDecimals={false} />
+                  <RechartsTooltip cursor={{fill: '#f8fafc'}} contentStyle={{borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
+                  <Bar dataKey="Total" fill="#2563eb" radius={[4, 4, 0, 0]} maxBarSize={60} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">

@@ -8,6 +8,8 @@ interface NotificationState {
   markAsRead: (id: string) => void;
   markAllAsRead: (role?: string) => void;
   clearAll: () => void;
+  remindersTriggered: string[];
+  markReminderAsTriggered: (reminderId: string) => void;
 }
 
 export const useNotificationStore = create<NotificationState>()(
@@ -43,6 +45,12 @@ export const useNotificationStore = create<NotificationState>()(
       },
       clearAll: () => {
         set({ notifications: [] });
+      },
+      remindersTriggered: [],
+      markReminderAsTriggered: (reminderId) => {
+        set({
+          remindersTriggered: [...get().remindersTriggered, reminderId]
+        });
       },
     }),
     {

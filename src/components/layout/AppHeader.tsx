@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useNotificationStore } from "@/store/notificationStore";
+import { useDeadlineChecker } from "@/hooks/useDeadlineChecker";
 import { toast } from "sonner";
 
 export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
@@ -22,6 +23,9 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const router = useRouter();
 
   const [notifOpen, setNotifOpen] = useState(false);
+  
+  // Start automated deadline checker
+  useDeadlineChecker();
   
   const { notifications: allNotifications, markAsRead, markAllAsRead } = useNotificationStore();
   const notifications = allNotifications.filter(n => !n.roleTarget || n.roleTarget === user?.role);

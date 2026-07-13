@@ -7,7 +7,7 @@ export function AgendaList({ agendas }: { agendas: AgendaItem[] }) {
   if (!agendas || agendas.length === 0) {
     return (
       <div className="bg-neutral-50 rounded-xl p-8 text-center border border-dashed border-neutral-200">
-        <Calendar className="w-8 h-8 text-neutral-400 mx-auto mb-3" />
+        <Calendar className="w-8 h-8 text-neutral-500 mx-auto mb-3" />
         <p className="text-neutral-500">Belum ada agenda mendatang.</p>
       </div>
     );
@@ -37,13 +37,13 @@ export function AgendaList({ agendas }: { agendas: AgendaItem[] }) {
               <div className="space-y-1.5 mt-3">
                 {item.time && (
                   <div className="flex items-center text-xs text-neutral-500">
-                    <Clock className="w-3.5 h-3.5 mr-2 text-neutral-400 shrink-0" />
+                    <Clock className="w-3.5 h-3.5 mr-2 text-neutral-500 shrink-0" />
                     <span>{item.time}</span>
                   </div>
                 )}
                 {item.location && (
                   <div className="flex items-start text-xs text-neutral-500">
-                    <MapPin className="w-3.5 h-3.5 mr-2 text-neutral-400 shrink-0 mt-0.5" />
+                    <MapPin className="w-3.5 h-3.5 mr-2 text-neutral-500 shrink-0 mt-0.5" />
                     <span className="line-clamp-1">{item.location}</span>
                   </div>
                 )}

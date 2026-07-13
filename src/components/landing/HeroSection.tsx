@@ -36,7 +36,7 @@ export function HeroSection({ data }: { data: LandingPageContent['hero'] }) {
             </Button>
           </Link>
         </div>
-        <p className="mt-6 text-sm font-medium text-neutral-400">{data.ctaSubtext}</p>
+        <p className="mt-6 text-sm font-medium text-neutral-500">{data.ctaSubtext}</p>
       </div>
     </div>
   );

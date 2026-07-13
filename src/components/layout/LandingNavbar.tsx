@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 export function LandingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,13 +56,37 @@ export function LandingNavbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="/login">
+          <Link href="/login" className="hidden md:block">
             <Button className="bg-primary-600 hover:bg-primary-700 text-white rounded-full px-6 font-bold shadow-lg shadow-primary-600/25 transition-all hover:scale-105 active:scale-95">
               Masuk / Login
             </Button>
           </Link>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </Button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-neutral-100 shadow-lg py-4 px-4 flex flex-col gap-4 rounded-b-2xl mt-2 mx-4">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-semibold text-neutral-900 hover:text-primary-600">Beranda</Link>
+          <Link href="#modul" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-semibold text-neutral-600 hover:text-primary-600">Modul</Link>
+          <Link href="#statistik" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-semibold text-neutral-600 hover:text-primary-600">Statistik</Link>
+          <Link href="#informasi" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-semibold text-neutral-600 hover:text-primary-600">Informasi</Link>
+          <Link href="#panduan" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-semibold text-neutral-600 hover:text-primary-600">Panduan</Link>
+          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="mt-2">
+            <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold">
+              Masuk / Login
+            </Button>
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

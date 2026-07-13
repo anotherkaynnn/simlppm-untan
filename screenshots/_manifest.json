@@ -1,0 +1,182 @@
+[
+  {
+    "route": "/",
+    "role": "public",
+    "file": "screenshots/01_landing.png",
+    "denied": false
+  },
+  {
+    "route": "/login",
+    "role": "public",
+    "file": "screenshots/02_login.png",
+    "denied": false
+  },
+  {
+    "route": "/dashboard",
+    "role": "DOSEN",
+    "file": "screenshots/03_dosen_dashboard.png",
+    "denied": false
+  },
+  {
+    "route": "/pengajuan/baru",
+    "role": "DOSEN",
+    "file": "screenshots/04_pengajuan_baru.png",
+    "denied": false
+  },
+  {
+    "route": "/pengajuan/draft",
+    "role": "DOSEN",
+    "file": "screenshots/05_pengajuan_draft.png",
+    "denied": false
+  },
+  {
+    "route": "/pengajuan/riwayat",
+    "role": "DOSEN",
+    "file": "screenshots/06_pengajuan_riwayat.png",
+    "denied": false
+  },
+  {
+    "route": "/monitoring",
+    "role": "DOSEN",
+    "file": "screenshots/07_monitoring.png",
+    "denied": false
+  },
+  {
+    "route": "/monitoring/aktif",
+    "role": "DOSEN",
+    "file": "screenshots/08_monitoring_aktif.png",
+    "denied": false
+  },
+  {
+    "route": "/monitoring/PRP-2026-001",
+    "role": "DOSEN",
+    "file": "screenshots/09_monitoring_detail.png",
+    "denied": false
+  },
+  {
+    "route": "/pelaporan",
+    "role": "DOSEN",
+    "file": "screenshots/10_pelaporan.png",
+    "denied": false
+  },
+  {
+    "route": "/pelaporan/hki",
+    "role": "DOSEN",
+    "file": "screenshots/11_pelaporan_hki.png",
+    "denied": false
+  },
+  {
+    "route": "/pelaporan/PRP-2026-001",
+    "role": "DOSEN",
+    "file": "screenshots/12_pelaporan_detail.png",
+    "denied": false
+  },
+  {
+    "route": "/panduan",
+    "role": "DOSEN",
+    "file": "screenshots/13_panduan.png",
+    "denied": false
+  },
+  {
+    "route": "/panduan/template",
+    "role": "DOSEN",
+    "file": "screenshots/14_panduan_template.png",
+    "denied": false
+  },
+  {
+    "route": "/profil",
+    "role": "DOSEN",
+    "file": "screenshots/15_profil.png",
+    "denied": false
+  },
+  {
+    "route": "/pengaturan",
+    "role": "DOSEN",
+    "file": "screenshots/16_pengaturan.png",
+    "denied": false
+  },
+  {
+    "route": "/review",
+    "role": "REVIEWER",
+    "file": "screenshots/17_review.png",
+    "denied": false
+  },
+  {
+    "route": "/review/PRP-2026-001",
+    "role": "REVIEWER",
+    "file": "screenshots/18_review_detail.png",
+    "denied": false
+  },
+  {
+    "route": "/verifikasi",
+    "role": "OPERATOR_FK",
+    "file": "screenshots/19_verifikasi.png",
+    "denied": false
+  },
+  {
+    "route": "/manajemen/data",
+    "role": "OPERATOR_FK",
+    "file": "screenshots/20_manajemen_data.png",
+    "denied": false
+  },
+  {
+    "route": "/statistik",
+    "role": "ADMIN_FK",
+    "file": "screenshots/21_statistik.png",
+    "denied": false
+  },
+  {
+    "route": "/manajemen/dosen",
+    "role": "ADMIN_FK",
+    "file": "screenshots/22_manajemen_dosen.png",
+    "denied": false
+  },
+  {
+    "route": "/manajemen/reviewer",
+    "role": "ADMIN_FK",
+    "file": "screenshots/23_manajemen_reviewer.png",
+    "denied": false
+  },
+  {
+    "route": "/manajemen/berkas",
+    "role": "ADMIN_FK",
+    "file": "screenshots/24_manajemen_berkas.png",
+    "denied": false
+  },
+  {
+    "route": "/manajemen/ekspor",
+    "role": "ADMIN_FK",
+    "file": "screenshots/25_manajemen_ekspor.png",
+    "denied": false
+  },
+  {
+    "route": "/konfigurasi/prodi",
+    "role": "ADMIN_SISTEM",
+    "file": "screenshots/26_konfigurasi_prodi.png",
+    "denied": false
+  },
+  {
+    "route": "/konfigurasi/skim",
+    "role": "ADMIN_SISTEM",
+    "file": "screenshots/27_konfigurasi_skim.png",
+    "denied": false
+  },
+  {
+    "route": "/konfigurasi/users",
+    "role": "ADMIN_SISTEM",
+    "file": "screenshots/28_konfigurasi_users.png",
+    "denied": false
+  },
+  {
+    "route": "/audit-log",
+    "role": "ADMIN_SISTEM",
+    "file": "screenshots/29_audit_log.png",
+    "denied": false
+  },
+  {
+    "route": "/audit",
+    "role": "ADMIN_SISTEM",
+    "file": "screenshots/30_audit.png",
+    "denied": false
+  }
+]

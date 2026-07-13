@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export function LandingFooter() {
   return (
-    <footer className="bg-[#0b0f19] text-neutral-400 py-16 border-t border-white/5">
+    <footer className="bg-[#0b0f19] text-neutral-500 py-16 border-t border-white/5">
       <div className="max-w-[1600px] w-full mx-auto px-4 lg:px-8 xl:px-12 2xl:px-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
@@ -14,7 +14,7 @@ export function LandingFooter() {
               </div>
               <h2 className="text-2xl font-bold text-white tracking-tight">SIMLPPM</h2>
             </div>
-            <p className="text-sm text-neutral-400 max-w-sm leading-relaxed mb-6">
+            <p className="text-sm text-neutral-500 max-w-sm leading-relaxed mb-6">
               Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian kepada Masyarakat &mdash; Universitas Tanjungpura.
             </p>
             <div className="flex items-center gap-4">
@@ -31,10 +31,10 @@ export function LandingFooter() {
           <div>
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Tautan Cepat</h3>
             <ul className="space-y-3 text-sm font-medium">
-              <li><Link href="/" className="text-neutral-400 hover:text-accent-400 transition-colors">Beranda</Link></li>
-              <li><Link href="#modul" className="text-neutral-400 hover:text-accent-400 transition-colors">Modul Sistem</Link></li>
-              <li><Link href="#statistik" className="text-neutral-400 hover:text-accent-400 transition-colors">Statistik</Link></li>
-              <li><Link href="#panduan" className="text-neutral-400 hover:text-accent-400 transition-colors">Panduan & Bantuan</Link></li>
+              <li><Link href="/" className="text-neutral-500 hover:text-accent-400 transition-colors">Beranda</Link></li>
+              <li><Link href="#modul" className="text-neutral-500 hover:text-accent-400 transition-colors">Modul Sistem</Link></li>
+              <li><Link href="#statistik" className="text-neutral-500 hover:text-accent-400 transition-colors">Statistik</Link></li>
+              <li><Link href="#panduan" className="text-neutral-500 hover:text-accent-400 transition-colors">Panduan & Bantuan</Link></li>
             </ul>
           </div>
           
@@ -42,17 +42,17 @@ export function LandingFooter() {
             <h3 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Tautan Eksternal</h3>
             <ul className="space-y-3 text-sm font-medium">
               <li>
-                <a href="https://untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-accent-400 transition-colors">
+                <a href="https://untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-accent-400 transition-colors">
                   Universitas Tanjungpura
                 </a>
               </li>
               <li>
-                <a href="https://lppm.untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-accent-400 transition-colors">
+                <a href="https://lppm.untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-accent-400 transition-colors">
                   Website LPPM
                 </a>
               </li>
               <li>
-                <a href="https://satu.untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-accent-400 transition-colors">
+                <a href="https://satu.untan.ac.id" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-accent-400 transition-colors">
                   SATU UNTAN
                 </a>
               </li>

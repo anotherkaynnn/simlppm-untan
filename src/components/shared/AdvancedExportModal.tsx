@@ -16,7 +16,7 @@ interface ExportColumn {
 }
 
 interface AdvancedExportModalProps {
-  data: any[];
+  data: Record<string, unknown>[];
   filename: string;
   columns: ExportColumn[];
   triggerLabel?: string;
@@ -63,7 +63,7 @@ export function AdvancedExportModal({
 
     try {
       const formattedData = data.map(item => {
-        const newItem: any = {};
+        const newItem: Record<string, unknown> = {};
         columns.forEach(col => {
           if (selectedColumns.includes(col.key)) {
             // We use the label as the header

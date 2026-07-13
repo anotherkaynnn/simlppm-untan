@@ -16,7 +16,8 @@ interface ExportColumn {
 }
 
 interface AdvancedExportModalProps {
-  data: Record<string, unknown>[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
   filename: string;
   columns: ExportColumn[];
   triggerLabel?: string;
@@ -63,7 +64,8 @@ export function AdvancedExportModal({
 
     try {
       const formattedData = data.map(item => {
-        const newItem: Record<string, unknown> = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const newItem: any = {};
         columns.forEach(col => {
           if (selectedColumns.includes(col.key)) {
             // We use the label as the header

@@ -78,6 +78,7 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
   ],
   ADMIN_SISTEM: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { title: "Penetapan Reviewer", href: "/manajemen/reviewer", icon: Users },
     { title: "Kelola Skim", href: "/konfigurasi/skim", icon: Settings },
     { title: "Kelola Prodi", href: "/konfigurasi/prodi", icon: Settings },
     { title: "Kelola Pengguna", href: "/konfigurasi/users", icon: Users },

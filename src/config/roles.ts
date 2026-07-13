@@ -40,6 +40,7 @@ export const ROLE_ROUTES: Record<UserRole, string[]> = {
   ADMIN_SISTEM: [
     ...SHARED_ROUTES,
     "/konfigurasi",
+    "/manajemen/reviewer",
     "/audit-log",
     "/audit"
   ]

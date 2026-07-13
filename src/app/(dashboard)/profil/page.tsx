@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UploadCloud, ShieldCheck } from "lucide-react";
+import { FieldTooltip } from "@/components/ui/tooltip";
 
 const roleLabel: Record<string, string> = {
   DOSEN: "Dosen Pengusul",
@@ -77,11 +78,11 @@ export default function ProfilPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-neutral-600 uppercase">NIDN</label>
+                  <label className="text-xs font-semibold text-neutral-600 uppercase flex items-center">NIDN <FieldTooltip text="Nomor Induk Dosen Nasional. Jika kosong, hubungi Kepegawaian Pusat." /></label>
                   <Input defaultValue={user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-neutral-600 uppercase">NIP</label>
+                  <label className="text-xs font-semibold text-neutral-600 uppercase flex items-center">NIP <FieldTooltip text="Nomor Induk Pegawai. Jika status Non-PNS, field ini bisa kosong." /></label>
                   <Input defaultValue={user.nidn} disabled className="bg-neutral-100 text-neutral-600 font-medium border-neutral-200" />
                 </div>
               </div>

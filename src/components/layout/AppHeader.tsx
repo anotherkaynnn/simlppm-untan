@@ -35,9 +35,10 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
     if (user?.role === "REVIEWER" && hasNewReviewAssignment) {
       // Small delay to ensure it shows up after the login toast
       const timer = setTimeout(() => {
-        toast.info("Pemberitahuan Sistem", {
+        toast("Pemberitahuan Sistem", {
           description: "Anda mendapat penugasan review proposal baru.",
           duration: 6000,
+          icon: <span className="text-info-500 mr-1 font-bold">i</span>
         });
       }, 1500);
       return () => clearTimeout(timer);

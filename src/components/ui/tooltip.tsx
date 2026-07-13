@@ -71,9 +71,7 @@ export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
 export function FieldTooltip({ text }: { text: string }) {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Info className="w-4 h-4 text-neutral-400 hover:text-primary-500 cursor-help transition-colors ml-1.5 outline-none inline-block" tabIndex={0} />
-      </TooltipTrigger>
+      <TooltipTrigger render={<Info className="w-4 h-4 text-neutral-400 hover:text-primary-500 cursor-help transition-colors ml-1.5 outline-none inline-block" tabIndex={0} />} />
       <TooltipContent className="bg-slate-900 text-white border-slate-900" sideOffset={5}>
         <p className="text-center">{text}</p>
       </TooltipContent>

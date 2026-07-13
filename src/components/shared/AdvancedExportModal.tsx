@@ -120,11 +120,9 @@ export function AdvancedExportModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant={variant} className={className}>
-          <Download className="w-4 h-4 mr-2" />
-          {triggerLabel}
-        </Button>
+      <DialogTrigger render={<Button variant={variant} className={className} />}>
+        <Download className="w-4 h-4 mr-2" />
+        {triggerLabel}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

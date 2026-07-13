@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { ExportButton } from "@/components/shared/ExportButton";
+import { AdvancedExportModal } from "@/components/shared/AdvancedExportModal";
 import { ProposalTable } from "@/components/app/ProposalTable";
 import { mockProposals } from "@/mock/data/proposals";
 import { Proposal } from "@/types";
@@ -43,14 +43,14 @@ export default function RiwayatProposalPage() {
     }
   }
 
-  // Siapkan data CSV sesuai header yang diminta
-  const exportData = mockProposals.map(item => ({
-    "ID": item.id,
-    "Judul": item.title,
-    "Skim": item.schemeName,
-    "Dana": item.budget,
-    "Status": item.status
-  }));
+  const exportColumns = [
+    { key: "id", label: "ID Proposal" },
+    { key: "title", label: "Judul" },
+    { key: "schemeName", label: "Skim" },
+    { key: "year", label: "Tahun" },
+    { key: "status", label: "Status" },
+    { key: "budget", label: "Dana Disetujui" }
+  ];
 
   const renderActions = (p: Proposal) => (
     <>
@@ -73,11 +73,11 @@ export default function RiwayatProposalPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Riwayat Proposal Saya</h1>
           <p className="text-neutral-500">Daftar seluruh proposal P2M yang pernah Anda ajukan di periode sebelumnya.</p>
         </div>
-        <ExportButton 
-          data={exportData} 
+        <AdvancedExportModal 
+          data={mockProposals} 
           filename="riwayat-proposal" 
-          label="Ekspor CSV" 
-          format="csv"
+          columns={exportColumns}
+          triggerLabel="Ekspor"
           className="shrink-0 border-neutral-200 text-neutral-700" 
           variant="outline"
         />

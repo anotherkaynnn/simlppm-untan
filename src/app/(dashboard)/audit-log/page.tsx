@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Download, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { AdvancedExportModal } from "@/components/shared/AdvancedExportModal";
 
 const mockAuditLogs = [
   { id: "LOG-1029", waktu: "2026-07-10 03:50:12", user: "Admin LPPM", aksi: "Membuat Skim Baru (SKM-005)", ip: "192.168.1.12" },
@@ -21,10 +22,20 @@ export default function AuditLogPage() {
           <h1 className="text-2xl font-bold text-neutral-900">Audit Log Sistem</h1>
           <p className="text-neutral-500">Rekam jejak seluruh aktivitas pengguna dan sistem.</p>
         </div>
-        <Button variant="outline" className="text-neutral-700 bg-white">
-          <Download className="w-4 h-4 mr-2" />
-          Ekspor CSV
-        </Button>
+        <AdvancedExportModal 
+          data={mockAuditLogs} 
+          filename="audit-log" 
+          columns={[
+            { key: "waktu", label: "Waktu" },
+            { key: "user", label: "Pengguna / Aktor" },
+            { key: "aksi", label: "Aktivitas" },
+            { key: "ip", label: "Alamat IP" },
+            { key: "id", label: "ID Log" }
+          ]}
+          triggerLabel="Ekspor"
+          className="text-neutral-700 bg-white" 
+          variant="outline"
+        />
       </div>
 
       <div className="bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden">

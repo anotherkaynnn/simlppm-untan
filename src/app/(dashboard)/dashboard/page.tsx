@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from "recharts";
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
@@ -295,6 +295,14 @@ function KetuaLppmDashboard() {
     { fakultas: "Fakultas Kehutanan", usulan: 70, didanai: 25, rasio: "35%", dana: "Rp 350.000.000" },
   ];
 
+  const trenLuaranData = [
+    { year: "2022", jurnal: 120, hki: 45, buku: 30 },
+    { year: "2023", jurnal: 150, hki: 60, buku: 40 },
+    { year: "2024", jurnal: 180, hki: 85, buku: 55 },
+    { year: "2025", jurnal: 210, hki: 110, buku: 70 },
+    { year: "2026", jurnal: 250, hki: 135, buku: 90 },
+  ];
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -375,6 +383,28 @@ function KetuaLppmDashboard() {
           </Card>
         </div>
       </div>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="text-lg">Tren Luaran (Publikasi, HKI, Buku)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trenLuaranData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <RechartsTooltip />
+                <Legend />
+                <Line type="monotone" dataKey="jurnal" name="Jurnal Ilmiah" stroke="#2563eb" strokeWidth={2} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="hki" name="HKI / Paten" stroke="#16a34a" strokeWidth={2} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="buku" name="Buku Referensi" stroke="#eab308" strokeWidth={2} activeDot={{ r: 6 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="mt-6">
         <CardHeader>

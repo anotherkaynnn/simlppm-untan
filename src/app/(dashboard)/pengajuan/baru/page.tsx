@@ -112,8 +112,9 @@ export default function PengajuanBaruPage() {
     }
     
     // Create new proposal to show in monitoring
+    const newIdNum = useProposalStore.getState().proposals.length + 1;
     const newProposal = {
-      id: `PRP-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+      id: `PRP-${new Date().getFullYear()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}-${Date.now().toString().slice(-4)}`,
       title: draft.title,
       type: (draft.type || "PENELITIAN") as any,
       schemeId: draft.schemeId || "S-01",

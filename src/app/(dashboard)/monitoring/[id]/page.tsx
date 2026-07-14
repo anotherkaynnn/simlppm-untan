@@ -7,7 +7,7 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { TimelineStatus } from "@/components/shared/TimelineStatus";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProposalStatus } from "@/types";
-import { mockProposals } from "@/mock/data/proposals";
+import { useProposalStore } from "@/store/proposalStore";
 import { useAuthStore } from "@/store/authStore";
 import { RubrikReview } from "@/components/app/RubrikReview";
 
@@ -16,8 +16,9 @@ export default function ProposalDetailPage() {
   const router = useRouter();
   const id = params.id as string;
   const { user } = useAuthStore();
+  const { proposals } = useProposalStore();
 
-  const proposal = mockProposals.find(p => p.id === id);
+  const proposal = proposals.find(p => p.id === id);
 
   if (!proposal) {
     return (

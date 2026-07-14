@@ -4,6 +4,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useProposalDraftStore } from "@/store/proposalDraftStore";
+import { useProposalStore } from "@/store/proposalStore";
+import { useAuthStore } from "@/store/authStore";
 import { Step1InfoUmum } from "@/components/pengajuan/Step1InfoUmum";
 import { Step2Anggota } from "@/components/pengajuan/Step2Anggota";
 import { Step3Berkas } from "@/components/pengajuan/Step3Berkas";
@@ -23,6 +25,8 @@ export default function PengajuanBaruPage() {
   const router = useRouter();
   const { draft, setDraft, currentStep, setCurrentStep, resetDraft } = useProposalDraftStore();
   const { addNotification } = useNotificationStore();
+  const { addProposal } = useProposalStore();
+  const { user } = useAuthStore();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -107,6 +111,37 @@ export default function PengajuanBaruPage() {
       return;
     }
     
+    // Create new proposal to show in monitoring
+    const newProposal = {
+      id: `PRP-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`,
+      title: draft.title,
+      type: (draft.type || "PENELITIAN") as any,
+      schemeId: draft.schemeId || "S-01",
+      schemeName: "Skim Terpilih", 
+      fieldOfStudy: draft.fieldOfStudy || "Umum",
+      year: draft.year || new Date().getFullYear(),
+      duration: 12, 
+      budget: draft.budget || 0,
+      status: "DIAJUKAN" as any,
+      submittedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      bidangIlmu: "Saintek" as any,
+      facultyId: user?.facultyId || "FT",
+      facultyName: user?.facultyName || "Fakultas Teknik",
+      submitter: {
+        id: user?.id || "U01",
+        nidn: user?.nidn || "0011223344",
+        name: user?.name || "Peneliti",
+        facultyName: user?.facultyName || "Fakultas Teknik"
+      },
+      members: [],
+      budgetDetails: [],
+      files: [],
+      outputs: [],
+      statusHistory: []
+    };
+
+    addProposal(newProposal);
     toast.success("Proposal berhasil diajukan!");
     
     // Trigger real-time notifications
@@ -123,7 +158,7 @@ export default function PengajuanBaruPage() {
     });
 
     setCurrentStep(1);
-    router.push("/dashboard");
+    router.push("/monitoring"); // Redirect ke monitoring
   };
 
   return (

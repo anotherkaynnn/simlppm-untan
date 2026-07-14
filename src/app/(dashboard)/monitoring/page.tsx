@@ -10,12 +10,13 @@ import { FileText, Eye, Mail } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { mockProposals } from "@/mock/data/proposals";
 import { Proposal } from "@/types";
+import { useProposalStore } from "@/store/proposalStore";
 import { toast } from "sonner";
 
 export default function MonitoringPage() {
   const { user } = useAuthStore();
+  const { proposals } = useProposalStore();
 
   const columns: ColumnDef<Proposal>[] = [
     {
@@ -104,7 +105,7 @@ export default function MonitoringPage() {
       <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
         <DataTable 
           columns={columns} 
-          data={mockProposals} 
+          data={proposals} 
           searchKey="title"
           searchPlaceholder="Cari berdasarkan judul usulan..."
         />

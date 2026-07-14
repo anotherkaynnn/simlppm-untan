@@ -59,7 +59,6 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
         { title: "Template & Dokumen Pendukung", href: "/panduan/template" }
       ]
     },
-    { title: "Permintaan Surat Tugas", href: "/surat-tugas", icon: FileText },
   ],
   REVIEWER: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

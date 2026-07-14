@@ -57,14 +57,27 @@ export default function MonitoringPage() {
     {
       id: "actions",
       header: "Aksi",
-      cell: ({ row }) => (
-        <Link href={`/monitoring/${row.original.id}`}>
-          <Button variant="outline" size="sm" className="h-8 flex items-center text-primary-600 hover:text-primary-700">
-            <Eye className="w-4 h-4 mr-1.5" />
-            Detail
-          </Button>
-        </Link>
-      )
+      cell: ({ row }) => {
+        const isAccepted = row.original.status === 'DITERIMA' || row.original.status === 'SELESAI';
+        return (
+          <div className="flex items-center gap-2">
+            <Link href={`/monitoring/${row.original.id}`}>
+              <Button variant="outline" size="sm" className="h-8 flex items-center text-primary-600 hover:text-primary-700">
+                <Eye className="w-4 h-4 mr-1.5" />
+                Detail
+              </Button>
+            </Link>
+            {isAccepted && (
+              <Link href={`/surat-tugas?proposal=${row.original.id}`}>
+                <Button variant="outline" size="sm" className="h-8 flex items-center text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700">
+                  <FileText className="w-4 h-4 mr-1.5" />
+                  Surat Tugas
+                </Button>
+              </Link>
+            )}
+          </div>
+        );
+      }
     }
   ];
 

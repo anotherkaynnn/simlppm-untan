@@ -168,7 +168,7 @@ export default function PelaporanPage() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-neutral-700">Status Publikasi *</label>
-                    <Select value={jurnalStatus} onValueChange={(val) => setJurnalStatus(val)}>
+                    <Select value={jurnalStatus} onValueChange={(val) => setJurnalStatus(val || "")}>
                       <SelectTrigger><SelectValue placeholder="Pilih Status" /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="DRAFT">Draft</SelectItem>

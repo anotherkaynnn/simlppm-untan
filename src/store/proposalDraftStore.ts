@@ -13,6 +13,7 @@ export interface ProposalDraft {
   year: number;
   budget: number;
   fundingSource: string;
+  fundingDescription: string;
 
   // Step 2: Anggota Tim
   dosenList: Array<{ id: number; id_person: string; nidn: string; nama: string; tugas: string }>;
@@ -32,6 +33,7 @@ const initialDraftState: ProposalDraft = {
   year: new Date().getFullYear(),
   budget: 0,
   fundingSource: '',
+  fundingDescription: '',
   dosenList: [],
   mahasiswaList: [],
   tendikList: [],

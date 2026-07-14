@@ -157,6 +157,7 @@ export default function PengajuanBaruPage() {
       roleTarget: "LPPM"
     });
 
+    resetDraft(); // Hapus data form yang nyangkut
     setCurrentStep(1);
     router.push("/monitoring"); // Redirect ke monitoring
   };

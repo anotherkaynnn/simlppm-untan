@@ -15,6 +15,10 @@ export default function PelaporanPage() {
   const params = useParams();
   const router = useRouter();
   const [outputType, setOutputType] = useState<string>("");
+  const [jurnalStatus, setJurnalStatus] = useState<string>("DRAFT");
+  
+  // For PKM video
+  const isPKM = true; // Hardcoded or check from props/data in real implementation
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +68,30 @@ export default function PelaporanPage() {
               className="min-h-[120px]"
               required
             />
+          </div>
+        </section>
+
+        <section className="space-y-6 pt-4 border-t border-neutral-100">
+          <h2 className="text-lg font-bold text-neutral-900 border-b border-neutral-100 pb-2">Laporan Kemajuan & Akuntabilitas Keuangan</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <label className="text-sm font-semibold text-neutral-900 block mb-2">Dokumen Laporan Kemajuan (Opsional)</label>
+              <div className="p-4 border-2 border-dashed border-neutral-300 rounded-lg bg-neutral-50 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-neutral-100 transition-colors">
+                <UploadCloud className="w-8 h-8 text-primary-500 mb-2" />
+                <p className="text-xs font-semibold text-neutral-900">Unggah Laporan Kemajuan</p>
+                <p className="text-[10px] text-neutral-500 mt-1">Format .pdf maks 15MB</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <label className="text-sm font-semibold text-neutral-900 block mb-2">Akuntabilitas Keuangan (Bukti Anggaran) *</label>
+              <div className="p-4 border-2 border-dashed border-neutral-300 rounded-lg bg-neutral-50 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-neutral-100 transition-colors">
+                <UploadCloud className="w-8 h-8 text-primary-500 mb-2" />
+                <p className="text-xs font-semibold text-neutral-900">Unggah Bukti Keuangan</p>
+                <p className="text-[10px] text-neutral-500 mt-1">Syarat mutlak pencairan dana (.pdf maks 15MB)</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -138,6 +166,18 @@ export default function PelaporanPage() {
                     <label className="text-sm font-medium text-neutral-700">DOI / Tautan</label>
                     <Input placeholder="https://doi.org/..." />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-neutral-700">Status Publikasi *</label>
+                    <Select value={jurnalStatus} onValueChange={(val) => setJurnalStatus(val)}>
+                      <SelectTrigger><SelectValue placeholder="Pilih Status" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="DRAFT">Draft</SelectItem>
+                        <SelectItem value="SUBMITTED">Submitted</SelectItem>
+                        <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                        <SelectItem value="PUBLISHED">Published</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -167,6 +207,18 @@ export default function PelaporanPage() {
                   <label className="text-sm font-medium text-neutral-700">Tautan Dokumentasi / Video</label>
                   <Input placeholder="https://youtube.com/..." />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Conditional PKM Video (if scheme is PKM) */}
+          {isPKM && (
+            <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg space-y-4 animate-in slide-in-from-top-2 mt-4">
+              <h3 className="font-semibold text-neutral-900">Dokumentasi PKM (Wajib)</h3>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-neutral-700">Tautan Video Kegiatan *</label>
+                <Input placeholder="Masukkan link video (contoh: YouTube, Google Drive)..." required />
+                <p className="text-xs text-neutral-500">Sesuai ketentuan, kegiatan PKM wajib menyertakan video dokumentasi.</p>
               </div>
             </div>
           )}

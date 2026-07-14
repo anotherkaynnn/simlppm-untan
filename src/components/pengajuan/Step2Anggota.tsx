@@ -11,11 +11,13 @@ import { PersonSearch } from "@/components/app/PersonSearch";
 import { toast } from "sonner";
 import { PersonRecord } from "@/mock/data/personDatabase";
 
-export function Step2Anggota({ onNext }: { onNext: () => void }) {
+export function Step2Anggota({ onNext, errors }: { onNext: () => void, errors?: Record<string, string> }) {
   const { draft, setDraft, setCurrentStep } = useProposalDraftStore();
   const { user } = useAuthStore();
   
-  const { dosenList, mahasiswaList, tendikList } = draft;
+  const dosenList = draft.dosenList || [];
+  const mahasiswaList = draft.mahasiswaList || [];
+  const tendikList = draft.tendikList || [];
 
   const setDosenList = (list: typeof dosenList) => setDraft({ dosenList: list });
   const setMahasiswaList = (list: typeof mahasiswaList) => setDraft({ mahasiswaList: list });
@@ -137,6 +139,9 @@ export function Step2Anggota({ onNext }: { onNext: () => void }) {
                   </Button>
                 </div>
               ))}
+              {errors?.mahasiswaList && (
+                <p className="mt-2 text-sm font-semibold text-danger-600">{errors.mahasiswaList}</p>
+              )}
             </div>
           </div>
 

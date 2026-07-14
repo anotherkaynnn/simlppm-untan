@@ -85,6 +85,20 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
 
           <div className="space-y-2">
             <div className="flex items-center">
+              <label className="text-sm font-semibold text-neutral-900 flex items-center">Deskripsi Pendanaan <span className="text-danger ml-1">*</span><FieldTooltip text="Jelaskan detail pendanaan, minimal 10 karakter" /></label>
+            </div>
+            <Input 
+              type="text" 
+              value={formData.fundingDescription || ""}
+              onChange={(e) => onChange("fundingDescription", e.target.value)}
+              placeholder="Contoh: Pendanaan dari Hibah DIKTI 2026..."
+              className={errors.fundingDescription ? 'border-danger-500 ring-1 ring-danger-500' : ''}
+            />
+            {errors.fundingDescription && <p className="mt-1 text-xs text-danger-600">{errors.fundingDescription}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center">
               <label className="text-sm font-semibold text-neutral-900 flex items-center">Jenis Usulan <span className="text-danger ml-1">*</span><FieldTooltip text="Pilih antara penelitian atau pengabdian" /></label>
             </div>
             <Select 

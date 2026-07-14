@@ -72,6 +72,10 @@ export default function PengajuanBaruPage() {
         newErrors.fundingSource = "Pilih sumber dana";
         isValid = false;
       }
+      if (!draft.fundingDescription || draft.fundingDescription.length < 10) {
+        newErrors.fundingDescription = "Deskripsi pendanaan minimal 10 karakter";
+        isValid = false;
+      }
       if (!draft.schemeId) {
         newErrors.schemeId = "Pilih skim usulan";
         isValid = false;
@@ -83,6 +87,12 @@ export default function PengajuanBaruPage() {
       if (!draft.fieldOfStudy) {
         newErrors.fieldOfStudy = "Bidang ilmu wajib diisi";
         isValid = false;
+      }
+    } else if (step === 2) {
+      if (!draft.mahasiswaList || draft.mahasiswaList.length < 3) {
+        newErrors.mahasiswaList = "Sesuai regulasi LPPM Untan, setiap usulan wajib melibatkan minimal 3 orang mahasiswa.";
+        isValid = false;
+        // The toast will be handled by handleNext or we can just show it directly
       }
     } else if (step === 3) {
       if (!selectedFile && !draft.fileName) {
@@ -234,7 +244,7 @@ export default function PengajuanBaruPage() {
               onNext={handleNext} 
             />
           )}
-          {displayStep === 2 && <Step2Anggota onNext={handleNext} />}
+          {displayStep === 2 && <Step2Anggota errors={errors} onNext={handleNext} />}
           {displayStep === 3 && (
             <Step3Berkas 
               selectedFile={selectedFile}

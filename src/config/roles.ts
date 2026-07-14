@@ -13,7 +13,8 @@ export const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/pengajuan",
     "/monitoring",
     "/pelaporan",
-    "/panduan"
+    "/panduan",
+    "/surat-tugas"
   ],
   REVIEWER: [
     ...SHARED_ROUTES,

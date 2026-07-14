@@ -11,11 +11,12 @@ import { useRouter } from "next/navigation";
 
 import { AdvancedExportModal } from "@/components/shared/AdvancedExportModal";
 import { ProposalTable } from "@/components/app/ProposalTable";
-import { mockProposals } from "@/mock/data/proposals";
+import { useProposalStore } from "@/store/proposalStore";
 import { Proposal } from "@/types";
 
 export default function RiwayatProposalPage() {
   const router = useRouter();
+  const { proposals } = useProposalStore();
   
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -74,7 +75,7 @@ export default function RiwayatProposalPage() {
           <p className="text-neutral-500">Daftar seluruh proposal P2M yang pernah Anda ajukan di periode sebelumnya.</p>
         </div>
         <AdvancedExportModal 
-          data={mockProposals} 
+          data={proposals} 
           filename="riwayat-proposal" 
           columns={exportColumns}
           triggerLabel="Ekspor"
@@ -85,7 +86,7 @@ export default function RiwayatProposalPage() {
 
       <Card>
         <CardContent className="p-0">
-          <ProposalTable proposals={mockProposals} renderActions={renderActions} />
+          <ProposalTable proposals={proposals} renderActions={renderActions} />
         </CardContent>
       </Card>
 

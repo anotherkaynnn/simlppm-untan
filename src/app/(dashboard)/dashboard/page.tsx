@@ -38,12 +38,13 @@ export default function DashboardPage() {
 // Sub-components untuk masing-masing Role (bisa dipisah filenya nanti)
 // ----------------------------------------------------------------------
 
-import { mockProposals } from "@/mock/data/proposals";
+import { useProposalStore } from "@/store/proposalStore";
 import { ProposalTable } from "@/components/app/ProposalTable";
 
 function DosenDashboard() {
   const { user } = useAuthStore();
-  const myProposals = mockProposals.filter(p => p.submitter.id === user?.id);
+  const { proposals } = useProposalStore();
+  const myProposals = proposals.filter(p => p.submitter.id === user?.id);
 
   return (
     <>

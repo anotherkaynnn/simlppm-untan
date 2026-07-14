@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { mockProposals } from "@/mock/data/proposals";
+import { useProposalStore } from "@/store/proposalStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Badge } from "@/components/ui/badge";
 import { format, addDays, differenceInDays } from "date-fns";
@@ -50,7 +50,8 @@ function ProgressIndicator({ currentStatus }: { currentStatus: string }) {
 }
 
 export default function MonitoringAktifPage() {
-  const activeProposals = mockProposals.filter(p => 
+  const { proposals } = useProposalStore();
+  const activeProposals = proposals.filter(p => 
     ["DIAJUKAN", "VERIFIKASI", "DIVERIFIKASI", "DIREVIEW"].includes(p.status)
   );
 

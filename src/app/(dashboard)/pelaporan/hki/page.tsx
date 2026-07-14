@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Save, X, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
-import { mockProposals } from "@/mock/data/proposals";
+import { useProposalStore } from "@/store/proposalStore";
 
 const hkiRecords = [
   {
@@ -35,6 +35,7 @@ const hkiRecords = [
 export default function HkiPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [hkiType, setHkiType] = useState("PATEN");
+  const { proposals } = useProposalStore();
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +134,7 @@ export default function HkiPage() {
                   <label className="text-sm font-semibold text-neutral-900">Proposal Terkait <span className="text-danger">*</span></label>
                   <select required className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500">
                     <option value="">-- Pilih Proposal --</option>
-                    {mockProposals.map(p => (
+                    {proposals.map(p => (
                       <option key={p.id} value={p.id}>{p.id} - {p.title.substring(0, 50)}...</option>
                     ))}
                   </select>

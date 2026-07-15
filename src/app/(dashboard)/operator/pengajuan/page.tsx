@@ -386,7 +386,7 @@ export default function VerifikasiPage() {
           <div className="flex items-center gap-6 bg-white px-4 py-2 rounded-xl border border-neutral-200 shadow-sm">
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-neutral-600 whitespace-nowrap">Tipe</span>
-              <Select value={filterTipe} onValueChange={setFilterTipe}>
+              <Select value={filterTipe} onValueChange={(val) => setFilterTipe(val || "")}>
                 <SelectTrigger className="w-[180px] bg-neutral-50/50">
                   <SelectValue placeholder="Pilih Tipe" />
                 </SelectTrigger>
@@ -399,7 +399,7 @@ export default function VerifikasiPage() {
             
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-neutral-600 whitespace-nowrap">Data Tahun</span>
-              <Select value={filterTahun} onValueChange={setFilterTahun}>
+              <Select value={filterTahun} onValueChange={(val) => setFilterTahun(val || "")}>
                 <SelectTrigger className="w-[140px] bg-neutral-50/50">
                   <SelectValue placeholder="Pilih Tahun" />
                 </SelectTrigger>

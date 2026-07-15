@@ -16,6 +16,60 @@ interface Step1InfoUmumProps {
   onNext: () => void;
 }
 
+const SKIM_MAPPING: Record<string, { id: string; label: string }[]> = {
+  KEMENRISTEK_BRIN: [
+    { id: "LPDP", label: "LPDP" },
+    { id: "KEDAIREKA", label: "KEDAI REKA" },
+    { id: "HILIRISET", label: "HILIRISET" },
+    { id: "PDP", label: "PDP" },
+  ],
+  DIKTI: [
+    { id: "PKSPT", label: "Penelitian Kerja Sama Antar Perguruan Tinggi" },
+    { id: "PF", label: "Penelitian Fundamental" },
+    { id: "PDP_DIKTI", label: "Penelitian Dosen Pemula" },
+    { id: "PDUPT", label: "Penelitian Dasar Unggulan Perguruan Tinggi" },
+    { id: "PTM", label: "Penelitian Tesis Megister" },
+    { id: "KATALIS", label: "Kolaborasi Penelitian Strategis (KATALIS)" },
+    { id: "PTLM", label: "Penelitian Terapan Luaran Model" },
+  ],
+  DIPA_UNTAN: [
+    { id: "PP_UNTAN", label: "Penelitian Pengembangan" },
+    { id: "PT_UNTAN", label: "Penelitian Terapan" },
+    { id: "PD_UNTAN", label: "Penelitian Dasar" },
+    { id: "PKPT_UNTAN", label: "Penelitian Kerjasama Perguruan Tinggi" },
+    { id: "INOVASI_UNTAN", label: "INOVASI UNTAN" },
+    { id: "MBKM", label: "MERDEKA BELAJAR KAMPUS MERDEKA (MBKM) Penelitian" },
+    { id: "PKPTLN", label: "PENELITIAN KOLABORASI PERGURUAN TINGGI LUAR NEGERI (PKPTLN)" },
+    { id: "PKPTDN", label: "PENELITIAN KOLABORASI PERGURUAN TINGGI DALAM NEGERI (PKPTDN)" },
+    { id: "PDM_UNTAN", label: "Penelitian Dosen Muda" },
+  ],
+  KERJASAMA: [
+    { id: "PKALPT", label: "Penelitian Kerjasama antar Lembaga dan PT" },
+    { id: "PKSP", label: "PENELITIAN KERJA SAMA SWAKELOLA PEMERINTAH" },
+    { id: "PKAPT", label: "PENELITIAN KERJA SAMA ANTAR PERGURUAN TINGGI" },
+    { id: "PKMLN", label: "PENELITIAN KERJA SAMA MITRA LUAR NEGERI (INTERNASIONAL)" },
+    { id: "PKMS", label: "PENELITIAN KERJA SAMA MITRA SWASTA" },
+  ],
+  MANDIRI: [
+    { id: "PDM", label: "PENELITIAN DASAR MANDIRI" },
+    { id: "PTMANDIRI", label: "PENELITIAN TERAPAN MANDIRI" },
+    { id: "PPM", label: "PENELITIAN PENGEMBANGAN MANDIRI" },
+  ],
+  BATCH: [
+    { id: "DIKTI_PD", label: "Dikti - Penelitian Dasar" },
+    { id: "DIKTI_PT", label: "Dikti - Penelitian Terapan" },
+    { id: "PP_BATCH", label: "PENELITIAN PENGEMBANGAN" },
+    { id: "LPDP_KOMERSIAL", label: "LPDP-RISPRO Komersial" },
+    { id: "LPDP_INTERNASIONAL", label: "LPDP - Rispro Kolaborasi Internasional" },
+    { id: "LPDP_MANDATORI", label: "LPDP - Rispro Mandatori" },
+    { id: "LPDP_RIP", label: "LPDP - Riset Inovatif Produktif" },
+  ],
+  LAIN_LAIN: [
+    { id: "PM", label: "Penelitian Mahasiswa" },
+    { id: "IM", label: "Inovasi Mahasiswa" },
+  ]
+};
+
 export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoUmumProps) {
   const { user } = useAuthStore();
   
@@ -65,7 +119,10 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
             </div>
             <Select 
               value={formData.fundingSource} 
-              onValueChange={(val) => onChange("fundingSource", val)}
+              onValueChange={(val) => {
+                onChange("fundingSource", val);
+                onChange("schemeId", "");
+              }}
             >
               <SelectTrigger className={errors.fundingSource ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Sumber Dana" />
@@ -124,19 +181,15 @@ export function Step1InfoUmum({ formData, errors, onChange, onNext }: Step1InfoU
             <Select 
               value={formData.schemeId} 
               onValueChange={(val) => onChange("schemeId", val)}
-              disabled={!formData.type}
+              disabled={!formData.type || !formData.fundingSource}
             >
               <SelectTrigger className={errors.schemeId ? 'border-danger-500 ring-1 ring-danger-500' : ''}>
                 <SelectValue placeholder="Pilih Skim" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="LPDP">LPDP</SelectItem>
-                <SelectItem value="KEDAIREKA">KEDAI REKA</SelectItem>
-                <SelectItem value="HILIRISET">HILIRISET</SelectItem>
-                <SelectItem value="PDP">Penelitian Dosen Pemula (PDP)</SelectItem>
-                <SelectItem value="PT">Penelitian Terapan (PT)</SelectItem>
-                <SelectItem value="PD">Penelitian Dasar (PD)</SelectItem>
-                <SelectItem value="PKM">Program Kemitraan Masyarakat (PKM)</SelectItem>
+                {formData.fundingSource && SKIM_MAPPING[formData.fundingSource]?.map(skim => (
+                  <SelectItem key={skim.id} value={skim.id}>{skim.label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {errors.schemeId && <p className="mt-1 text-xs text-danger-600">{errors.schemeId}</p>}

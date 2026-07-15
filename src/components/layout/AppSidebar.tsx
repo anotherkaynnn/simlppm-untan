@@ -18,7 +18,8 @@ import {
   ChevronUp,
   Menu,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Folder
 } from "lucide-react";
 import { UserRole } from "@/types";
 import { useState } from "react";
@@ -66,8 +67,9 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
   ],
   OPERATOR_FK: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { title: "Verifikasi Kelengkapan", href: "/verifikasi", icon: CheckCircle },
-    { title: "Rekapitulasi Fakultas", href: "/manajemen/data", icon: FileSpreadsheet },
+    { title: "Data Pengajuan", href: "/operator/pengajuan", icon: FileText },
+    { title: "Manajemen File", href: "/operator/dokumen", icon: Folder },
+    { title: "LAP Dosen", href: "/operator/laporan", icon: FileSpreadsheet },
   ],
   ADMIN_FK: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

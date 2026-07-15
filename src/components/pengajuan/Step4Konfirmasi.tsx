@@ -34,25 +34,86 @@ export function Step4Konfirmasi({ formData, selectedFile, onSubmit }: Step4Konfi
         <div className="space-y-4">
           <div className="flex items-start gap-4 p-4 rounded-xl border border-neutral-100 bg-neutral-50">
             <FileText className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
-            <div>
-              <p className="font-semibold text-neutral-900 text-sm mb-1">Informasi Umum</p>
-              <p className="text-xs text-neutral-500">Judul usulan: {formData.title || '-'}</p>
+            <div className="w-full">
+              <p className="font-semibold text-neutral-900 text-sm mb-3 border-b border-neutral-200 pb-2">Informasi Umum</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+                <div className="md:col-span-2"><span className="text-neutral-500">Judul Usulan:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.title || '-'}</p></div>
+                <div><span className="text-neutral-500">Jenis Usulan:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.type || '-'}</p></div>
+                <div><span className="text-neutral-500">Skim:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.schemeId || '-'}</p></div>
+                <div><span className="text-neutral-500">Bidang Ilmu:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.fieldOfStudy || '-'}</p></div>
+                <div><span className="text-neutral-500">Total Dana:</span> <p className="font-medium text-neutral-900 mt-0.5">Rp {formData.budget ? formData.budget.toLocaleString('id-ID') : '0'}</p></div>
+                <div><span className="text-neutral-500">Sumber Dana:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.fundingSource || '-'}</p></div>
+                <div><span className="text-neutral-500">Tahun:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.year || '-'}</p></div>
+                <div className="md:col-span-2"><span className="text-neutral-500">Pengelola Dana:</span> <p className="font-medium text-neutral-900 mt-0.5">{formData.managementUnit || '-'}</p></div>
+              </div>
             </div>
           </div>
           
           <div className="flex items-start gap-4 p-4 rounded-xl border border-neutral-100 bg-neutral-50">
             <Users className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
-            <div>
-              <p className="font-semibold text-neutral-900 text-sm mb-1">Tim Pelaksana</p>
-              <p className="text-xs text-neutral-500">Ketua peneliti dan anggota tim (dosen/mahasiswa) telah didaftarkan.</p>
+            <div className="w-full">
+              <p className="font-semibold text-neutral-900 text-sm mb-3 border-b border-neutral-200 pb-2">Tim Pelaksana</p>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="text-neutral-500 text-xs uppercase tracking-wider mb-1">Ketua Peneliti</p>
+                  <p className="font-medium text-neutral-900">Diambil dari Profil Anda</p>
+                </div>
+                
+                {formData.dosenList && formData.dosenList.length > 0 && (
+                  <div>
+                    <p className="text-neutral-500 text-xs uppercase tracking-wider mb-1">Dosen Anggota</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      {formData.dosenList.map((d: any, i: number) => (
+                        <li key={i} className="text-neutral-900">{d.nama} <span className="text-neutral-500 text-xs">({d.nidn})</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {formData.mahasiswaList && formData.mahasiswaList.length > 0 && (
+                  <div>
+                    <p className="text-neutral-500 text-xs uppercase tracking-wider mb-1">Mahasiswa</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      {formData.mahasiswaList.map((m: any, i: number) => (
+                        <li key={i} className="text-neutral-900">{m.nama} <span className="text-neutral-500 text-xs">({m.nim})</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {formData.tendikList && formData.tendikList.length > 0 && (
+                  <div>
+                    <p className="text-neutral-500 text-xs uppercase tracking-wider mb-1">Lainnya / Tendik</p>
+                    <ul className="list-disc list-inside space-y-1">
+                      {formData.tendikList.map((t: any, i: number) => (
+                        <li key={i} className="text-neutral-900">{t.nama}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {(!formData.dosenList?.length && !formData.mahasiswaList?.length && !formData.tendikList?.length) && (
+                  <p className="text-neutral-500 italic">Belum ada anggota tim yang ditambahkan.</p>
+                )}
+              </div>
             </div>
           </div>
           
           <div className="flex items-start gap-4 p-4 rounded-xl border border-neutral-100 bg-neutral-50">
             <UploadCloud className="w-5 h-5 text-primary-500 mt-1 shrink-0" />
-            <div>
-              <p className="font-semibold text-neutral-900 text-sm mb-1">Berkas Administrasi</p>
-              <p className="text-xs text-neutral-500">Proposal: {selectedFile ? selectedFile.name : formData.fileName || '-'}</p>
+            <div className="w-full">
+              <p className="font-semibold text-neutral-900 text-sm mb-3 border-b border-neutral-200 pb-2">Berkas Administrasi</p>
+              <div className="flex items-center justify-between bg-white border border-neutral-200 p-3 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded bg-danger-50 text-danger-500 flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div className="truncate">
+                    <p className="text-sm font-medium text-neutral-900 truncate max-w-[200px] sm:max-w-[300px]">{selectedFile ? selectedFile.name : formData.fileName || 'Belum ada file'}</p>
+                    <p className="text-xs text-neutral-500">{selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(2) + ' MB' : (formData.fileName ? 'File tersimpan' : '-')}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

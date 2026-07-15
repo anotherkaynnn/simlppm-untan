@@ -30,10 +30,10 @@ export default function ProposalDetailPage() {
   }
 
   const timelineSteps = [
-    { label: "Diajukan", status: "completed" as const, date: "15 Jun 2026", actor: "Dr. Ahmad Yani" },
-    { label: "Verifikasi Admin", status: "completed" as const, date: "16 Jun 2026", actor: "Operator FT" },
-    { label: "Proses Review", status: "current" as const, date: "Sedang berlangsung", note: "Reviewer 1 telah memberikan penilaian." },
-    { label: "Keputusan Final", status: "pending" as const },
+    { label: "Diajukan", status: "completed" as const, date: new Date(proposal.submittedAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }), actor: proposal.submitter?.name || user?.name || "Ketua Peneliti" },
+    { label: "Verifikasi Admin", status: (proposal.status === "DIAJUKAN" || proposal.status === "DRAFT") ? "pending" as const : "completed" as const, date: proposal.status !== "DIAJUKAN" && proposal.status !== "DRAFT" ? new Date(proposal.updatedAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : "", actor: proposal.status !== "DIAJUKAN" && proposal.status !== "DRAFT" ? "Operator Fakultas" : "" },
+    { label: "Proses Review", status: proposal.status === "DIREVIEW" ? "current" as const : (proposal.status === "DITERIMA" || proposal.status === "DITOLAK" || proposal.status === "REVISI" ? "completed" as const : "pending" as const), date: proposal.status === "DIREVIEW" ? "Sedang berlangsung" : "", note: proposal.status === "DIREVIEW" ? "Menunggu penilaian dari reviewer" : "" },
+    { label: "Keputusan Final", status: (proposal.status === "DITERIMA" || proposal.status === "DITOLAK") ? "completed" as const : "pending" as const },
   ];
 
   return (
@@ -125,24 +125,43 @@ export default function ProposalDetailPage() {
           </TabsContent>
 
           <TabsContent value="berkas" className="space-y-3">
-            <div className="flex items-center justify-between p-4 border border-neutral-200 rounded-lg">
-              <div>
-                <p className="font-medium text-neutral-900">Proposal_Utama_AhmadYani.pdf</p>
-                <p className="text-xs text-neutral-500">2.4 MB • Diunggah 15 Jun 2026</p>
+            {proposal.files && proposal.files.length > 0 ? (
+              proposal.files.map((file, idx) => (
+                <div key={idx} className="flex items-center justify-between p-4 border border-neutral-200 rounded-lg">
+                  <div>
+                    <p className="font-medium text-neutral-900">{file.fileName}</p>
+                    <p className="text-xs text-neutral-500">{(file.fileSize / 1024 / 1024).toFixed(1)} MB • Diunggah {new Date(file.uploadedAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                  </div>
+                  <Button variant="outline" size="sm">
+                    <Download className="w-4 h-4 mr-2" /> Unduh
+                  </Button>
+                </div>
+              ))
+            ) : (
+              <div className="flex items-center justify-between p-4 border border-neutral-200 rounded-lg">
+                <div>
+                  <p className="font-medium text-neutral-900">Belum ada berkas terlampir</p>
+                </div>
               </div>
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" /> Unduh
-              </Button>
-            </div>
+            )}
           </TabsContent>
 
           <TabsContent value="log">
             <div className="space-y-4">
-              <div className="text-sm">
-                <p className="text-neutral-500">16 Jun 2026, 09:15 WIB</p>
-                <p className="font-medium text-neutral-900">Operator FT mengubah status dari DIAJUKAN menjadi DIREVIEW.</p>
-                <p className="text-neutral-600 italic">Catatan: Berkas administrasi lengkap. Diteruskan ke reviewer.</p>
-              </div>
+              {proposal.statusHistory && proposal.statusHistory.length > 0 ? (
+                proposal.statusHistory.map((log, idx) => (
+                  <div key={idx} className="text-sm border-b border-neutral-100 pb-4 last:border-0 last:pb-0">
+                    <p className="text-neutral-500">{new Date(log.timestamp).toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} WIB</p>
+                    <p className="font-medium text-neutral-900">{log.actorName} ({log.actorRole.replace("_", " ")}) mengubah status menjadi {log.toStatus}.</p>
+                    {log.note && <p className="text-neutral-600 italic mt-1">Catatan: {log.note}</p>}
+                  </div>
+                ))
+              ) : (
+                <div className="text-sm">
+                  <p className="text-neutral-500">{new Date(proposal.submittedAt).toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })} WIB</p>
+                  <p className="font-medium text-neutral-900">{proposal.submitter?.name || user?.name || "Peneliti"} (Ketua Peneliti) mengajukan proposal ini.</p>
+                </div>
+              )}
             </div>
           </TabsContent>
         </Tabs>

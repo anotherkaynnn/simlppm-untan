@@ -22,8 +22,7 @@ export const ROLE_ROUTES: Record<UserRole, string[]> = {
   ],
   OPERATOR_FK: [
     ...SHARED_ROUTES,
-    "/verifikasi",
-    "/manajemen/data" // as per sidebar Rekapitulasi Fakultas
+    "/operator"
   ],
   ADMIN_FK: [
     ...SHARED_ROUTES,

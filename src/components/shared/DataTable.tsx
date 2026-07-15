@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({
                   {headerGroup.headers.map((header) => (
                     <TableHead 
                       key={header.id} 
-                      className={`h-11 font-bold text-neutral-600 ${
+                      className={`h-11 px-2 font-bold text-neutral-600 ${
                         header.id === 'actions' 
                           ? "sticky right-0 bg-neutral-50 z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]"
                           : ""
@@ -170,11 +170,11 @@ export function DataTable<TData, TValue>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell 
                         key={cell.id}
-                        className={
+                        className={`px-2 py-3 ${
                           cell.column.id === 'actions'
                             ? "sticky right-0 bg-white z-10 shadow-[-4px_0_10px_rgba(0,0,0,0.05)]"
                             : ""
-                        }
+                        }`}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>

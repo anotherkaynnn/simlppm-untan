@@ -145,9 +145,34 @@ export default function PengajuanBaruPage() {
         name: user?.name || "Peneliti",
         facultyName: user?.facultyName || "Fakultas Teknik"
       },
-      members: [],
+      members: [
+        ...(draft.dosenList || []).map(d => ({
+          id: d.id_person || Math.random().toString(),
+          nidn: d.nidn,
+          name: d.nama,
+          role: "ANGGOTA_DOSEN" as const
+        })),
+        ...(draft.mahasiswaList || []).map(m => ({
+          id: m.id_person || Math.random().toString(),
+          nidn: m.nim, // Using nidn field for NIM to simplify
+          name: m.nama,
+          role: "ANGGOTA_MAHASISWA" as const
+        })),
+        ...(draft.tendikList || []).map(t => ({
+          id: Math.random().toString(),
+          name: t.nama,
+          role: "ANGGOTA_LAIN" as const
+        }))
+      ],
       budgetDetails: [],
-      files: [],
+      files: (selectedFile || draft.fileName) ? [{
+        id: Math.random().toString(),
+        category: "PROPOSAL" as const,
+        fileName: selectedFile?.name || draft.fileName,
+        fileSize: selectedFile?.size || 2500000,
+        url: "#",
+        uploadedAt: new Date().toISOString()
+      }] : [],
       outputs: [],
       statusHistory: []
     };

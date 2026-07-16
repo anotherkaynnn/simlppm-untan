@@ -2,7 +2,7 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, FileText, CheckCircle, Clock, Plus, Database, Timer, Megaphone, ArrowRight, UserPlus, Activity } from "lucide-react";
+import { BarChart3, FileText, CheckCircle, Clock, Plus, Database, Timer, Megaphone, ArrowRight, UserPlus, Activity, Users } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

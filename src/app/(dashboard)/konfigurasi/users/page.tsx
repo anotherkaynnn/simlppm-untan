@@ -6,8 +6,9 @@ import { Search, Plus, MoreVertical, Shield, Edit, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
+import { useSearchParams } from "next/navigation";
 
 const initialUsersData = [
   { id: "USR-001", nama: "Dr. Budi Santoso", email: "budi.santoso@untan.ac.id", role: "DOSEN", status: "Aktif", isReviewer: true },
@@ -17,8 +18,21 @@ const initialUsersData = [
 ];
 
 export default function KelolaPenggunaPage() {
+  const searchParams = useSearchParams();
+  const roleFilter = searchParams.get("role");
+
   const [users, setUsers] = useState(initialUsersData);
   const [isSyncing, setIsSyncing] = useState(false);
+
+  useEffect(() => {
+    if (roleFilter === "dosen") {
+      setUsers(initialUsersData.filter(u => u.role === "DOSEN"));
+    } else if (roleFilter === "admin") {
+      setUsers(initialUsersData.filter(u => u.role !== "DOSEN"));
+    } else {
+      setUsers(initialUsersData);
+    }
+  }, [roleFilter]);
 
   const handleDelete = (id: string) => {
     setUsers(users.filter(u => u.id !== id));

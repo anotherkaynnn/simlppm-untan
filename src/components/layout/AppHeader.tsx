@@ -28,15 +28,22 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
   useDeadlineChecker();
   
   const { notifications: allNotifications, markAsRead, markAllAsRead } = useNotificationStore();
-  const notifications = allNotifications.filter(n => !n.roleTarget || n.roleTarget === user?.role);
+  const notifications = allNotifications.filter(n => {
+    if (!n.roleTarget) return true; // broadcast to all
+    if (n.roleTarget === user?.role) return true; // matches role
+    if (n.roleTarget === "DOSEN_REVIEWER" && user?.isReviewer) return true; // dosen yg ditunjuk reviewer
+    return false;
+  });
   
   const notifRef = useRef<HTMLDivElement>(null);
 
   // Trigger toast for new review assignments on mount
   useEffect(() => {
-    const hasNewReviewAssignment = notifications.some(n => n.roleTarget === "REVIEWER" && !n.isRead);
-    if (user?.role === "REVIEWER" && hasNewReviewAssignment) {
-      // Small delay to ensure it shows up after the login toast
+    const hasNewReviewAssignment = notifications.some(n =>
+      (n.roleTarget === "REVIEWER" || n.roleTarget === "DOSEN_REVIEWER") && !n.isRead
+    );
+    const isReviewer = user?.role === "REVIEWER" || user?.isReviewer;
+    if (isReviewer && hasNewReviewAssignment) {
       const timer = setTimeout(() => {
         toast(
           <div className="flex flex-col gap-1">
@@ -51,7 +58,7 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [user?.role, notifications]);
+  }, [user?.role, user?.isReviewer, notifications]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

@@ -53,6 +53,33 @@ function DosenDashboard() {
         <p className="text-primary-50 text-sm md:text-base">Anda dapat melihat ringkasan status pengajuan proposal, riwayat pengusulan, dan jadwal kegiatan penelitian serta pengabdian Anda pada halaman ini.</p>
       </div>
 
+      {/* Banner khusus: Dosen yang ditunjuk sebagai Reviewer */}
+      {user?.isReviewer && (
+        <div className="bg-info/5 border border-info/20 rounded-xl p-5 mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-start gap-4">
+            <div className="bg-info/10 p-3 rounded-full text-info shrink-0">
+              <Activity className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-semibold text-neutral-900">Anda Ditunjuk sebagai Reviewer P2M</h3>
+                <span className="text-[10px] font-bold bg-warning/15 text-warning border border-warning/30 rounded-full px-2 py-0.5">AKTIF</span>
+              </div>
+              <p className="text-sm text-neutral-600">Terdapat <span className="font-bold text-info">3 proposal</span> yang menunggu penilaian Anda. Batas waktu review: <span className="font-semibold text-danger">31 Juli 2026</span>.</p>
+              <div className="flex items-center gap-4 mt-2">
+                <span className="text-xs text-neutral-500">🟡 Belum Direview: <strong>3</strong></span>
+                <span className="text-xs text-neutral-500">🔴 Tidak Setuju: <strong>1</strong></span>
+                <span className="text-xs text-neutral-500">🟢 Setuju: <strong>2</strong></span>
+              </div>
+            </div>
+          </div>
+          <Link href="/review" className="inline-flex items-center justify-center gap-2 h-9 px-4 rounded-lg text-sm font-semibold bg-info text-white hover:bg-info/90 transition-colors shrink-0 shadow-sm">
+            <UserPlus className="w-4 h-4" />
+            Buka Daftar Review
+          </Link>
+        </div>
+      )}
+
       <div className="bg-warning-50 border border-warning-200 rounded-lg p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="bg-warning-100 p-2 rounded-full text-warning-700 shrink-0">

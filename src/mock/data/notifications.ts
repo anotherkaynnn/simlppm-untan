@@ -43,5 +43,21 @@ export const mockNotifications: Notification[] = [
     createdAt: "Baru saja",
     isRead: false,
     roleTarget: "REVIEWER"
+  },
+  {
+    id: "n6",
+    title: "📋 Penugasan Review — 3 Proposal Baru",
+    body: "Anda ditunjuk sebagai reviewer untuk 3 proposal pada periode 2026. Batas waktu penilaian: 31 Juli 2026.",
+    createdAt: "Baru saja",
+    isRead: false,
+    roleTarget: "DOSEN_REVIEWER"
+  },
+  {
+    id: "n7",
+    title: "Pengingat: Deadline Review H-7",
+    body: "Masih ada 2 proposal yang belum Anda nilai. Segera buka menu Review P2M untuk melanjutkan.",
+    createdAt: "1 jam yang lalu",
+    isRead: false,
+    roleTarget: "DOSEN_REVIEWER"
   }
 ];

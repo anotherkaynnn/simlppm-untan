@@ -7,6 +7,7 @@ import { ProposalStatus } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { UploadCloud } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
@@ -17,7 +18,21 @@ const MOCK_PELAPORAN = [
     title: "Pemberdayaan Kelompok Tani Wanita Melalui Diversifikasi Produk Olahan Lidah Buaya",
     schemeName: "Program Kemitraan Masyarakat (PKM)",
     submittedAt: "2025-11-10T09:00:00Z",
-    status: "SELESAI" as ProposalStatus,
+    status: "Disetujui",
+  },
+  {
+    id: "PROP-2025-105",
+    title: "Pengembangan Sistem Informasi Geografis Pemetaan Lahan Gambut",
+    schemeName: "Penelitian Dasar Unggulan (PDU)",
+    submittedAt: "2025-11-11T09:00:00Z",
+    status: "Draft",
+  },
+  {
+    id: "PROP-2025-106",
+    title: "Pelatihan Kewirausahaan Digital bagi UMKM Kerajinan Tangan",
+    schemeName: "Program Kemitraan Masyarakat (PKM)",
+    submittedAt: "2025-11-12T09:00:00Z",
+    status: "Belum Unggah",
   }
 ];
 
@@ -46,7 +61,13 @@ export default function PelaporanIndexPage() {
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({ row }) => <StatusBadge status={row.getValue("status") as ProposalStatus} />
+      cell: ({ row }) => {
+        const status = row.getValue("status") as string;
+        if (status === "Belum Unggah") return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">{status}</Badge>;
+        if (status === "Draft") return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">{status}</Badge>;
+        if (status === "Disetujui") return <Badge variant="outline" className="bg-success-50 text-success-700 border-success-200">{status}</Badge>;
+        return <StatusBadge status={status as ProposalStatus} />;
+      }
     },
     {
       id: "actions",

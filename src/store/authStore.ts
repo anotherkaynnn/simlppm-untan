@@ -92,7 +92,7 @@ export const MOCK_USERS: Record<UserRole, User> = {
   ADMIN_SISTEM: {
     id: "U06",
     nidn: "SYS-01",
-    name: "System Administrator",
+    name: "Administrator Sistem",
     email: "admin@simlppm.untan.ac.id",
     facultyId: "LPPM",
     facultyName: "LPPM UNTAN",

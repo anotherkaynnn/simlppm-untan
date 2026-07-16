@@ -54,7 +54,7 @@ export const useNotificationStore = create<NotificationState>()(
       },
     }),
     {
-      name: 'notification-storage',
+      name: 'notification-storage-v2',
     }
   )
 );

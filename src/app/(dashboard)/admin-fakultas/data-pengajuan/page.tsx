@@ -638,7 +638,7 @@ export default function ManajemenRisetPage() {
           
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Tipe</span>
-            <Select value={activeSubTab} onValueChange={setActiveSubTab}>
+            <Select value={activeSubTab} onValueChange={(val) => val && setActiveSubTab(val)}>
               <SelectTrigger className="w-[120px] sm:w-[140px] h-9 border-neutral-200 bg-neutral-50/30">
                 <SelectValue placeholder="Pilih Tipe" />
               </SelectTrigger>
@@ -651,7 +651,7 @@ export default function ManajemenRisetPage() {
 
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Data Tahun</span>
-            <Select value={activeTahun} onValueChange={setActiveTahun}>
+            <Select value={activeTahun} onValueChange={(val) => val && setActiveTahun(val)}>
               <SelectTrigger className="w-[100px] h-9 border-neutral-200 bg-neutral-50/30">
                 <SelectValue placeholder="Tahun" />
               </SelectTrigger>
@@ -678,7 +678,7 @@ export default function ManajemenRisetPage() {
                 />
               </div>
               <div className="w-full sm:w-[200px]">
-                <Select value={sumberDanaFilter} onValueChange={setSumberDanaFilter}>
+                <Select value={sumberDanaFilter} onValueChange={(val) => val && setSumberDanaFilter(val)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Sumber Dana" />
                   </SelectTrigger>

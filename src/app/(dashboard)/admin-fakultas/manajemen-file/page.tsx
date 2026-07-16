@@ -31,7 +31,7 @@ export default function UnduhanPage() {
 
       <Card className="w-full sm:w-[250px] shadow-sm mb-6">
           <CardContent className="p-1.5">
-            <Select value={activeTab} onValueChange={setActiveTab}>
+            <Select value={activeTab} onValueChange={(v) => v && setActiveTab(v)}>
               <SelectTrigger className="h-9 border-0 shadow-none focus:ring-0 focus-visible:ring-0 font-medium text-neutral-700 bg-transparent">
                 <SelectValue placeholder="Pilih menu..." />
               </SelectTrigger>

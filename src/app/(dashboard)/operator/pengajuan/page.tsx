@@ -624,7 +624,7 @@ export default function ManajemenRisetPage() {
         <Card className="flex flex-col sm:flex-row items-center gap-6 px-4 py-2.5 shadow-sm shrink-0 rounded-2xl border-neutral-200 bg-white">
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Kategori</span>
-            <Select value={activeTab} onValueChange={setActiveTab}>
+            <Select value={activeTab} onValueChange={(v) => v && setActiveTab(v)}>
               <SelectTrigger className="w-[140px] sm:w-[160px] h-9 border-neutral-200 bg-neutral-50/30">
                 <SelectValue placeholder="Pilih Kategori" />
               </SelectTrigger>
@@ -637,7 +637,7 @@ export default function ManajemenRisetPage() {
           
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Tipe</span>
-            <Select value={activeSubTab} onValueChange={setActiveSubTab}>
+            <Select value={activeSubTab} onValueChange={(v) => v && setActiveSubTab(v)}>
               <SelectTrigger className="w-[120px] sm:w-[140px] h-9 border-neutral-200 bg-neutral-50/30">
                 <SelectValue placeholder="Pilih Tipe" />
               </SelectTrigger>
@@ -650,7 +650,7 @@ export default function ManajemenRisetPage() {
 
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Data Tahun</span>
-            <Select value={activeTahun} onValueChange={setActiveTahun}>
+            <Select value={activeTahun} onValueChange={(v) => v && setActiveTahun(v)}>
               <SelectTrigger className="w-[100px] h-9 border-neutral-200 bg-neutral-50/30">
                 <SelectValue placeholder="Tahun" />
               </SelectTrigger>
@@ -677,7 +677,7 @@ export default function ManajemenRisetPage() {
                 />
               </div>
               <div className="w-full sm:w-[200px]">
-                <Select value={sumberDanaFilter} onValueChange={setSumberDanaFilter}>
+                <Select value={sumberDanaFilter} onValueChange={(v) => v && setSumberDanaFilter(v)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Sumber Dana" />
                   </SelectTrigger>

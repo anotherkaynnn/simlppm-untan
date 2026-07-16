@@ -119,7 +119,7 @@ export default function MonitoringPage() {
                 Detail
               </Button>
             </Link>
-            {isAccepted && (
+            {isAccepted && user?.role === 'DOSEN' && (
               <Button 
                 variant="outline" 
                 size="sm" 

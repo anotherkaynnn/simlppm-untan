@@ -19,7 +19,8 @@ import {
   Menu,
   ChevronLeft,
   ChevronRight,
-  Folder
+  Folder,
+  ClipboardList
 } from "lucide-react";
 import { UserRole } from "@/types";
 import { useState } from "react";
@@ -29,6 +30,7 @@ export type MenuItem = {
   title: string;
   href?: string;
   icon: any;
+  badge?: string;  // Opsional badge label, misal "Ditunjuk"
   subItems?: { title: string; href: string }[];
 };
 
@@ -121,7 +123,13 @@ export function AppSidebar({
   
   if (!user) return null;
 
-  const menuItems = MENU_CONFIG[user.role] || [];
+  const menuItems = [
+    ...(MENU_CONFIG[user.role] || []),
+    // Jika dosen ditunjuk sebagai reviewer, tambahkan menu Review P2M
+    ...(user.role === "DOSEN" && user.isReviewer ? [
+      { title: "Review P2M", href: "/review", icon: ClipboardList, badge: "Ditunjuk" } as MenuItem
+    ] : [])
+  ];
 
   return (
     <>
@@ -238,7 +246,16 @@ export function AppSidebar({
                 `}
               >
                 <item.icon className={`w-5 h-5 ${isMinimized ? '' : 'mr-3'} ${isActive ? 'text-primary-500' : 'text-neutral-500'}`} />
-                {!isMinimized && <span>{item.title}</span>}
+                {!isMinimized && (
+                  <span className="flex-1 flex items-center gap-2">
+                    {item.title}
+                    {item.badge && (
+                      <span className="ml-auto text-[9px] font-bold uppercase bg-warning/20 text-warning border border-warning/30 rounded px-1.5 py-0.5 leading-tight">
+                        {item.badge}
+                      </span>
+                    )}
+                  </span>
+                )}
               </Link>
             );
           })}

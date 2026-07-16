@@ -42,6 +42,17 @@ export const MOCK_USERS: Record<UserRole, User> = {
     studyProgram: "Teknik Informatika",
     role: "DOSEN"
   },
+  DOSEN_REVIEWER: {
+    id: "U01B",
+    nidn: "0011223399",
+    name: "Dr. Siti Rahayu, M.Sc.",
+    email: "siti.rahayu@fmipa.untan.ac.id",
+    facultyId: "FMIPA",
+    facultyName: "Fakultas MIPA",
+    studyProgram: "Matematika",
+    role: "DOSEN",
+    isReviewer: true // Ditunjuk sebagai reviewer oleh admin
+  },
   REVIEWER: {
     id: "U02",
     nidn: "0022334455",

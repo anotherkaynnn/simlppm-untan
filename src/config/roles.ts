@@ -14,7 +14,8 @@ export const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/monitoring",
     "/pelaporan",
     "/panduan",
-    "/surat-tugas"
+    "/surat-tugas",
+    "/review" // Diizinkan untuk dosen yang ditunjuk sebagai reviewer (isReviewer: true)
   ],
   REVIEWER: [
     ...SHARED_ROUTES,

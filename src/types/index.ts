@@ -8,6 +8,7 @@ export interface User {
   studyProgram?: string;
   role: UserRole;
   avatarUrl?: string;
+  isReviewer?: boolean; // Dosen yang juga ditugaskan sebagai reviewer
 }
 
 export type UserRole =

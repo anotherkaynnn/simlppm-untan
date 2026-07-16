@@ -50,7 +50,7 @@ export default function LoginPage() {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         const uname = data.username.toLowerCase();
-        const validRoles = ["operator", "adminfk", "ketua", "admin", "reviewer", "dosen"];
+        const validRoles = ["operator", "adminfk", "ketua", "admin", "reviewer", "dosenreviewer", "dosen"];
         
         const hasValidRole = validRoles.some(role => uname.includes(role));
 
@@ -64,13 +64,15 @@ export default function LoginPage() {
         }
 
         let role: UserRole = "DOSEN";
-        if (uname.includes("operator")) role = "OPERATOR_FK";
-        else if (uname.includes("adminfk")) role = "ADMIN_FK";
-        else if (uname.includes("ketua")) role = "KETUA_LPPM";
-        else if (uname.includes("admin")) role = "ADMIN_SISTEM";
-        else if (uname.includes("reviewer")) role = "REVIEWER";
+        let mockKey: keyof typeof MOCK_USERS = "DOSEN";
+        if (uname.includes("operator")) mockKey = "OPERATOR_FK";
+        else if (uname.includes("adminfk")) mockKey = "ADMIN_FK";
+        else if (uname.includes("ketua")) mockKey = "KETUA_LPPM";
+        else if (uname.includes("admin")) mockKey = "ADMIN_SISTEM";
+        else if (uname.includes("reviewer") && !uname.includes("dosen")) mockKey = "REVIEWER";
+        else if (uname.includes("dosenreviewer")) mockKey = "DOSEN_REVIEWER";
 
-        const user = MOCK_USERS[role];
+        const user = MOCK_USERS[mockKey];
         if (user) {
           login(user);
           toast.success(`Berhasil masuk sebagai ${user.name}`);
@@ -263,7 +265,7 @@ export default function LoginPage() {
 
             {/* Hint for development */}
             <div className="text-[10px] text-neutral-400 italic">
-              *Dev note: Ketik &quot;adminfk&quot;, &quot;admin&quot;, &quot;operator&quot;, &quot;ketua&quot;, &quot;dosen&quot; atau &quot;reviewer&quot; pada username untuk simulasi role login yang berbeda.
+              *Dev note: Ketik &quot;adminfk&quot;, &quot;admin&quot;, &quot;operator&quot;, &quot;ketua&quot;, &quot;dosen&quot;, &quot;dosenreviewer&quot; atau &quot;reviewer&quot; pada username untuk simulasi role login yang berbeda. <span className="text-warning font-semibold not-italic">&quot;dosenreviewer&quot; = Dosen yang ditunjuk sebagai reviewer.</span>
             </div>
 
             <Button 

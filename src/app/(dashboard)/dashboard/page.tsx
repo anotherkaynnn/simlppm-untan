@@ -48,6 +48,11 @@ function DosenDashboard() {
 
   return (
     <>
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat melihat ringkasan status pengajuan proposal, riwayat pengusulan, dan jadwal kegiatan penelitian serta pengabdian Anda pada halaman ini.</p>
+      </div>
+
       <div className="bg-warning-50 border border-warning-200 rounded-lg p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="bg-warning-100 p-2 rounded-full text-warning-700 shrink-0">
@@ -138,55 +143,87 @@ function DosenDashboard() {
 }
 
 function OperatorDashboard() {
-  const antrean = [
-    { id: "PRP-2026-041", judul: "Pengembangan Model E-Learning Berbasis AI", pengusul: "Dr. Budi Santoso, M.T.", skim: "Penelitian Dasar", tglMasuk: "Hari ini, 09:15" },
-    { id: "PRP-2026-042", judul: "Pelatihan Kewirausahaan Digital UMKM", pengusul: "Rina Amelia, S.E., M.Si.", skim: "Pengabdian Masyarakat", tglMasuk: "Hari ini, 08:30" },
-    { id: "PRP-2026-039", judul: "Sintesis Material Nano untuk Baterai", pengusul: "Prof. Dr. Ir. Herman, M.Sc.", skim: "Penelitian Terapan", tglMasuk: "Kemarin, 15:40" },
-    { id: "PRP-2026-038", judul: "Analisis Sentimen Publik pada Pemilu", pengusul: "Andi Setiawan, S.IP., M.A.", skim: "Penelitian Dasar", tglMasuk: "Kemarin, 14:10" },
-    { id: "PRP-2026-037", judul: "Pemberdayaan Masyarakat Pesisir Sungai", pengusul: "Dr. Siti Aminah, S.P., M.P.", skim: "Pengabdian Masyarakat", tglMasuk: "Kemarin, 10:05" },
+  const { user } = useAuthStore();
+  const chartData = [
+    { prodi: "Ilmu Hukum (S1)", Penelitian: 37, PKM: 25, Publikasi: 0 },
+    { prodi: "Ilmu Hukum (S2)", Penelitian: 2, PKM: 2, Publikasi: 0 },
+    { prodi: "Kenotariatan (S2)", Penelitian: 2, PKM: 0, Publikasi: 0 },
   ];
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard title="Menunggu Verifikasi" value="12" icon={<Clock className="w-5 h-5 text-warning" />} />
-        <StatCard title="Selesai Diverifikasi" value="45" icon={<CheckCircle className="w-5 h-5 text-success" />} />
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat memantau histori aktivitas penelitian, memvalidasi data pengajuan proposal & laporan, serta menunjuk reviewer pada halaman ini.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <StatCard title="Menunggu Validasi" value="12" icon={<Clock className="w-5 h-5 text-warning" />} />
+        <StatCard title="Selesai Divalidasi" value="45" icon={<CheckCircle className="w-5 h-5 text-success" />} />
         <StatCard title="Ditolak" value="2" icon={<FileText className="w-5 h-5 text-danger" />} />
       </div>
 
-      <Card className="mt-6">
-        <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
-          <CardTitle className="text-lg">Antrean Proposal Masuk Terbaru</CardTitle>
-          <Link href="/verifikasi">
-            <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white">
-              Verifikasi Proposal Masuk <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
+      <Card>
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between pb-2 border-b">
+          <div>
+            <CardTitle className="text-lg text-neutral-800">Grafik Data Penelitian dan Pengabdian</CardTitle>
+          </div>
         </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader className="bg-neutral-50">
-                <TableRow>
-                  <TableHead>Kode</TableHead>
-                  <TableHead>Judul Proposal</TableHead>
-                  <TableHead>Ketua Pengusul</TableHead>
-                  <TableHead>Skim</TableHead>
-                  <TableHead>Waktu Masuk</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {antrean.map((row, i) => (
-                  <TableRow key={i}>
-                    <TableCell className="font-medium text-neutral-600">{row.id}</TableCell>
-                    <TableCell className="font-semibold text-neutral-900 max-w-[250px] truncate" title={row.judul}>{row.judul}</TableCell>
-                    <TableCell className="text-neutral-700">{row.pengusul}</TableCell>
-                    <TableCell className="text-neutral-600">{row.skim}</TableCell>
-                    <TableCell className="text-neutral-500 whitespace-nowrap">{row.tglMasuk}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        <CardContent className="pt-6">
+          <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-neutral-700">Tipe</span>
+              <select className="border border-neutral-300 rounded-md text-sm px-2 py-1 outline-none focus:ring-1 focus:ring-primary-500">
+                <option>Proposal</option>
+                <option>Laporan Akhir</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-neutral-700">Data Tahun</span>
+              <select className="border border-neutral-300 rounded-md text-sm px-2 py-1 outline-none focus:ring-1 focus:ring-primary-500">
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+              </select>
+            </div>
+          </div>
+          
+          <h3 className="text-center text-sm font-medium text-neutral-700 mb-6">Jumlah Penelitian dan PKM UNTAN Tahun 2026</h3>
+          
+          <div className="h-[400px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis 
+                  dataKey="prodi" 
+                  tick={{ fontSize: 12, fill: '#64748b' }} 
+                  axisLine={{stroke: '#cbd5e1'}} 
+                  tickLine={false} 
+                />
+                <YAxis 
+                  tick={{ fontSize: 12, fill: '#64748b' }} 
+                  axisLine={{stroke: '#cbd5e1'}} 
+                  tickLine={false} 
+                  allowDecimals={false} 
+                  label={{ value: 'Jumlah', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#64748b', fontSize: 12 } }}
+                />
+                <RechartsTooltip 
+                  cursor={{fill: '#f8fafc'}} 
+                  contentStyle={{borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)', padding: '12px 16px'}} 
+                  itemStyle={{fontWeight: 500}}
+                />
+                <Legend 
+                  verticalAlign="middle" 
+                  align="right" 
+                  layout="vertical"
+                  iconType="circle"
+                  wrapperStyle={{ right: 0, top: '50%', transform: 'translateY(-50%)', fontSize: '13px', color: '#475569', fontWeight: 500 }}
+                />
+                <Bar dataKey="Penelitian" fill="#0ea5e9" radius={[6, 6, 0, 0]} maxBarSize={48} />
+                <Bar dataKey="PKM" fill="#8b5cf6" radius={[6, 6, 0, 0]} maxBarSize={48} />
+                <Bar dataKey="Publikasi" fill="#10b981" radius={[6, 6, 0, 0]} maxBarSize={48} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
@@ -195,104 +232,96 @@ function OperatorDashboard() {
 }
 
 function AdminFkDashboard() {
-  const antreanPenugasan = [
-    { id: "PRP-2026-050", judul: "Inovasi Pembelajaran Daring di Era Digital", pengusul: "Dr. Budi Santoso, S.T., M.T.", skim: "Penelitian Terapan" },
-    { id: "PRP-2026-051", judul: "Pemberdayaan Masyarakat Nelayan Pesisir", pengusul: "Siti Aminah, S.P., M.P.", skim: "Pengabdian Masyarakat" },
-    { id: "PRP-2026-052", judul: "Pengembangan Material Komposit Ramah Lingkungan", pengusul: "Prof. Dr. Ir. Herman", skim: "Penelitian Dasar" },
-  ];
-
-  const logAktivitas = [
-    { text: "Prof. Anton telah selesai mengunggah nilai untuk Proposal PRP-2026-010", time: "10 menit yang lalu" },
-    { text: "Dr. Rina menerima penugasan review untuk Proposal PRP-2026-025", time: "1 jam yang lalu" },
-    { text: "Dr. Budi menolak penugasan review (Alasan: Conflict of Interest)", time: "3 jam yang lalu" },
-    { text: "Prof. Anton mulai mereview Proposal PRP-2026-010", time: "Kemarin, 14:30 WIB" },
+  const { user } = useAuthStore();
+  const chartData = [
+    { prodi: "Ilmu Hukum (S1)", Penelitian: 37, PKM: 25, Publikasi: 0 },
+    { prodi: "Ilmu Hukum (S2)", Penelitian: 2, PKM: 2, Publikasi: 0 },
+    { prodi: "Kenotariatan (S2)", Penelitian: 2, PKM: 0, Publikasi: 0 },
   ];
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat memverifikasi berkas proposal, memvalidasi laporan, mengelola manajemen file, serta mengatur data referensi tingkat fakultas pada halaman ini.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <StatCard title="Total Dosen Aktif" value="120" icon={<FileText className="w-5 h-5 text-primary-600" />} />
         <StatCard title="Usulan Fakultas" value="34" icon={<BarChart3 className="w-5 h-5 text-info" />} />
         <StatCard title="Rasio Usulan" value="28%" icon={<CheckCircle className="w-5 h-5 text-success" />} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
-        {/* Kolom Kiri: Antrean Penugasan */}
-        <div className="lg:col-span-8">
-          <Card className="h-full">
-            <CardHeader className="border-b pb-4">
-              <CardTitle className="text-lg">Antrean Penugasan Reviewer Terbaru</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader className="bg-neutral-50">
-                    <TableRow>
-                      <TableHead>Kode & Judul</TableHead>
-                      <TableHead>Ketua Pengusul</TableHead>
-                      <TableHead className="text-right">Aksi</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {antreanPenugasan.map((row, i) => (
-                      <TableRow key={i}>
-                        <TableCell>
-                          <div className="font-medium text-neutral-900 truncate max-w-[250px] lg:max-w-[350px]" title={row.judul}>{row.judul}</div>
-                          <div className="text-xs text-neutral-500 mt-1">{row.id} • {row.skim}</div>
-                        </TableCell>
-                        <TableCell className="text-neutral-700">{row.pengusul}</TableCell>
-                        <TableCell className="text-right">
-                          <Link href="/manajemen/reviewer">
-                            <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white">
-                              <UserPlus className="w-4 h-4 mr-2" />
-                              Tugaskan Reviewer
-                            </Button>
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Kolom Kanan: Log Aktivitas */}
-        <div className="lg:col-span-4">
-          <Card className="h-full border-info-200 shadow-sm">
-            <CardHeader className="bg-info-50 rounded-t-xl border-b border-info-100 pb-4">
-              <CardTitle className="text-lg flex items-center gap-2 text-info-800">
-                <Activity className="w-5 h-5" />
-                Log Aktivitas Review
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <div className="space-y-4">
-                {logAktivitas.map((log, index) => (
-                  <div key={index} className="flex gap-3">
-                    <div className="mt-1">
-                      <div className="w-2 h-2 rounded-full bg-info-500 shrink-0"></div>
-                      {index !== logAktivitas.length - 1 && (
-                        <div className="w-0.5 h-full bg-neutral-200 ml-[3px] mt-1 shrink-0"></div>
-                      )}
-                    </div>
-                    <div className="pb-4 flex-1">
-                      <p className="text-sm text-neutral-700">{log.text}</p>
-                      <span className="text-xs text-neutral-400 mt-1 block">{log.time}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <Card>
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between pb-2 border-b">
+          <div>
+            <CardTitle className="text-lg text-neutral-800">Grafik Data Penelitian dan Pengabdian</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-neutral-700">Tipe</span>
+              <select className="border border-neutral-300 rounded-md text-sm px-2 py-1 outline-none focus:ring-1 focus:ring-primary-500">
+                <option>Proposal</option>
+                <option>Laporan Akhir</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-neutral-700">Data Tahun</span>
+              <select className="border border-neutral-300 rounded-md text-sm px-2 py-1 outline-none focus:ring-1 focus:ring-primary-500">
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+              </select>
+            </div>
+          </div>
+          
+          <h3 className="text-center text-sm font-medium text-neutral-700 mb-6">Jumlah Penelitian dan PKM UNTAN Tahun 2026</h3>
+          
+          <div className="h-[400px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <XAxis 
+                  dataKey="prodi" 
+                  tick={{ fontSize: 12, fill: '#64748b' }} 
+                  axisLine={{stroke: '#cbd5e1'}} 
+                  tickLine={false} 
+                />
+                <YAxis 
+                  tick={{ fontSize: 12, fill: '#64748b' }} 
+                  axisLine={{stroke: '#cbd5e1'}} 
+                  tickLine={false} 
+                  allowDecimals={false} 
+                  label={{ value: 'Jumlah', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#64748b', fontSize: 12 } }}
+                />
+                <RechartsTooltip 
+                  cursor={{fill: '#f8fafc'}} 
+                  contentStyle={{borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)', padding: '12px 16px'}} 
+                  itemStyle={{fontWeight: 500}}
+                />
+                <Legend 
+                  verticalAlign="middle" 
+                  align="right" 
+                  layout="vertical"
+                  iconType="circle"
+                  wrapperStyle={{ right: 0, top: '50%', transform: 'translateY(-50%)', fontSize: '13px', color: '#475569', fontWeight: 500 }}
+                />
+                <Bar dataKey="Penelitian" fill="#0ea5e9" radius={[6, 6, 0, 0]} maxBarSize={48} />
+                <Bar dataKey="PKM" fill="#8b5cf6" radius={[6, 6, 0, 0]} maxBarSize={48} />
+                <Bar dataKey="Publikasi" fill="#10b981" radius={[6, 6, 0, 0]} maxBarSize={48} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
     </>
   );
 }
 
 function KetuaLppmDashboard() {
+  const { user } = useAuthStore();
   const partisipasiData = [
     { name: "Hukum", usulan: 120, didanai: 40 },
     { name: "Teknik", usulan: 250, didanai: 110 },
@@ -334,6 +363,11 @@ function KetuaLppmDashboard() {
 
   return (
     <>
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat melihat rekapitulasi data penelitian, tren luaran, dan serapan anggaran tingkat universitas secara keseluruhan pada halaman ini.</p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard title="Total Usulan (Univ)" value="1.050" icon={<FileText className="w-5 h-5 text-primary-600" />} />
         <StatCard title="Usulan Didanai" value="420" icon={<CheckCircle className="w-5 h-5 text-success" />} />
@@ -471,6 +505,7 @@ function KetuaLppmDashboard() {
 }
 
 function AdminSistemDashboard() {
+  const { user } = useAuthStore();
   const recentLogs = [
     { time: "10:45", user: "Dosen 'ahmad'", action: "memperbarui foto profil" },
     { time: "09:30", user: "Admin FK Teknik", action: "menugaskan Reviewer Dr. Anton" },
@@ -486,6 +521,11 @@ function AdminSistemDashboard() {
 
   return (
     <>
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat mengelola konfigurasi sistem, data pengguna, log aktivitas, dan pengaturan master data pada halaman ini.</p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatCard title="Total Pengguna" value="1.542" icon={<FileText className="w-5 h-5 text-primary-600" />} />
         <StatCard title="Skim Aktif" value="8" icon={<CheckCircle className="w-5 h-5 text-success" />} />
@@ -554,12 +594,20 @@ function AdminSistemDashboard() {
 }
 
 function ReviewerDashboard() {
+  const { user } = useAuthStore();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <StatCard title="Tugas Review Baru" value="3" icon={<Clock className="w-5 h-5 text-warning" />} />
-      <StatCard title="Review Selesai" value="15" icon={<CheckCircle className="w-5 h-5 text-success" />} />
-      <StatCard title="Total Nilai (Rata-rata)" value="82.5" icon={<BarChart3 className="w-5 h-5 text-info" />} />
-    </div>
+    <>
+      <div className="bg-primary-600 rounded-lg p-4 text-white shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-1">Selamat datang {user?.name}, di Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat Universitas Tanjungpura.</h2>
+        <p className="text-primary-50 text-sm md:text-base">Anda dapat melihat daftar tugas peninjauan (review) proposal, menginput nilai, dan melihat riwayat penilaian pada halaman ini.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <StatCard title="Tugas Review Baru" value="3" icon={<Clock className="w-5 h-5 text-warning" />} />
+        <StatCard title="Review Selesai" value="15" icon={<CheckCircle className="w-5 h-5 text-success" />} />
+        <StatCard title="Total Nilai (Rata-rata)" value="82.5" icon={<BarChart3 className="w-5 h-5 text-info" />} />
+      </div>
+    </>
   );
 }
 

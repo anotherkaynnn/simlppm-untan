@@ -45,7 +45,14 @@ const dummyData = [
     statusValidasi: "SELESAI",
     catatanValidasi: "Semua berkas sesuai",
     waktuUpload: "14-07-2026 20:20",
-    reviewers: [],
+    reviewers: [
+      {
+        nama: "Prof. Dr. Andi Wijaya",
+        status: "SUDAH DINILAI",
+        catatan: "Penelitian ini sangat bagus dan relevan dengan kondisi saat ini. Latar belakang masalah diuraikan dengan jelas, metodologi yang digunakan tepat, dan luaran yang ditargetkan sangat terukur. Sangat layak didanai.",
+        skor: 85
+      }
+    ],
     dokumen: [
       { nama: "PROPOSAL PENELITIAN", file: "proposal.pdf" }
     ],
@@ -83,7 +90,14 @@ const dummyData = [
     statusValidasi: "LANJUT",
     catatanValidasi: "Tunggu revisi",
     waktuUpload: "08-07-2026 22:10",
-    reviewers: [],
+    reviewers: [
+      {
+        nama: "Dr. Budi Santoso, S.T., M.T.",
+        status: "SUDAH DINILAI",
+        catatan: "Program pemberdayaan sangat tepat sasaran. Mohon pastikan keterlibatan masyarakat lebih ditekankan pada bagian metode pelaksanaan.",
+        skor: 88
+      }
+    ],
     dokumen: [
       { nama: "PROPOSAL PKM", file: "proposal_pkm.pdf" },
       { nama: "FILE KONTRAK", file: "kontrak.pdf" }
@@ -147,7 +161,14 @@ const dummyData = [
     catatanVerifikasi: "File presentasi sangat baik",
     catatanValidasi: "",
     waktuUpload: "17-07-2026 08:30",
-    reviewers: [],
+    reviewers: [
+      {
+        nama: "Prof. Dr. Andi Wijaya",
+        status: "SUDAH DINILAI",
+        catatan: "Sangat relevan dengan kondisi sosial saat ini. Media sosialisasi yang disiapkan cukup menarik.",
+        skor: 90
+      }
+    ],
     dokumen: [
       { nama: "PROPOSAL PKM", file: "proposal_pkm.pdf" }
     ],
@@ -168,7 +189,14 @@ const dummyData = [
     catatanVerifikasi: "",
     catatanValidasi: "Laporan diterima",
     waktuUpload: "18-07-2026 14:00",
-    reviewers: [],
+    reviewers: [
+      {
+        nama: "Dr. Siti Rohani, S.H., M.Hum.",
+        status: "SUDAH DINILAI",
+        catatan: "Laporan akhir disusun dengan sangat baik dan komprehensif. Hasil penelitian telah mencapai target luaran yang dijanjikan, termasuk publikasi artikel jurnal. Sangat memuaskan.",
+        skor: 92
+      }
+    ],
     dokumen: [
       { nama: "LAPORAN AKHIR", file: "laporan_akhir.pdf" },
       { nama: "ARTIKEL PUBLIKASI", file: "jurnal.pdf" }
@@ -232,7 +260,14 @@ const dummyData = [
     catatanVerifikasi: "",
     catatanValidasi: "Berkas lengkap dan dinilai sangat baik",
     waktuUpload: "21-07-2026 16:30",
-    reviewers: [],
+    reviewers: [
+      {
+        nama: "Dr. Siti Rohani, S.H., M.Hum.",
+        status: "SUDAH DINILAI",
+        catatan: "Laporan akhir PKM sangat lengkap. Output berupa panduan bantuan hukum telah direalisasikan dan sangat bermanfaat bagi masyarakat sasaran.",
+        skor: 95
+      }
+    ],
     dokumen: [
       { nama: "LAPORAN AKHIR", file: "laporan_akhir.pdf" }
     ],
@@ -265,21 +300,10 @@ const renderStatusBadge = (status: string) => {
 function ReviewerDialogContent({ item }: { item: any }) {
   const [view, setView] = useState<"list" | "detail">("list");
   const [selectedReviewer, setSelectedReviewer] = useState<any>(null);
-  const [assignedReviewers, setAssignedReviewers] = useState<any[]>(item.reviewers || []);
-  const [searchReviewer, setSearchReviewer] = useState("");
 
   const openDetail = (rev: any) => {
     setSelectedReviewer(rev);
     setView("detail");
-  };
-
-  const handleTugaskan = () => {
-    if (!searchReviewer) return;
-    setAssignedReviewers([
-      ...assignedReviewers,
-      { nama: searchReviewer, status: "BELUM DINILAI", catatan: "", skor: 0 }
-    ]);
-    setSearchReviewer("");
   };
 
   if (view === "detail" && selectedReviewer) {
@@ -398,29 +422,6 @@ function ReviewerDialogContent({ item }: { item: any }) {
       </DialogHeader>
       
       <div className="mt-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 bg-primary-50/50 p-3 rounded border border-primary-100 gap-3">
-          <div className="text-sm font-semibold text-primary-800">Penugasan Reviewer Baru</div>
-          <div className="flex w-full sm:w-auto gap-2 items-center">
-            <div className="relative">
-              <Input 
-                list="reviewer-list" 
-                placeholder="Cari NIDN / Nama..." 
-                className="w-full sm:w-[250px] text-xs h-8 bg-white border-neutral-200"
-                value={searchReviewer}
-                onChange={(e) => setSearchReviewer(e.target.value)}
-              />
-              <datalist id="reviewer-list">
-                <option value="Dr. Sri Widiyastuti, S.H., L.LM.,M.Si (0012057201)" />
-                <option value="Prof. Dr. H. Budi Santoso, S.H., M.H. (0014026802)" />
-                <option value="Dr. Agus Riyanto, S.H., M.Hum. (0021097503)" />
-                <option value="Dr. Rini Mulyani, S.H., M.H. (0015047804)" />
-              </datalist>
-            </div>
-            <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white h-8 text-xs px-4 rounded shadow-sm" onClick={handleTugaskan}>
-              <Plus className="w-3.5 h-3.5 mr-1" /> Tugaskan
-            </Button>
-          </div>
-        </div>
         <Table className="border mb-4 rounded-md overflow-hidden">
           <TableHeader className="bg-neutral-50">
             <TableRow>
@@ -433,8 +434,8 @@ function ReviewerDialogContent({ item }: { item: any }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {assignedReviewers.length > 0 ? (
-              assignedReviewers.map((rev: any, idx: number) => (
+            {item.reviewers.length > 0 ? (
+              item.reviewers.map((rev: any, idx: number) => (
                 <TableRow key={idx}>
                   <TableCell className="text-center text-sm">{idx + 1}.</TableCell>
                   <TableCell className="text-sm font-medium">{rev.nama}</TableCell>
@@ -461,7 +462,7 @@ function ReviewerDialogContent({ item }: { item: any }) {
         </Table>
 
         <p className="text-sm text-neutral-700 mb-6">
-          Rata-rata : {assignedReviewers.length > 0 ? (assignedReviewers.reduce((acc: any, curr: any) => acc + curr.skor, 0) / assignedReviewers.length).toFixed(0) : 0}
+          Rata-rata : {item.reviewers.length > 0 ? (item.reviewers.reduce((acc: any, curr: any) => acc + curr.skor, 0) / item.reviewers.length).toFixed(0) : 0}
         </p>
 
         <h3 className="text-lg font-normal text-neutral-700 mb-3">Surat Tugas</h3>
@@ -624,8 +625,8 @@ export default function ManajemenRisetPage() {
         <Card className="flex flex-col sm:flex-row items-center gap-6 px-4 py-2.5 shadow-sm shrink-0 rounded-2xl border-neutral-200 bg-white">
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-neutral-700">Kategori</span>
-            <Select value={activeTab} onValueChange={setActiveTab}>
-              <SelectTrigger className="w-[140px] sm:w-[160px] h-9 border-neutral-200 bg-neutral-50/30">
+            <Select value={activeTab} onValueChange={(val) => val && setActiveTab(val)}>
+              <SelectTrigger className="w-[140px] sm:w-[160px] h-9 border-neutral-200 bg-white">
                 <SelectValue placeholder="Pilih Kategori" />
               </SelectTrigger>
               <SelectContent>
@@ -741,7 +742,62 @@ export default function ManajemenRisetPage() {
                         {activeSubTab === "proposal" ? (
                           <div className="space-y-2">
                             {renderStatusBadge(item.statusVerifikasi)}
-
+                            <Dialog open={selectedVerifikasiItem?.id === item.id} onOpenChange={(open) => !open && setSelectedVerifikasiItem(null)}>
+                              <Button 
+                                variant="link" 
+                                size="sm" 
+                                className="h-auto p-0 text-primary-600 text-xs block font-medium"
+                                onClick={() => openVerifikasiDialog(item)}
+                              >
+                                Edit Verifikasi
+                              </Button>
+                                {selectedVerifikasiItem && (
+                                  <DialogContent className="sm:max-w-2xl bg-white rounded-md">
+                                    <DialogHeader className="border-b pb-3 mb-2">
+                                      <DialogTitle className="text-lg font-medium text-neutral-700">Data Verifikasi</DialogTitle>
+                                    </DialogHeader>
+                                    <div className="py-2 space-y-5">
+                                      <div className="space-y-1.5">
+                                        <Label className="text-sm font-bold text-neutral-800">Judul</Label>
+                                        <p className="text-sm text-neutral-600 uppercase">
+                                          {selectedVerifikasiItem.judul}
+                                        </p>
+                                      </div>
+                                      <div className="space-y-3">
+                                        <Label className="text-sm font-bold text-neutral-800">Status Verifikasi</Label>
+                                        <RadioGroup value={verifikasiStatus} onValueChange={setVerifikasiStatus} className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-1">
+                                          <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="MENUNGGU VERIFIKASI" id="VERIF_MENUNGGU" />
+                                            <Label htmlFor="VERIF_MENUNGGU" className="cursor-pointer text-sm font-normal uppercase text-neutral-700">MENUNGGU VERIFIKASI</Label>
+                                          </div>
+                                          <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="TIDAK SESUAI (BELUM LENGKAP)" id="VERIF_TIDAK_SESUAI" />
+                                            <Label htmlFor="VERIF_TIDAK_SESUAI" className="cursor-pointer text-sm font-normal uppercase text-neutral-700">TIDAK SESUAI (BELUM LENGKAP)</Label>
+                                          </div>
+                                          <div className="flex items-center space-x-2">
+                                            <RadioGroupItem value="SESUAI (SIAP DIREVIEW)" id="VERIF_SESUAI" />
+                                            <Label htmlFor="VERIF_SESUAI" className="cursor-pointer text-sm font-normal uppercase text-neutral-700">SESUAI (SIAP DIREVIEW)</Label>
+                                          </div>
+                                        </RadioGroup>
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label htmlFor="catatanVerifikasi" className="text-sm font-bold text-neutral-800">Catatan</Label>
+                                        <Textarea 
+                                          id="catatanVerifikasi" 
+                                          value={verifikasiCatatan}
+                                          onChange={(e) => setVerifikasiCatatan(e.target.value)}
+                                          placeholder="Catatan" 
+                                          className="resize-y text-sm rounded border-neutral-300"
+                                          rows={4}
+                                        />
+                                      </div>
+                                    </div>
+                                    <DialogFooter className="border-t pt-3 mt-2">
+                                      <Button className="bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded text-sm px-6 h-9" onClick={handleSimpanVerifikasi}>Simpan</Button>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                )}
+                              </Dialog>
                           </div>
                         ) : (
                           <div className="space-y-2">

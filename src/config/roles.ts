@@ -30,7 +30,8 @@ export const ROLE_ROUTES: Record<UserRole, string[]> = {
     "/manajemen/dosen",
     "/manajemen/reviewer",
     "/manajemen/berkas",
-    "/manajemen/ekspor"
+    "/manajemen/ekspor",
+    "/admin-fakultas"
   ],
   KETUA_LPPM: [
     ...SHARED_ROUTES,

@@ -54,7 +54,7 @@ export const MOCK_USERS: Record<UserRole, User> = {
   OPERATOR_FK: {
     id: "U03",
     nidn: "OP-FT-01",
-    name: "Siti Rahma, S.Kom",
+    name: "Ghiffar Fabian Wibisono, S.M.",
     email: "op.ft@untan.ac.id",
     facultyId: "FT",
     facultyName: "Fakultas Teknik",
@@ -63,7 +63,7 @@ export const MOCK_USERS: Record<UserRole, User> = {
   ADMIN_FK: {
     id: "U04",
     nidn: "ADM-FT-01",
-    name: "Ir. Hendra, M.T.",
+    name: "Dr. Ir. Yopa Eka Prawatya, S.T., M.Eng., IPM",
     email: "admin.ft@untan.ac.id",
     facultyId: "FT",
     facultyName: "Fakultas Teknik",

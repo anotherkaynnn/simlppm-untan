@@ -25,19 +25,19 @@ export default function MonitoringPage() {
 
   const [isSuratTugasOpen, setIsSuratTugasOpen] = useState(false);
   const [selectedProposalForSurat, setSelectedProposalForSurat] = useState<Proposal | null>(null);
-  const [suratFormData, setSuratFormData] = useState({ destination: "", dateRange: "" });
+  const [suratFormData, setSuratFormData] = useState({ kegiatan: "", tempatTujuan: "", tanggalBerangkat: "", tanggalKembali: "" });
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleOpenSuratDialog = (proposal: Proposal) => {
     setSelectedProposalForSurat(proposal);
-    setSuratFormData({ destination: "", dateRange: "" });
+    setSuratFormData({ kegiatan: proposal.title, tempatTujuan: "", tanggalBerangkat: "", tanggalKembali: "" });
     setIsSuratTugasOpen(true);
   };
 
   const handleGenerateSuratTugas = async () => {
     if (!selectedProposalForSurat) return;
-    if (!suratFormData.destination || !suratFormData.dateRange) {
-      toast.error("Tujuan dan Tanggal Pelaksanaan wajib diisi!");
+    if (!suratFormData.kegiatan || !suratFormData.tempatTujuan || !suratFormData.tanggalBerangkat || !suratFormData.tanggalKembali) {
+      toast.error("Semua kolom (Kegiatan, Tujuan, Tanggal) wajib diisi!");
       return;
     }
 
@@ -46,9 +46,9 @@ export default function MonitoringPage() {
       const templateData = {
         nomor_surat: `ST-${selectedProposalForSurat.id.slice(-4)}/UN22/2025`,
         tanggal_permintaan: format(new Date(), "dd-MM-yyyy HH:mm:ss"),
-        kegiatan: selectedProposalForSurat.title,
-        tujuan: suratFormData.destination,
-        tanggal_pelaksanaan: suratFormData.dateRange,
+        kegiatan: suratFormData.kegiatan,
+        tujuan: suratFormData.tempatTujuan,
+        tanggal_pelaksanaan: `${format(new Date(suratFormData.tanggalBerangkat), 'dd MMM yyyy', { locale: id })} s/d ${format(new Date(suratFormData.tanggalKembali), 'dd MMM yyyy', { locale: id })}`,
         nama_ketua: "Drs. Ahmad Rabiul Muzammil, M.Si.",
       };
 
@@ -187,30 +187,42 @@ export default function MonitoringPage() {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <Label>Kegiatan</Label>
+              <Label htmlFor="kegiatan">Kegiatan</Label>
               <Input
-                readOnly
-                className="bg-neutral-50 text-neutral-600"
-                value={selectedProposalForSurat?.title || ""}
+                id="kegiatan"
+                value={suratFormData.kegiatan}
+                onChange={(e) => setSuratFormData({ ...suratFormData, kegiatan: e.target.value })}
+                placeholder="Nama kegiatan (Otomatis dari usulan)"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="destination">Tujuan</Label>
+              <Label htmlFor="tempatTujuan">Tempat Tujuan</Label>
               <Input
-                id="destination"
-                value={suratFormData.destination}
-                onChange={(e) => setSuratFormData({ ...suratFormData, destination: e.target.value })}
+                id="tempatTujuan"
+                value={suratFormData.tempatTujuan}
+                onChange={(e) => setSuratFormData({ ...suratFormData, tempatTujuan: e.target.value })}
                 placeholder="Contoh: SMAN 1 PONTIANAK"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="dateRange">Tanggal Pelaksanaan</Label>
-              <Input
-                id="dateRange"
-                value={suratFormData.dateRange}
-                onChange={(e) => setSuratFormData({ ...suratFormData, dateRange: e.target.value })}
-                placeholder="Contoh: 10-12-2025 - 12-12-2025"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="tanggalBerangkat">Tanggal Berangkat</Label>
+                <Input
+                  id="tanggalBerangkat"
+                  type="date"
+                  value={suratFormData.tanggalBerangkat}
+                  onChange={(e) => setSuratFormData({ ...suratFormData, tanggalBerangkat: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tanggalKembali">Tanggal Kembali</Label>
+                <Input
+                  id="tanggalKembali"
+                  type="date"
+                  value={suratFormData.tanggalKembali}
+                  onChange={(e) => setSuratFormData({ ...suratFormData, tanggalKembali: e.target.value })}
+                />
+              </div>
             </div>
           </div>
           <DialogFooter>

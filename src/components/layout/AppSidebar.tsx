@@ -73,11 +73,16 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
   ],
   ADMIN_FK: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { title: "Statistik Fakultas", href: "/statistik", icon: BarChart3 },
-    { title: "Data Dosen", href: "/manajemen/dosen", icon: Users },
-    { title: "Penetapan Reviewer", href: "/manajemen/reviewer", icon: Users },
-    { title: "Berkas Kontrak", href: "/manajemen/berkas", icon: FileText },
-    { title: "Export Hub", href: "/manajemen/ekspor", icon: FileSpreadsheet },
+    { title: "Data Pengajuan", href: "/admin-fakultas/data-pengajuan", icon: FileText },
+    { title: "Manajemen File", href: "/admin-fakultas/manajemen-file", icon: Folder },
+    { 
+      title: "Data Referensi", 
+      icon: Settings, 
+      subItems: [
+        { title: "Bidang Ilmu", href: "/admin-fakultas/referensi/bidang-ilmu" },
+        { title: "Program Studi", href: "/admin-fakultas/referensi/prodi" }
+      ]
+    },
   ],
   KETUA_LPPM: [
     { title: "Dashboard Eksekutif", href: "/dashboard", icon: LayoutDashboard },

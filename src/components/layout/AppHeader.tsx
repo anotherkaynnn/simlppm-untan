@@ -105,7 +105,9 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
               "pelaporan": "Pelaporan",
               "statistik": "Statistik",
               "audit-log": "Audit Log",
-              "panduan": "Panduan & File"
+              "panduan": "Panduan & File",
+              "data-pengajuan": "Data Pengajuan",
+              "manajemen-file": "Manajemen File"
             };
             
             return (

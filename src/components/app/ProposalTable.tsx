@@ -1,8 +1,7 @@
 import { ReactNode } from "react";
 import { Proposal } from "@/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-
+import { StatusBadge } from "@/components/shared/StatusBadge";
 export function ProposalTable({ 
   proposals,
   renderActions
@@ -36,13 +35,7 @@ export function ProposalTable({
             </TableCell>
             <TableCell className="text-neutral-600">{row.schemeName}</TableCell>
             <TableCell>
-              <Badge variant={
-                row.status === 'DIAJUKAN' ? 'default' :
-                row.status === 'SELESAI' ? 'success' :
-                row.status === 'DRAFT' ? 'secondary' : 'outline'
-              }>
-                {row.status}
-              </Badge>
+              <StatusBadge status={row.status} />
             </TableCell>
             {renderActions && (
               <TableCell className="text-right space-x-2">

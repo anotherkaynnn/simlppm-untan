@@ -33,7 +33,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="min-h-screen flex flex-col font-sans">
+      <body suppressHydrationWarning className="min-h-screen flex flex-col font-sans">
         <TooltipProvider>
           {children}
           <Toaster position="top-right" />

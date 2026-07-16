@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Eye, Download, Copy } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
@@ -32,17 +32,7 @@ export default function RiwayatProposalPage() {
     router.push("/pengajuan/baru");
   };
 
-  const getStatusBadge = (status: string) => {
-    switch(status) {
-      case "DITERIMA":
-      case "SELESAI":
-        return <Badge variant="outline" className="bg-success-50 text-success-700 border-success-200">{status}</Badge>;
-      case "DITOLAK":
-        return <Badge variant="outline" className="bg-danger-50 text-danger-700 border-danger-200">{status}</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  }
+
 
   const exportColumns = [
     { key: "id", label: "ID Proposal" },
@@ -79,8 +69,8 @@ export default function RiwayatProposalPage() {
           filename="riwayat-proposal" 
           columns={exportColumns}
           triggerLabel="Ekspor"
-          className="shrink-0 border-neutral-200 text-neutral-700" 
-          variant="outline"
+          className="shrink-0" 
+          variant="default"
         />
       </div>
 
@@ -103,9 +93,7 @@ export default function RiwayatProposalPage() {
                   <h3 className="text-sm font-semibold text-neutral-500 uppercase tracking-wider">Kode Proposal</h3>
                   <p className="text-lg font-bold text-neutral-900 mt-1">{selectedProposal.id}</p>
                 </div>
-                <div>
-                  {getStatusBadge(selectedProposal.status)}
-                </div>
+                  <StatusBadge status={selectedProposal.status} />
               </div>
 
               <div className="space-y-4">

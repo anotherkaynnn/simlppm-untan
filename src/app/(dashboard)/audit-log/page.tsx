@@ -34,8 +34,8 @@ export default function AuditLogPage() {
             { key: "id", label: "ID Log" }
           ]}
           triggerLabel="Ekspor"
-          className="text-neutral-700 bg-white" 
-          variant="outline"
+          className="shrink-0" 
+          variant="default"
         />
       </div>
 

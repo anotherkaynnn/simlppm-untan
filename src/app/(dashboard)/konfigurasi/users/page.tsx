@@ -7,11 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useState } from "react";
+import { Switch } from "@/components/ui/switch";
 
 const initialUsersData = [
-  { id: "USR-001", nama: "Dr. Budi Santoso", email: "budi.santoso@untan.ac.id", role: "DOSEN", status: "Aktif" },
-  { id: "USR-002", nama: "Admin LPPM", email: "admin.lppm@untan.ac.id", role: "ADMIN_SISTEM", status: "Aktif" },
-  { id: "USR-003", nama: "Operator Hukum", email: "opr.hukum@untan.ac.id", role: "OPERATOR_FK", status: "Aktif" },
+  { id: "USR-001", nama: "Dr. Budi Santoso", email: "budi.santoso@untan.ac.id", role: "DOSEN", status: "Aktif", isReviewer: true },
+  { id: "USR-004", nama: "Dr. Anton", email: "anton@untan.ac.id", role: "DOSEN", status: "Aktif", isReviewer: false },
+  { id: "USR-002", nama: "Admin LPPM", email: "admin.lppm@untan.ac.id", role: "ADMIN_SISTEM", status: "Aktif", isReviewer: false },
+  { id: "USR-003", nama: "Operator Hukum", email: "opr.hukum@untan.ac.id", role: "OPERATOR_FK", status: "Aktif", isReviewer: false },
 ];
 
 export default function KelolaPenggunaPage() {
@@ -34,6 +36,11 @@ export default function KelolaPenggunaPage() {
       setIsSyncing(false);
       toast.success("Sinkronisasi SSO berhasil diselesaikan!");
     }, 2000);
+  };
+
+  const handleToggleReviewer = (id: string, checked: boolean) => {
+    setUsers(users.map(u => u.id === id ? { ...u, isReviewer: checked } : u));
+    toast.success(`Akses Reviewer untuk ID ${id} berhasil di${checked ? 'aktifkan' : 'nonaktifkan'}.`);
   };
 
   return (
@@ -68,6 +75,7 @@ export default function KelolaPenggunaPage() {
                 <TableHead>Nama Pengguna</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Peran (Role)</TableHead>
+                <TableHead>Akses Reviewer</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
@@ -81,6 +89,19 @@ export default function KelolaPenggunaPage() {
                     <Badge variant="outline" className="bg-primary-50 text-primary-700 border-primary-200">
                       {user.role.replace("_", " ")}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {user.role === 'DOSEN' ? (
+                      <div className="flex items-center space-x-2">
+                        <Switch 
+                          checked={user.isReviewer} 
+                          onCheckedChange={(checked) => handleToggleReviewer(user.id, checked)}
+                        />
+                        <span className="text-xs text-neutral-500">{user.isReviewer ? "Aktif" : "Nonaktif"}</span>
+                      </div>
+                    ) : (
+                      <span className="text-neutral-400">-</span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-success-700 bg-success-50 border-success-200">

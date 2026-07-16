@@ -116,7 +116,8 @@ export function AppHeader({ onMenuClick }: { onMenuClick: () => void }) {
               "data-pengajuan": "Data Pengajuan",
               "manajemen-file": "Manajemen File",
               "dokumen": "Manajemen File",
-              "laporan": "LAP Dosen"
+              "laporan": "LAP Dosen",
+              "helpdesk": "Helpdesk / Tiket Bantuan"
             };
             
             return (

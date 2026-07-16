@@ -20,7 +20,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Folder,
-  ClipboardList
+  ClipboardList,
+  Database,
+  LifeBuoy
 } from "lucide-react";
 import { UserRole } from "@/types";
 import { useState } from "react";
@@ -94,11 +96,42 @@ export const MENU_CONFIG: Record<UserRole, MenuItem[]> = {
   ],
   ADMIN_SISTEM: [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { title: "Penetapan Reviewer", href: "/manajemen/reviewer", icon: Users },
-    { title: "Kelola Skim", href: "/konfigurasi/skim", icon: Settings },
-    { title: "Kelola Prodi", href: "/konfigurasi/prodi", icon: Settings },
-    { title: "Kelola Pengguna", href: "/konfigurasi/users", icon: Users },
-    { title: "Audit Log", href: "/audit-log", icon: FileText },
+    { 
+      title: "Manajemen Pengguna", 
+      icon: Users,
+      subItems: [
+        { title: "Data Dosen", href: "/konfigurasi/users?role=dosen" },
+        { title: "Admin & Operator", href: "/konfigurasi/users?role=admin" },
+        { title: "Penetapan Reviewer", href: "/manajemen/reviewer" }
+      ]
+    },
+    { 
+      title: "Data Referensi", 
+      icon: Database,
+      subItems: [
+        { title: "Skim Penelitian & PKM", href: "/konfigurasi/skim" },
+        { title: "Fakultas & Prodi", href: "/konfigurasi/prodi" },
+        { title: "Bidang Ilmu", href: "/admin-fakultas/referensi/bidang-ilmu" }
+      ]
+    },
+    { 
+      title: "Manajemen Usulan", 
+      icon: FileText,
+      subItems: [
+        { title: "Data Proposal", href: "/monitoring" },
+        { title: "Laporan Akhir & SK", href: "/pelaporan" }
+      ]
+    },
+    { 
+      title: "Utilitas Sistem", 
+      icon: Settings,
+      subItems: [
+        { title: "Manajemen File", href: "/panduan/template" },
+        { title: "Export Hub", href: "/manajemen/ekspor" },
+        { title: "Helpdesk / Tiket", href: "/helpdesk" },
+        { title: "Audit Log", href: "/audit-log" }
+      ]
+    }
   ]
 };
 

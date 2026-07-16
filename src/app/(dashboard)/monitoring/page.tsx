@@ -136,6 +136,21 @@ export default function MonitoringPage() {
     }
   ];
 
+  const getFilteredProposals = () => {
+    if (!user) return [];
+    if (user.role === 'DOSEN') {
+      return proposals.filter(p => p.submitter.id === user.id);
+    }
+    if (user.role === 'ADMIN_FK' || user.role === 'OPERATOR_FK') {
+      // Asumsikan admin/operator dummy mengelola Fakultas Teknik
+      return proposals.filter(p => p.facultyName === "Fakultas Teknik" || p.facultyId === "FT");
+    }
+    // KETUA_LPPM, ADMIN_SISTEM, REVIEWER bisa lihat semua (lintas fakultas)
+    return proposals;
+  };
+
+  const filteredProposals = getFilteredProposals();
+
   if (!user) return null;
 
   return (
@@ -143,7 +158,9 @@ export default function MonitoringPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-neutral-900">Monitoring Usulan</h1>
-          <p className="text-neutral-500">Lacak status dan perkembangan proposal yang telah Anda ajukan.</p>
+          <p className="text-neutral-500">
+            {user.role === 'KETUA_LPPM' ? 'Lacak status dan perkembangan seluruh proposal lintas fakultas.' : 'Lacak status dan perkembangan proposal yang telah diajukan.'}
+          </p>
         </div>
         
         {user.role === 'DOSEN' && (
@@ -173,7 +190,7 @@ export default function MonitoringPage() {
       <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
         <DataTable 
           columns={columns} 
-          data={proposals} 
+          data={filteredProposals} 
           searchKey="title"
           searchPlaceholder="Cari berdasarkan judul usulan..."
         />

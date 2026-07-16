@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useAuthStore } from "@/store/authStore";
 import { useProposalStore } from "@/store/proposalStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Badge } from "@/components/ui/badge";
@@ -50,8 +51,21 @@ function ProgressIndicator({ currentStatus }: { currentStatus: string }) {
 }
 
 export default function MonitoringAktifPage() {
+  const { user } = useAuthStore();
   const { proposals } = useProposalStore();
-  const activeProposals = proposals.filter(p => 
+
+  const getFilteredProposals = () => {
+    if (!user) return [];
+    if (user.role === 'DOSEN') {
+      return proposals.filter(p => p.submitter.id === user.id);
+    }
+    if (user.role === 'ADMIN_FK' || user.role === 'OPERATOR_FK') {
+      return proposals.filter(p => p.facultyName === "Fakultas Teknik" || p.facultyId === "FT");
+    }
+    return proposals;
+  };
+
+  const activeProposals = getFilteredProposals().filter(p => 
     ["DIAJUKAN", "VERIFIKASI", "DIVERIFIKASI", "DIREVIEW"].includes(p.status)
   );
 

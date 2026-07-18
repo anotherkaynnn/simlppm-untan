@@ -22,7 +22,7 @@ export function ProposalTable({
           <TableHead className="w-[200px] hidden md:table-cell">Skim</TableHead>
           <TableHead className="w-[120px]">Status</TableHead>
           {renderActions && (
-            <TableHead className="text-right w-[150px] sticky right-0 bg-neutral-50 shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)] z-10">
+            <TableHead className="text-right w-[150px] md:sticky md:right-0 bg-neutral-50 md:shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)] z-10">
               Aksi
             </TableHead>
           )}
@@ -42,7 +42,7 @@ export function ProposalTable({
               <StatusBadge status={row.status} />
             </TableCell>
             {renderActions && (
-              <TableCell className="text-right space-x-2 whitespace-nowrap sticky right-0 bg-white shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)] z-10 group-hover:bg-muted/50 transition-colors">
+              <TableCell className="text-right space-x-2 whitespace-nowrap md:sticky md:right-0 bg-white md:shadow-[-10px_0_15px_-10px_rgba(0,0,0,0.1)] z-10 group-hover:bg-muted/50 transition-colors">
                 {renderActions(row)}
               </TableCell>
             )}

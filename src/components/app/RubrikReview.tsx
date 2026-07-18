@@ -299,7 +299,7 @@ export function RubrikReview({ proposalId, tipe = "PENELITIAN", readOnly = false
               {rekomendasi || "Belum ada rekomendasi"}
             </Badge>
           ) : (
-            <Select value={rekomendasi} onValueChange={(val) => setRekomendasi(val)} disabled={readOnly}>
+            <Select value={rekomendasi} onValueChange={(val) => setRekomendasi(val || "")} disabled={readOnly}>
               <SelectTrigger className="text-sm">
                 <SelectValue placeholder="Pilih rekomendasi..." />
               </SelectTrigger>

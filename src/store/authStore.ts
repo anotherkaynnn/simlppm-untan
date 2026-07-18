@@ -31,7 +31,7 @@ export const useAuthStore = create<AuthState>()(
 );
 
 // Mock Users for Development
-export const MOCK_USERS: Record<UserRole, User> = {
+export const MOCK_USERS: Record<string, User> = {
   DOSEN: {
     id: "U01",
     nidn: "0011223344",

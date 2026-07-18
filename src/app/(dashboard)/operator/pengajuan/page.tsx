@@ -708,7 +708,7 @@ export default function ManajemenRisetPage() {
                 <TableHeader className="bg-neutral-50">
                   <TableRow>
                     <TableHead className="w-[50px]">No</TableHead>
-                    <TableHead className="min-w-[300px]">Judul</TableHead>
+                    <TableHead className="min-w-[120px] md:min-w-[300px]">Judul</TableHead>
                     <TableHead>Skim & Sumber Dana</TableHead>
                     <TableHead>Prodi</TableHead>
                     <TableHead className="w-[200px]">Tim Pelaksana</TableHead>
@@ -724,7 +724,7 @@ export default function ManajemenRisetPage() {
                       <TableRow key={item.id}>
                       <TableCell className="font-medium align-top">{index + 1}</TableCell>
                       <TableCell className="align-top">
-                        <div className="font-medium text-neutral-900 line-clamp-2">{item.judul}</div>
+                        <div className="font-medium text-neutral-900 line-clamp-none md:line-clamp-2">{item.judul}</div>
                         <div className="text-xs text-neutral-400 mt-2 flex items-center">
                            <FileText className="w-3 h-3 mr-1"/> Upload: {item.waktuUpload}
                         </div>
@@ -759,7 +759,7 @@ export default function ManajemenRisetPage() {
                                 <DialogContent className="sm:max-w-[425px]">
                                   <DialogHeader>
                                     <DialogTitle>Data Validasi</DialogTitle>
-                                    <DialogDescription className="text-xs text-neutral-500 mt-1 line-clamp-2">
+                                    <DialogDescription className="text-xs text-neutral-500 mt-1 line-clamp-none md:line-clamp-2">
                                       {selectedValidasiItem.judul}
                                     </DialogDescription>
                                   </DialogHeader>
@@ -815,7 +815,7 @@ export default function ManajemenRisetPage() {
                             <DialogContent className="sm:max-w-md w-full">
                               <DialogHeader className="mb-4">
                                 <DialogTitle>Berkas Usulan</DialogTitle>
-                                <DialogDescription className="line-clamp-2 text-xs mt-1" title={item.judul}>
+                                <DialogDescription className="line-clamp-none md:line-clamp-2 text-xs mt-1" title={item.judul}>
                                   {item.judul}
                                 </DialogDescription>
                               </DialogHeader>

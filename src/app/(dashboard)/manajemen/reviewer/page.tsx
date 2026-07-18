@@ -81,7 +81,7 @@ export default function PenetapanReviewerPage() {
       accessorKey: "title",
       header: "Judul Proposal",
       cell: ({ row }) => (
-        <div className="font-semibold text-neutral-900 min-w-[280px] max-w-sm whitespace-normal line-clamp-2">
+        <div className="font-semibold text-neutral-900 min-w-[120px] md:min-w-[280px] max-w-sm whitespace-normal line-clamp-none md:line-clamp-2">
           {row.original.title}
         </div>
       )

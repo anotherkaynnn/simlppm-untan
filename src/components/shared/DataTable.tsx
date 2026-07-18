@@ -134,11 +134,11 @@ export function DataTable<TData, TValue>({
       )}
 
       {/* Table Content */}
-      <div className="w-full">
-        <Table className="block md:table w-full">
-          <TableHeader className="hidden md:table-header-group bg-neutral-50 border-b border-neutral-200">
+      <div className="overflow-x-auto w-full">
+        <Table>
+          <TableHeader className="bg-neutral-50 border-b border-neutral-200">
             {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="hover:bg-neutral-50 md:table-row">
+                <TableRow key={headerGroup.id} className="hover:bg-neutral-50">
                   {headerGroup.headers.map((header) => (
                     <TableHead 
                       key={header.id} 
@@ -159,40 +159,31 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))}
             </TableHeader>
-            <TableBody className="block md:table-row-group">
+            <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="hover:bg-neutral-50/50 block md:table-row mb-4 md:mb-0 border md:border-b rounded-lg md:rounded-none overflow-hidden bg-white shadow-sm md:shadow-none"
+                    className="hover:bg-neutral-50/50"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell 
                         key={cell.id}
-                        className={`px-4 py-3 md:px-2 md:py-3 block md:table-cell border-b md:border-b-0 last:border-0 ${
+                        className={`px-2 py-3 ${
                           cell.column.id === 'actions'
-                            ? "md:sticky md:right-0 bg-neutral-50/50 md:bg-white z-10 md:shadow-[-4px_0_10px_rgba(0,0,0,0.05)] mt-2 md:mt-0 flex justify-end md:table-cell"
-                            : "flex flex-col md:table-cell gap-1"
+                            ? "md:sticky md:right-0 bg-white z-10 md:shadow-[-4px_0_10px_rgba(0,0,0,0.05)]"
+                            : ""
                         }`}
                       >
-                        {/* Mobile Header Label */}
-                        <div className="md:hidden text-xs font-semibold text-neutral-500 uppercase">
-                          {typeof cell.column.columnDef.header === 'string' 
-                            ? cell.column.columnDef.header 
-                            : (cell.column.id !== 'actions' && cell.column.id !== 'select' ? cell.column.id : '')}
-                        </div>
-                        {/* Cell Content */}
-                        <div className="w-full">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
-                <TableRow className="block md:table-row">
-                  <TableCell colSpan={columns.length} className="h-32 flex md:table-cell items-center justify-center text-center text-neutral-500">
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-32 text-center text-neutral-500">
                     Tidak ada data yang ditemukan.
                   </TableCell>
                 </TableRow>

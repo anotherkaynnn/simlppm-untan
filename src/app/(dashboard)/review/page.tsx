@@ -140,8 +140,8 @@ export default function DaftarReviewPage() {
       accessorKey: "title",
       header: "Judul",
       cell: ({ row }) => (
-        <div className="min-w-[260px] max-w-md">
-          <span className="font-semibold text-neutral-900 whitespace-normal line-clamp-2 block">
+        <div className="min-w-[120px] md:min-w-[260px] max-w-md">
+          <span className="font-semibold text-neutral-900 whitespace-normal line-clamp-none md:line-clamp-2 block">
             {row.original.title}
           </span>
           <span className="text-xs text-neutral-500 mt-0.5 block">

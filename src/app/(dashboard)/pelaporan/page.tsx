@@ -46,8 +46,8 @@ export default function PelaporanIndexPage() {
       cell: ({ row }) => {
         const title = row.getValue("title") as string;
         return (
-          <div className="min-w-[280px] max-w-md">
-            <span className="font-semibold text-neutral-900 line-clamp-2">{title}</span>
+          <div className="min-w-[120px] md:min-w-[280px] max-w-md">
+            <span className="font-semibold text-neutral-900 line-clamp-none md:line-clamp-2 leading-snug">{title}</span>
             <span className="text-xs text-neutral-500 mt-1 block">{row.original.id}</span>
           </div>
         );

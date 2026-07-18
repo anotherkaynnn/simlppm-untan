@@ -185,7 +185,7 @@ export default function HkiPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <div className="font-semibold text-neutral-900 min-w-[280px] max-w-sm whitespace-normal line-clamp-2" title={hki.title}>
+                      <div className="font-semibold text-neutral-900 min-w-[120px] md:min-w-[280px] max-w-sm whitespace-normal line-clamp-none md:line-clamp-2" title={hki.title}>
                         {hki.title}
                       </div>
                     </TableCell>

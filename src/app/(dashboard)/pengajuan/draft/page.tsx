@@ -38,7 +38,7 @@ export default function DraftProposalPage() {
       accessorKey: "judul",
       header: "Judul Proposal",
       cell: ({ row }) => (
-        <div className="font-semibold text-neutral-900 min-w-[280px] max-w-[400px] whitespace-normal line-clamp-2" title={row.original.judul}>
+        <div className="font-semibold text-neutral-900 min-w-[120px] md:min-w-[280px] max-w-[400px] whitespace-normal line-clamp-none md:line-clamp-2 leading-snug" title={row.original.judul}>
           {row.original.judul}
         </div>
       )

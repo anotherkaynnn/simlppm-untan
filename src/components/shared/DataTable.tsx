@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({
   }, [rowSelection, onSelectionChange, table]);
 
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white shadow-sm flex flex-col">
+    <div className="rounded-xl border border-neutral-200 bg-white shadow-sm flex flex-col min-w-0 w-full">
       {/* Table Toolbar */}
       {(searchKey || toolbarElements) && (
         <div className="p-4 border-b border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

@@ -212,8 +212,8 @@ export function RubrikReview({ proposalId, tipe = "PENELITIAN", readOnly = false
       </div>
 
       {/* Tabel Rubrik */}
-      <div className="border border-neutral-200 rounded-lg overflow-hidden">
-        <table className="w-full text-xs">
+      <div className="border border-neutral-200 rounded-lg overflow-x-auto min-w-0 w-full">
+        <table className="w-full text-xs min-w-[600px]">
           <thead>
             <tr className="bg-neutral-100 text-neutral-700">
               <th className="text-center py-2 px-2 font-semibold border-r border-neutral-200 w-8">NO.</th>

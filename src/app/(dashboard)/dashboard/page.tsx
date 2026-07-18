@@ -501,7 +501,7 @@ function KetuaLppmDashboard() {
           <CardTitle className="text-lg">Rekapitulasi Usulan Tingkat Universitas</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto min-w-0 w-full">
             <Table>
               <TableHeader>
                 <TableRow>

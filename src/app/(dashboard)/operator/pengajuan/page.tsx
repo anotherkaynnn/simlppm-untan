@@ -305,7 +305,7 @@ function ReviewerDialogContent({ item }: { item: any }) {
           <p className="text-sm text-neutral-900">{selectedReviewer.catatan || "-"}</p>
         </div>
 
-        <div className="bg-white border rounded-lg overflow-hidden shadow-sm">
+        <div className="bg-white border rounded-lg overflow-hidden shadow-sm min-w-0 w-full">
           <Table>
             <TableHeader className="bg-neutral-50">
               <TableRow>
@@ -421,7 +421,7 @@ function ReviewerDialogContent({ item }: { item: any }) {
             </Button>
           </div>
         </div>
-        <Table className="border mb-4 rounded-md overflow-hidden">
+        <Table className="border mb-4 rounded-md overflow-hidden min-w-0 w-full">
           <TableHeader className="bg-neutral-50">
             <TableRow>
               <TableHead className="w-12 text-center text-xs font-bold text-neutral-900">No.</TableHead>
@@ -466,7 +466,7 @@ function ReviewerDialogContent({ item }: { item: any }) {
 
         <h3 className="text-lg font-normal text-neutral-700 mb-3">Surat Tugas</h3>
         
-        <Table className="border rounded-md overflow-hidden">
+        <Table className="border rounded-md overflow-hidden min-w-0 w-full">
           <TableHeader className="bg-neutral-50">
             <TableRow>
               <TableHead className="w-12 text-center text-xs font-bold text-neutral-900">No.</TableHead>
@@ -703,7 +703,7 @@ export default function ManajemenRisetPage() {
             </div>
 
             {/* Table */}
-            <div className="border rounded-md overflow-hidden">
+            <div className="border rounded-md overflow-hidden min-w-0 w-full">
               <Table>
                 <TableHeader className="bg-neutral-50">
                   <TableRow>

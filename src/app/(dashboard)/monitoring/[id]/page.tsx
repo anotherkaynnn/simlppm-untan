@@ -90,7 +90,7 @@ export default function ProposalDetailPage() {
           </TabsContent>
 
           <TabsContent value="anggota">
-            <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+            <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden min-w-0 w-full">
               <table className="w-full text-sm text-left">
                 <thead className="text-xs text-neutral-500 uppercase bg-neutral-50 border-b border-neutral-200">
                   <tr>

@@ -3,7 +3,8 @@ import { UserRole } from "@/types";
 export const SHARED_ROUTES = [
   "/dashboard",
   "/profil",
-  "/pengaturan"
+  "/pengaturan",
+  "/style-guide"
 ];
 
 // Mapping allowed root paths for each role

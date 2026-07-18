@@ -187,7 +187,7 @@ export default function MonitoringPage() {
         )}
       </div>
 
-      <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+      <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden min-w-0 w-full">
         <DataTable 
           columns={columns} 
           data={filteredProposals} 

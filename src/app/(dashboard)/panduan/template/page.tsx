@@ -62,12 +62,12 @@ export default function TemplatePanduanPage() {
         
         {isAdmin && (
           <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-            <DialogTrigger asChild>
+            <DialogTrigger render={
               <Button className="bg-primary-600 hover:bg-primary-700">
                 <Plus className="w-4 h-4 mr-2" />
                 Unggah Dokumen
               </Button>
-            </DialogTrigger>
+            } />
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Unggah Dokumen Baru</DialogTitle>

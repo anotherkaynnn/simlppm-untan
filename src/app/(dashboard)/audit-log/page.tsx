@@ -51,7 +51,7 @@ export default function AuditLogPage() {
           </Button>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-w-0 w-full">
           <Table>
             <TableHeader className="bg-neutral-50">
               <TableRow>

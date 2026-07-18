@@ -51,7 +51,7 @@ export default function UnduhanPage() {
               <CardDescription>Dokumen panduan dan formulir yang diunggah oleh administrator.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="border rounded-md overflow-hidden">
+              <div className="border rounded-md overflow-hidden min-w-0 w-full">
                 <Table>
                   <TableHeader className="bg-neutral-50">
                     <TableRow>

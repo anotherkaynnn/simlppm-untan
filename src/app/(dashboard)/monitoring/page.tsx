@@ -78,8 +78,8 @@ export default function MonitoringPage() {
         const title = row.getValue("title") as string;
         return (
           <div className="min-w-[120px] md:min-w-[280px] max-w-md">
-            <span className="font-semibold text-neutral-900 line-clamp-none md:line-clamp-2 leading-snug">{title}</span>
-            <span className="text-xs text-neutral-500 mt-1 block">{row.original.id}</span>
+            <span className="font-semibold text-neutral-900 line-clamp-none md:line-clamp-2 leading-snug break-all">{title}</span>
+            <span className="text-[10px] md:text-xs text-neutral-500 mt-1 block">{row.original.id}</span>
           </div>
         );
       }
@@ -114,20 +114,20 @@ export default function MonitoringPage() {
         return (
           <div className="flex items-center gap-2">
             <Link href={`/monitoring/${row.original.id}`}>
-              <Button variant="outline" size="sm" className="h-8 flex items-center text-primary-600 hover:text-primary-700">
-                <Eye className="w-4 h-4 mr-1.5" />
-                Detail
+              <Button variant="outline" size="sm" className="h-8 px-2 md:px-3 flex items-center text-primary-600 hover:text-primary-700">
+                <Eye className="w-4 h-4 md:mr-1.5" />
+                <span className="hidden md:inline">Detail</span>
               </Button>
             </Link>
             {isAccepted && user?.role === 'DOSEN' && (
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="h-8 flex items-center text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+                className="h-8 px-2 md:px-3 flex items-center text-indigo-600 border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
                 onClick={() => handleOpenSuratDialog(row.original)}
               >
-                <FileText className="w-4 h-4 mr-1.5" />
-                Surat Tugas
+                <FileText className="w-4 h-4 md:mr-1.5" />
+                <span className="hidden md:inline">Surat Tugas</span>
               </Button>
             )}
           </div>

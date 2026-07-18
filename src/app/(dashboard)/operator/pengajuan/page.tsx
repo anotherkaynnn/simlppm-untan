@@ -442,7 +442,7 @@ function ReviewerDialogContent({ item }: { item: any }) {
                   <TableCell className="text-sm">{rev.catatan || ""}</TableCell>
                   <TableCell className="text-sm">{rev.skor}</TableCell>
                   <TableCell className="text-center">
-                    <Button size="sm" className="h-8 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded shadow-sm text-xs" onClick={() => openDetail(rev)}>Detail</Button>
+                    <Button size="sm" className="h-8 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded shadow-sm text-xs" onClick={() => openDetail(rev)}><span className=hidden md:inline>Detail</span></Button>
                   </TableCell>
                 </TableRow>
               ))
